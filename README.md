@@ -1,6 +1,8 @@
-########################################
-    RASHA music/video/iradio player   
-########################################
+#######################################################
+
+         RASHA music/video/iradio player   
+
+#######################################################
 
 * play videos over HDMI (omxplayer)
 * play local music (mpd)
