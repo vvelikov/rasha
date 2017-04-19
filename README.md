@@ -1,8 +1,9 @@
-# PIA music/video PL
+###################################
+# RASHA music/video/iradio player #
+###################################
 
-* plays random video with omxplayer and show title on LCD
-* iradio streaming with mpc + title display on LCD
-* VolUp/VolDown 
-* Temp + WiFi Signal display
-* Shutdown / Reboot menu
-
+* play videos (omxplayer)
+* stream iradio (mpd)
+* VolUp/VolDown
+* MainMenu: Temp + WiFi Signal display + Time
+* Shutdown / Reboot menu  / IP menu
