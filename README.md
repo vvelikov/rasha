@@ -1,9 +1,10 @@
-###################################
-# RASHA music/video/iradio player #
-###################################
+########################################
+    RASHA music/video/iradio player   
+########################################
 
-* play videos (omxplayer)
+* play videos over HDMI (omxplayer)
+* play local music (mpd)
 * stream iradio (mpd)
 * VolUp/VolDown
 * MainMenu: Temp + WiFi Signal display + Time
-* Shutdown / Reboot menu  / IP menu
+* Shutdown / Reboot / IP menu
