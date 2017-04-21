@@ -60,7 +60,7 @@ def main():
 
 def main_menu():
   timelastchecked = 0
-  time.sleep(0.5)
+  time.sleep(0.2)
   while(1):
    if time.time() >= timelastchecked:
     timelastchecked = time.time()+3
@@ -79,7 +79,7 @@ def main_menu():
 
 def off_menu():
   timelastchecked = 0
-  time.sleep(0.5)
+  time.sleep(0.2)
   while(1):
    if time.time() >= timelastchecked:
     timelastchecked = time.time()+3
@@ -100,7 +100,7 @@ def off_menu():
 
 def shutdown_menu(): # Shutdown
   timelastchecked = 0
-  time.sleep(0.5)
+  time.sleep(0.2)
   while(1):
    if time.time() >= timelastchecked:
     timelastchecked = time.time()+3
@@ -121,7 +121,7 @@ def shutdown_menu(): # Shutdown
 
 def ip_menu(): # Shutdown
   timelastchecked = 0
-  time.sleep(0.5)
+  time.sleep(0.2)
   while(1):
    if time.time() >= timelastchecked:
     timelastchecked = time.time()+3
@@ -142,7 +142,7 @@ def ip_menu(): # Shutdown
 
 def iradio_menu(): # iRadio
   timelastchecked = 0
-  time.sleep(0.5)
+  time.sleep(0.2)
   while(1):
    if time.time() >= timelastchecked:
     timelastchecked = time.time()+3
@@ -167,7 +167,7 @@ def iradio_menu(): # iRadio
 
 def video_menu(): # Video
   timelastchecked = 0
-  time.sleep(0.5)
+  time.sleep(0.2)
   while(1):
    if time.time() >= timelastchecked:
     timelastchecked = time.time()+3
@@ -186,9 +186,9 @@ def video_menu(): # Video
     if ( GPIO.input(PREV) == False):
      main_menu()
 
-def music_menu(): # local music/videos
+def music_menu(): # local music
   timelastchecked = 0
-  time.sleep(0.5)
+  time.sleep(0.2)
   while(1):
    if time.time() >= timelastchecked:
     timelastchecked = time.time()+3
@@ -199,7 +199,6 @@ def music_menu(): # local music/videos
     mystring = mytime + " " + chr(5) + ":" + mytemp + chr(223) + " " + chr(6) + ":" + mywifi
     mylcd.lcd_display_string(mystring,1)
     mylcd.lcd_display_string("[GO]   < Music >",2)
-    time.sleep(0.1)
    else:
     if ( GPIO.input(PLAY) == False):
      play_music()
@@ -299,7 +298,7 @@ def play_video():
        main_menu()
 
 def choose1():
-    time.sleep(0.5)
+    time.sleep(0.2)
     while(1):
      if ( GPIO.input(PREV) == False):
       iradio_menu()
@@ -312,7 +311,7 @@ def choose1():
       mylcd.lcd_display_string("[GO] < ChilHop >",2)
 
 def choose2():
-    time.sleep(0.5)
+    time.sleep(0.2)
     while(1):
      if ( GPIO.input(PREV) == False):
       choose1()
@@ -325,7 +324,7 @@ def choose2():
       mylcd.lcd_display_string("[GO] < ChilOut >",2)
 
 def choose3():
-    time.sleep(0.5)
+    time.sleep(0.2)
     while(1):
      if ( GPIO.input(PREV) == False):
       choose2()
@@ -338,7 +337,7 @@ def choose3():
       mylcd.lcd_display_string("[GO]  < LiqDnB >",2)
 
 def choose4():
-    time.sleep(0.5)
+    time.sleep(0.2)
     while(1):
      if ( GPIO.input(PREV) == False):
       choose3()
@@ -351,7 +350,7 @@ def choose4():
       mylcd.lcd_display_string("[GO] < LiDStep >",2)
 
 def choose5():
-    time.sleep(0.5)
+    time.sleep(0.2)
     while(1):
      if ( GPIO.input(PREV) == False):
       choose4()
@@ -364,7 +363,7 @@ def choose5():
       mylcd.lcd_display_string("[GO]  < Lounge >",2)
 
 def choose6():
-    time.sleep(0.5)
+    time.sleep(0.2)
     while(1):
      if ( GPIO.input(PREV) == False):
       choose5()
@@ -377,7 +376,7 @@ def choose6():
       mylcd.lcd_display_string("[GO] < Ra NULA >",2)
 
 def choose7():
-    time.sleep(0.5)
+    time.sleep(0.2)
     while(1):
      if ( GPIO.input(PREV) == False):
       choose6()
@@ -392,7 +391,6 @@ def choose7():
 def station1():
   mylcd.lcd_display_string("    ChillHop    ",1)
   os.system("mpc play 1")
-  time.sleep(0.5)
   while(1):
    my_title = str_pad + get_radio_title()
    for i in range (0, len(my_title)):
@@ -423,7 +421,6 @@ def station1():
 def station2():
   mylcd.lcd_display_string("    ChillOut    ",1)
   os.system("mpc play 2")
-  time.sleep(0.5)
   while(1):
    my_title = str_pad + get_radio_title()
    for i in range (0, len(my_title)):
@@ -454,7 +451,6 @@ def station2():
 def station3():
   mylcd.lcd_display_string("   LiquidDnB    ",1)
   os.system("mpc play 3")
-  time.sleep(0.5)
   while(1):
     my_title = str_pad + get_radio_title()
     for i in range (0, len(my_title)):
@@ -485,7 +481,6 @@ def station3():
 def station4():
   mylcd.lcd_display_string(" LiquidDubstep  ",1)
   os.system("mpc play 4")
-  time.sleep(0.5)
   while(1):
     my_title = str_pad + get_radio_title()
     for i in range (0, len(my_title)):
@@ -516,7 +511,6 @@ def station4():
 def station5():
   mylcd.lcd_display_string("    DTLounge    ",1)
   os.system("mpc play 5")
-  time.sleep(0.5)
   while(1):
     my_title = str_pad + get_radio_title()
     for i in range (0, len(my_title)):
@@ -547,7 +541,6 @@ def station5():
 def station6():
   mylcd.lcd_display_string("   Radio Nula     ",1)
   os.system("mpc play 6")
-  time.sleep(0.5)
   while(1):
     my_title = str_pad + get_radio_title()
     for i in range (0, len(my_title)):
@@ -578,7 +571,6 @@ def station6():
 def station7():
   mylcd.lcd_display_string("   Boogie.FM    ",1)
   os.system("mpc play 7")
-  time.sleep(0.5)
   while(1):
     my_title = str_pad + get_radio_title()
     for i in range (0, len(my_title)):
@@ -608,7 +600,7 @@ def station7():
 
 def ip():
   timelastchecked = 0
-  time.sleep(0.5)
+  time.sleep(0.2)
   while(1):
    if time.time() >= timelastchecked:
     timelastchecked = time.time()+3
@@ -677,7 +669,7 @@ def display_volume():
    mylcd.lcd_display_string(chr(2) + chr(3) + " " + (block * numBars), 2)
 
 def reboot():
-  time.sleep(0.5)
+  time.sleep(0.2)
   while(1):
    if ( GPIO.input(PREV) == False):
     menu_shutdown()
@@ -741,7 +733,7 @@ def reboot():
     mylcd.lcd_display_string("< No       Yes >",2)
 
 def shutdown():
-  time.sleep(0.5)
+  time.sleep(0.2)
   while(1):
    if ( GPIO.input(PREV) == False):
     menu()
