@@ -285,9 +285,9 @@ def play_video():
          time.sleep(2)
          video_menu()
       if ( GPIO.input(UP) == False):
-       os.system("echo -n '+' >/tmp/omfifo")
+       os.system("/home/pi/scripts/VolUp.sh")
       if ( GPIO.input(DOWN) == False):
-       os.system("echo -n '-' >/tmp/omfifo")
+       os.system("/home/pi/scripts/VolDn.sh")
       if ( GPIO.input(PLAY) == False):
        os.system("/home/pi/scripts/play.sh")
       if ( GPIO.input(NEXT) == False):
