@@ -38,7 +38,7 @@ fi
 	    #echo "Playing file #$counter: $file_ran"
 	    omxplayer --vol +500 -b -r -o $1 "$file_ran" < $fifo
 	    # set status to stop
-	        echo 0 > /tmp/status
+            echo 0 > /tmp/status
     	    file_played[$counter]="$file_ran"
     	    let counter=$counter+1
   	fi

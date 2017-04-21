@@ -13,7 +13,7 @@ if [ "$LOG" -eq "1" ];then
 	echo -n "p" >/tmp/omfifo
 fi
 if [ "$LOG" -eq "2" ]; then
-    echo " *** *** *** *** UNPAUSE *** *** *** *** ";
-    echo 1 > /tmp/status
-    echo -n "p" >/tmp/omfifo
+        echo " *** *** *** *** UNPAUSE *** *** *** *** ";
+        echo 1 > /tmp/status
+        echo -n "p" >/tmp/omfifo
 fi
