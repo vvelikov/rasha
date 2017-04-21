@@ -257,7 +257,7 @@ def play_music():
 def play_video():
     lcd_status = "PLAYING"
     os.system("/home/pi/scripts/play.sh")
-    time.sleep(0.5)
+    time.sleep(0.2)
     while(1):
      my_title = str_pad + get_video_title()
      for i in range (0, len(my_title)):
