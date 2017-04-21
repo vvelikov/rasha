@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 from subprocess import PIPE, Popen
 import Adafruit_DHT
@@ -53,8 +53,9 @@ mylcd.lcd_load_custom_chars(speaker_icon)
 
 def main():
   mylcd.lcd_clear() # clear screen
-  mylcd.lcd_display_string(" --> rage'z <-- ",1)
+  mylcd.lcd_display_string(" --> RASHA <-- ",1)
   mylcd.lcd_display_string(" Music/Video PL ",2)
+  time.sleep(2)
   main_menu()
 
 def main_menu():
@@ -152,6 +153,10 @@ def iradio_menu(): # iRadio
     mystring = mytime + " " + chr(5) + ":" + mytemp + chr(223) + " " + chr(6) + ":" + mywifi
     mylcd.lcd_display_string(mystring,1)
     mylcd.lcd_display_string("[GO]  < iRadio >",2)
+    # add iradio playlist
+    os.system("mpc clear -q")
+    os.system("mpc load streams")
+    time.sleep(0.2) 
    else:
     if ( GPIO.input(PLAY) == False):
      choose1()
@@ -206,9 +211,9 @@ def music_menu(): # local music/videos
 def play_music():
     lcd_status = "PLAYING"
     mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-    os.system("mpc clear")
+    os.system("mpc clear -q")
     os.system("mpc load all")
-    os.system("mpc random")
+    os.system("mpc random on")
     os.system("mpc repeat off")
     os.system("mpc play")
     time.sleep(0.2)
@@ -386,9 +391,6 @@ def choose7():
 
 def station1():
   mylcd.lcd_display_string("    ChillHop    ",1)
-  os.system("mpc clear")
-  os.system("mpc add http://pub1.diforfree.org:8000/di_chillhop_hi")
-  os.system("mpc repeat on")
   os.system("mpc play 1")
   time.sleep(0.5)
   while(1):
@@ -420,10 +422,7 @@ def station1():
 
 def station2():
   mylcd.lcd_display_string("    ChillOut    ",1)
-  os.system("mpc clear")
-  os.system("mpc add http://pub1.diforfree.org:8000/di_chillout_hi")
-  os.system("mpc repeat on")
-  os.system("mpc play 1")
+  os.system("mpc play 2")
   time.sleep(0.5)
   while(1):
    my_title = str_pad + get_radio_title()
@@ -454,10 +453,7 @@ def station2():
 
 def station3():
   mylcd.lcd_display_string("   LiquidDnB    ",1)
-  os.system("mpc clear")
-  os.system("mpc add http://pub1.diforfree.org:8000/di_liquiddnb_hi")
-  os.system("mpc repeat on")
-  os.system("mpc play 1")
+  os.system("mpc play 3")
   time.sleep(0.5)
   while(1):
     my_title = str_pad + get_radio_title()
@@ -488,10 +484,7 @@ def station3():
 
 def station4():
   mylcd.lcd_display_string(" LiquidDubstep  ",1)
-  os.system("mpc clear")
-  os.system("mpc add http://pub1.diforfree.org:8000/di_liquiddubstep_hi")
-  os.system("mpc repeat on")
-  os.system("mpc play 1")
+  os.system("mpc play 4")
   time.sleep(0.5)
   while(1):
     my_title = str_pad + get_radio_title()
@@ -522,10 +515,7 @@ def station4():
 
 def station5():
   mylcd.lcd_display_string("    DTLounge    ",1)
-  os.system("mpc clear")
-  os.system("mpc add http://pub1.diforfree.org:8000/di_downtempolounge_hi")
-  os.system("mpc repeat on")
-  os.system("mpc play 1")
+  os.system("mpc play 5")
   time.sleep(0.5)
   while(1):
     my_title = str_pad + get_radio_title()
@@ -556,10 +546,7 @@ def station5():
 
 def station6():
   mylcd.lcd_display_string("   Radio Nula     ",1)
-  os.system("mpc clear")
-  os.system("mpc add http://streaming.radionula.com:8800/channel2")
-  os.system("mpc repeat on")
-  os.system("mpc play 1")
+  os.system("mpc play 6")
   time.sleep(0.5)
   while(1):
     my_title = str_pad + get_radio_title()
@@ -590,10 +577,7 @@ def station6():
 
 def station7():
   mylcd.lcd_display_string("   Boogie.FM    ",1)
-  os.system("mpc clear")
-  os.system("mpc add http://78.90.63.199:9000/")
-  os.system("mpc repeat on")
-  os.system("mpc play 1")
+  os.system("mpc play 7")
   time.sleep(0.5)
   while(1):
     my_title = str_pad + get_radio_title()
@@ -675,7 +659,7 @@ def get_volume():
 def display_volume():
    Vol = get_volume()
    mylcd.lcd_clear() # clear screen
-   block = chr(255) # block character on screen
+   block = chr(255)  # block character on screen
    VolInt = int(Vol) # converted to integer
 
    if Vol == "100":
@@ -831,9 +815,14 @@ if __name__ == '__main__':
       os.system("mpc stop")
       os.system("echo 0 > /tmp/status")
       os.system("echo -n 'q' > /tmp/omfifo")
+      mylcd.lcd_clear()
       print "Adeus!"
       sys.exit()
 
   finally:
       GPIO.cleanup()
+      os.system("mpc stop")
+      os.system("echo 0 > /tmp/status")
+      os.system("echo -n 'q' > /tmp/omfifo")
       mylcd.lcd_clear()
+      print "Adeus!"
