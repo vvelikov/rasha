@@ -163,7 +163,7 @@ def iradio_menu(): # iRadio
     if ( GPIO.input(PREV) == False):
      main_menu()
     if ( GPIO.input(NEXT) == False):
-     music_menu()
+     choose2()
 
 def video_menu(): # Video
   timelastchecked = 0
@@ -301,7 +301,7 @@ def choose1():
     time.sleep(0.2)
     while(1):
      if ( GPIO.input(PREV) == False):
-      iradio_menu()
+      choose8()
      if ( GPIO.input(PLAY) == False):
       station1()
      if ( GPIO.input(NEXT) == False):
@@ -399,7 +399,7 @@ def choose8():
       choose1()
      else:
       mylcd.lcd_display_string(" Choose Station ",1)
-      mylcd.lcd_display_string("[GO]  < Ragga >",2)
+      mylcd.lcd_display_string("[GO]   < Ragga >",2)
 
 def station1():
   mylcd.lcd_display_string("    ChillHop    ",1)
@@ -612,7 +612,7 @@ def station7():
       mylcd.lcd_display_string("   Boogie.FM    ",1)
 
 def station8():
-  mylcd.lcd_display_string("  Raggakings   ",1)
+  mylcd.lcd_display_string("   Raggakings   ",1)
   os.system("mpc play 8")
   while(1):
     my_title = str_pad + get_radio_title()
@@ -624,7 +624,7 @@ def station8():
      if ( GPIO.input(NEXT) == False):
       station1()
      if ( GPIO.input(PREV) == False):
-      station6()
+      station7()
      if ( GPIO.input(PLAY) == False):
       os.system("mpc stop")
       main_menu()
@@ -633,7 +633,7 @@ def station8():
       os.system("mpc volume +10")
       display_volume()
       time.sleep(0.5)
-      mylcd.lcd_display_string("  Raggakings   ",1)
+      mylcd.lcd_display_string("   Raggakings   ",1)
 
 def ip():
   timelastchecked = 0
