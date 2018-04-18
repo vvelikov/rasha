@@ -1,8 +1,8 @@
-##################################################################################################
+##########################################################################################
 
-				              RASHA music/video/iradio player
+	                       RASHA music/video/iradio player
 
-##################################################################################################
+##########################################################################################
 
 Hardware:
 * Raspi B+
@@ -12,7 +12,7 @@ Hardware:
 * USB soundcard
 * USB wifi adapter
 * Speakers 
-* Optional: USB Hub / USB drive 
+* Optional: USB Hub / USB disk 
 
 Software:
 * MainMenu: Temp + WiFi Signal display + Time

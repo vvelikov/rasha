@@ -6,7 +6,7 @@ limit=${#files[@]}
 #limit=3
 counter=0
 fifo=/tmp/omfifom
-now=($date +"%D %H:%M")
+now=$(date +"%D %H:%M")
 
 # make fifo for controlling omxplayer
 if [ -e $fifo ]; then
@@ -18,7 +18,7 @@ else
     chmod a+w $fifo
 fi
 
-	echo "PLAYING $limit FILES..."
+	echo "Playing $limit files..."
 	file_played[1]=""
 
 	while [ "$counter" -le "$limit" ]
@@ -35,9 +35,9 @@ fi
   	done
 
 	if [ "$play" == "TRUE" ]; then
-	    echo "$now:$file_ran"
+	    echo "$now #$counter: $file_ran"
 	    #echo "Playing file #$counter: $file_ran"
-	    omxplayer --vol +500 --no-osd -b -r -o $1 "$file_ran" < $fifo > 2>&1 
+	    omxplayer --vol +500 -b -r -o $1 "$file_ran" < $fifo > /dev/null 2>&1
 	    # set status to stop
             echo 0 > /tmp/statusm
     	    file_played[$counter]="$file_ran"
