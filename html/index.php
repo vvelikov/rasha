@@ -7,11 +7,13 @@
 <!--    <h3>Rasha's Temperature Monitor</h3> -->
 <?php
     $myfilename=("/tmp/weather.txt");
-    $mytemp=("/tmp/temp.out");
+    $mytemp1=("/tmp/temp.out");
+    $mytemp2=("/tmp/temp.in");
     $mylog=("/tmp/all.log");
     $myradio=("/tmp/radio.log");
     $mymasha=("/tmp/masha.log");
     $mybarba=("/tmp/barba.log");
+    $mypeppa=("/tmp/peppa.log");
 
     if(isset($_POST['playm'])){
      $output = shell_exec('/home/pi/scripts/playm.sh');
@@ -31,11 +33,24 @@
     if(isset($_POST['nextb'])){
      $output = shell_exec('/home/pi/scripts/nextb.sh');
     }
+    if(isset($_POST['playp'])){
+     $output = shell_exec('/home/pi/scripts/playp.sh');
+    }
+    if(isset($_POST['stopp'])){
+     $output = shell_exec('/home/pi/scripts/stopp.sh');
+    }
+    if(isset($_POST['nextp'])){
+     $output = shell_exec('/home/pi/scripts/nextp.sh');
+    }
 
-    if(file_exists($mytemp)){
+
+    if(file_exists($mytemp1)){
       echo "<br></br>";
       echo "<div><font size='3'>Munich, Germany: <b>".file_get_contents($myfilename)."</div></b>";
-      echo "<div><font size='3'><b> ".file_get_contents($mytemp);
+      echo "<div><font size='3'>Outside:<b> ".file_get_contents($mytemp1);
+      echo "&deg;C";
+      echo "</div></b>";
+      echo "<div><font size='3'>Inside:<b> ".file_get_contents($mytemp2);
       echo "&deg;C";
       echo "</div></b>";
     }
@@ -84,6 +99,21 @@ if(file_exists($mybarba)){
     <input type="submit" name="nextb" value="next" >
     </form>
 <?php
+echo "<div><font size='2'><b>Peppa Log:</div></b>";
+if(file_exists($mypeppa)){
+  echo "<div><font size='2'>";
+  echo nl2br( file_get_contents($mypeppa));
+  echo "</div></font>";
+}
+?>
+  <br></br>
+    <form  method="post">
+    <input type="submit" name="playp" value="play">
+    <input type="submit" name="stopp" value="stop" >
+    <input type="submit" name="nextp" value="next" >
+    </form>
+<?php
+
 if(file_exists($myradio)){
   echo "<div><font size='2'>";
   echo nl2br( file_get_contents($myradio));

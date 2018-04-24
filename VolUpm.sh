@@ -1,3 +1,3 @@
 #!/bin/bash
-echo " *** *** *** VOL UP *** *** *** "
+echo " *** *** *** [MASHA] VOL UP *** *** *** "
 echo -n "+" >/tmp/omfifom

@@ -1,3 +1,3 @@
 #!/bin/bash
-echo " *** *** *** VOL DOWN *** *** *** "
+echo " *** *** *** [BARBA] VOL DOWN *** *** *** "
 echo -n "-" >/tmp/omfifob
