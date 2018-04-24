@@ -72,21 +72,17 @@ def main():
     time.sleep(2)
     main_menu()
 
-# 1 line of display
-def show_status():
-    timelastchecked = time.time()+3
-    mytime = get_date()
-    mytemp = get_temp()
-    mywifi = get_wifi_signal()
-    mystring = mytime + " " + chr(5) + ":" + mytemp + chr(223) + " " + chr(6) + ":" + mywifi
-    mylcd.lcd_display_string(mystring,1)
-       
 def main_menu():
     timelastchecked = 0
     time.sleep(0.2)
     while(1):
       if time.time() >= timelastchecked:
-       show_status()
+       timelastchecked = time.time()+3
+       mytime = get_date()
+       mytemp = get_temp()
+       mywifi = get_wifi_signal()
+       mystring = mytime + " " + chr(5) + ":" + mytemp + chr(223) + " " + chr(6) + ":" + mywifi
+       mylcd.lcd_display_string(mystring,1)
        mylcd.lcd_display_string("< Off     Menu >",2)
       else:
        if ( GPIO.input(NEXT) == False):
@@ -99,7 +95,13 @@ def off_menu():
     time.sleep(0.2)
     while(1):
      if time.time() >= timelastchecked:
-      show_status()
+      timelastchecked = time.time()+3
+      mytime = get_date()
+      #mytime = mytime[11:-14]
+      mytemp = get_temp()
+      mywifi = get_wifi_signal()
+      mystring = mytime + " " + chr(5) + ":" + mytemp + chr(223) + " " + chr(6) + ":" + mywifi
+      mylcd.lcd_display_string(mystring,1)
       mylcd.lcd_display_string("[GO]     < IP > ",2)
      else:
       if ( GPIO.input(PLAY) == False):
@@ -114,7 +116,12 @@ def ip():
     time.sleep(0.2)
     while(1):
      if time.time() >= timelastchecked:
-      show_status()
+      timelastchecked = time.time()+3
+      mytime = get_date()
+      mytemp = get_temp()
+      mywifi = get_wifi_signal()
+      mystring = mytime + " " + chr(5) + ":" + mytemp + chr(223) + " " + chr(6) + ":" + mywifi
+      mylcd.lcd_display_string(mystring,1)
       mylcd.lcd_display_string("               ",2)
       time.sleep(0.1)
       ipaddr = get_ip_address()
@@ -129,7 +136,12 @@ def weather_menu():
     time.sleep(0.2)
     while(1):
      if time.time() >= timelastchecked:
-      show_status()
+      timelastchecked = time.time()+3
+      mytime = get_date()
+      mytemp = get_temp()
+      mywifi = get_wifi_signal()
+      mystring = mytime + " " + chr(5) + ":" + mytemp + chr(223) + " " + chr(6) + ":" + mywifi
+      mylcd.lcd_display_string(mystring,1)
       mylcd.lcd_display_string("[GO] < Weather >",2)
      else:
       if ( GPIO.input(PLAY) == False):
@@ -181,7 +193,12 @@ def reboot_menu():
     time.sleep(0.2)
     while(1):
      if time.time() >= timelastchecked:
-      show_status()
+      timelastchecked = time.time()+3
+      mytime = get_date()
+      mytemp = get_temp()
+      mywifi = get_wifi_signal()
+      mystring = mytime + " " + chr(5) + ":" + mytemp + chr(223) + " " + chr(6) + ":" + mywifi
+      mylcd.lcd_display_string(mystring,1)
       mylcd.lcd_display_string("[GO]  < Reboot >",2)
      else:
       if ( GPIO.input(PLAY) == False):
@@ -196,7 +213,12 @@ def shutdown_menu():
     time.sleep(0.2)
     while(1):
      if time.time() >= timelastchecked:
-      show_status()
+      timelastchecked = time.time()+3
+      mytime = get_date()
+      mytemp = get_temp()
+      mywifi = get_wifi_signal()
+      mystring = mytime + " " + chr(5) + ":" + mytemp + chr(223) + " " + chr(6) + ":" + mywifi
+      mylcd.lcd_display_string(mystring,1)
       mylcd.lcd_display_string("[GO]    < Halt >",2)
      else:
       if ( GPIO.input(PLAY) == False):
@@ -211,7 +233,12 @@ def iradio_menu():
     time.sleep(0.2)
     while(1):
      if time.time() >= timelastchecked:
-      show_status()
+      timelastchecked = time.time()+3
+      mytime = get_date()
+      mytemp = get_temp()
+      mywifi = get_wifi_signal()
+      mystring = mytime + " " + chr(5) + ":" + mytemp + chr(223) + " " + chr(6) + ":" + mywifi
+      mylcd.lcd_display_string(mystring,1)
       mylcd.lcd_display_string("[GO]  < iRadio >",2)
       os.system("mpc clear -q")
       os.system("mpc add http://pub2.diforfree.org:8000/di_chillhop_hi")
@@ -235,7 +262,12 @@ def masha_menu():
     time.sleep(0.2)
     while(1):
      if time.time() >= timelastchecked:
-      show_status()
+      timelastchecked = time.time()+3
+      mytime = get_date()
+      mytemp = get_temp()
+      mywifi = get_wifi_signal()
+      mystring = mytime + " " + chr(5) + ":" + mytemp + chr(223) + " " + chr(6) + ":" + mywifi
+      mylcd.lcd_display_string(mystring,1)
       mylcd.lcd_display_string("[GO]   < Masha >",2)
      else:
       if ( GPIO.input(PLAY) == False):
@@ -250,7 +282,12 @@ def barba_menu():
     time.sleep(0.2)
     while(1):
      if time.time() >= timelastchecked:
-      show_status()
+      timelastchecked = time.time()+3
+      mytime = get_date()
+      mytemp = get_temp()
+      mywifi = get_wifi_signal()
+      mystring = mytime + " " + chr(5) + ":" + mytemp + chr(223) + " " + chr(6) + ":" + mywifi
+      mylcd.lcd_display_string(mystring,1)
       mylcd.lcd_display_string("[GO]   < Barba >",2)
      else:
       if ( GPIO.input(PLAY) == False):
@@ -265,7 +302,12 @@ def peppa_menu():
     time.sleep(0.2)
     while(1):
      if time.time() >= timelastchecked:
-      show_status()
+      timelastchecked = time.time()+3
+      mytime = get_date()
+      mytemp = get_temp()
+      mywifi = get_wifi_signal()
+      mystring = mytime + " " + chr(5) + ":" + mytemp + chr(223) + " " + chr(6) + ":" + mywifi
+      mylcd.lcd_display_string(mystring,1)
       mylcd.lcd_display_string("[GO]   < Peppa >",2)
      else:
       if ( GPIO.input(PLAY) == False):
@@ -280,7 +322,12 @@ def music_menu():
     time.sleep(0.2)
     while(1):
      if time.time() >= timelastchecked:
-      show_status()
+      timelastchecked = time.time()+3
+      mytime = get_date()
+      mytemp = get_temp()
+      mywifi = get_wifi_signal()
+      mystring = mytime + " " + chr(5) + ":" + mytemp + chr(223) + " " + chr(6) + ":" + mywifi
+      mylcd.lcd_display_string(mystring,1)
       mylcd.lcd_display_string("[GO]   < Music >",2)
      else:
       if ( GPIO.input(PLAY) == False):
@@ -295,7 +342,12 @@ def slideshow_menu():
     time.sleep(0.2)
     while(1):
      if time.time() >= timelastchecked:
-      show_status()
+      timelastchecked = time.time()+3
+      mytime = get_date()
+      mytemp = get_temp()
+      mywifi = get_wifi_signal()
+      mystring = mytime + " " + chr(5) + ":" + mytemp + chr(223) + " " + chr(6) + ":" + mywifi
+      mylcd.lcd_display_string(mystring,1)
       mylcd.lcd_display_string("[GO]  < SlShow >",2)
      else:
       if ( GPIO.input(PLAY) == False):
@@ -511,14 +563,14 @@ def playp_video():
        os.system("/home/pi/scripts/VolDnp.sh")
       if ( GPIO.input(PLAY) == False):
        os.system("/home/pi/scripts/playp.sh")
-       mylcd.lcd_clear()
       if ( GPIO.input(NEXT) == False):
        os.system("/home/pi/scripts/nextp.sh")
-       mylcd.lcd_clear()
+       mylcd.lcd_display_string("                  ",1)
+       mylcd.lcd_display_string("                  ",2)
        lcd_status = "<<<<<< NEXT >>>>>>"
        mylcd.lcd_display_string(lcd_status,1)
        time.sleep(0.2)
-#       mylcd.lcd_display_string("                  ",1)
+       mylcd.lcd_display_string("                  ",1)
        my_title = str_pad + get_peppa_title() 
       if ( GPIO.input(PREV) == False):
        os.system("/home/pi/scripts/stopp.sh")
@@ -1066,9 +1118,8 @@ def shutdown():
       mylcd.lcd_display_string("",2)
       time.sleep(2)
       mylcd.lcd_clear()
-      time.sleep(1)
       os.system("sudo shutdown -h now")
-      time.sleep(2)
+      time.sleep(3)
      else:
       mylcd.lcd_display_string("   Shut down?   ",1)
       mylcd.lcd_display_string("< No       Yes >",2)
@@ -1079,17 +1130,13 @@ if __name__ == '__main__':
 
   except KeyboardInterrupt:
       os.system("mpc stop  > /dev/null 2>&1")
-      os.system("echo 0 > /tmp/statusm")
-      os.system("echo 0 > /tmp/statusb")
-      os.system("echo 0 > /tmp/statusp")
+      os.system("echo 0 > /tmp/status")
       mylcd.lcd_clear()
       sys.exit()
 
   finally:
       GPIO.cleanup()
       os.system("mpc stop  > /dev/null 2>&1")
-      os.system("echo 0 > /tmp/statusm")
-      os.system("echo 0 > /tmp/statusb")
-      os.system("echo 0 > /tmp/statusp")
+      os.system("echo 0 > /tmp/status")
       mylcd.lcd_clear()
       print "Adeus!"
