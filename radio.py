@@ -71,20 +71,19 @@ def main():
     time.sleep(2)
     main_menu()
 
-# 1 line of display
 def show_status():
-    timelastchecked = time.time()+3
     mytime = get_date()
     mytemp = get_temp()
     mywifi = get_wifi_signal()
     mystring = mytime + " " + chr(5) + ":" + mytemp + chr(223) + " " + chr(6) + ":" + mywifi
     mylcd.lcd_display_string(mystring,1)
-       
+
 def main_menu():
     timelastchecked = 0
     time.sleep(0.2)
     while(1):
       if time.time() >= timelastchecked:
+       timelastchecked = time.time()+3
        show_status()
        mylcd.lcd_display_string("< Off     Menu >",2)
       else:
@@ -98,21 +97,23 @@ def off_menu():
     time.sleep(0.2)
     while(1):
      if time.time() >= timelastchecked:
+      timelastchecked = time.time()+3
       show_status()
       mylcd.lcd_display_string("[GO]     < IP > ",2)
      else:
       if ( GPIO.input(PLAY) == False):
-       ip()
+       ip_menu()
       if ( GPIO.input(PREV) == False):
        main_menu()
       if ( GPIO.input(NEXT) == False):
        weather_menu()
 
-def ip():
+def ip_menu():
     timelastchecked = 0
     time.sleep(0.2)
     while(1):
      if time.time() >= timelastchecked:
+      timelastchecked = time.time()+3
       show_status()
       mylcd.lcd_display_string("               ",2)
       time.sleep(0.1)
@@ -128,6 +129,7 @@ def weather_menu():
     time.sleep(0.2)
     while(1):
      if time.time() >= timelastchecked:
+      timelastchecked = time.time()+3
       show_status()
       mylcd.lcd_display_string("[GO] < Weather >",2)
      else:
@@ -180,6 +182,7 @@ def reboot_menu():
     time.sleep(0.2)
     while(1):
      if time.time() >= timelastchecked:
+      timelastchecked = time.time()+3
       show_status()
       mylcd.lcd_display_string("[GO]  < Reboot >",2)
      else:
@@ -195,6 +198,7 @@ def shutdown_menu():
     time.sleep(0.2)
     while(1):
      if time.time() >= timelastchecked:
+      timelastchecked = time.time()+3
       show_status()
       mylcd.lcd_display_string("[GO]    < Halt >",2)
      else:
@@ -205,11 +209,37 @@ def shutdown_menu():
       if ( GPIO.input(NEXT) == False):
        off_menu()
 
+def iradio_menu(): 
+    timelastchecked = 0
+    time.sleep(0.2)
+    while(1):
+     if time.time() >= timelastchecked:
+      timelastchecked = time.time()+3
+      show_status()
+      mylcd.lcd_display_string("[GO]  < iRadio >",2)
+      os.system("mpc clear -q")
+      os.system("mpc add http://pub2.diforfree.org:8000/di_chillhop_hi")
+      os.system("mpc add http://pub2.diforfree.org:8000/di_chillout_hi")
+      os.system("mpc add http://pub2.diforfree.org:8000/di_liquiddnb_hi")
+      os.system("mpc add http://pub2.diforfree.org:8000/di_liquiddubstep_hi")
+      os.system("mpc add http://pub2.diforfree.org:8000/di_downtempolounge_hi")
+      os.system("mpc add http://streaming.radionula.com:8800/channel2")
+      os.system("mpc add http://78.90.63.199:9000")
+      time.sleep(0.2)
+     else:
+      if ( GPIO.input(PLAY) == False):
+       choose1()
+      if ( GPIO.input(PREV) == False):
+       peppa_menu()
+      if ( GPIO.input(NEXT) == False):
+       music_menu()
+
 def masha_menu(): 
     timelastchecked = 0
     time.sleep(0.2)
     while(1):
      if time.time() >= timelastchecked:
+      timelastchecked = time.time()+3
       show_status()
       mylcd.lcd_display_string("[GO]   < Masha >",2)
      else:
@@ -218,7 +248,141 @@ def masha_menu():
       if ( GPIO.input(NEXT) == False):
        barba_menu()
       if ( GPIO.input(PREV) == False):
-       music_menu()    
+       main_menu()
+
+def barba_menu():
+    timelastchecked = 0
+    time.sleep(0.2)
+    while(1):
+     if time.time() >= timelastchecked:
+      timelastchecked = time.time()+3
+      show_status()
+      mylcd.lcd_display_string("[GO]   < Barba >",2)
+     else:
+      if ( GPIO.input(PLAY) == False):
+       playb_video()
+      if ( GPIO.input(NEXT) == False):
+       peppa_menu()
+      if ( GPIO.input(PREV) == False):
+       masha_menu()
+
+def peppa_menu():
+    timelastchecked = 0
+    time.sleep(0.2)
+    while(1):
+     if time.time() >= timelastchecked:
+      timelastchecked = time.time()+3
+      show_status()
+      mylcd.lcd_display_string("[GO]   < Peppa >",2)
+     else:
+      if ( GPIO.input(PLAY) == False):
+       playp_video()
+      if ( GPIO.input(NEXT) == False):
+       iradio_menu()
+      if ( GPIO.input(PREV) == False):
+       barba_menu()
+       
+def music_menu(): 
+    timelastchecked = 0
+    time.sleep(0.2)
+    while(1):
+     if time.time() >= timelastchecked:
+      timelastchecked = time.time()+3
+      show_status()
+      mylcd.lcd_display_string("[GO]   < Music >",2)
+     else:
+      if ( GPIO.input(PLAY) == False):
+       play_music()
+      if ( GPIO.input(NEXT) == False):
+       slideshow_menu()
+      if ( GPIO.input(PREV) == False):
+       iradio_menu()
+
+def slideshow_menu(): 
+    timelastchecked = 0
+    time.sleep(0.2)
+    while(1):
+     if time.time() >= timelastchecked:
+      timelastchecked = time.time()+3
+      show_status()
+      mylcd.lcd_display_string("[GO]  < SlShow >",2)
+     else:
+      if ( GPIO.input(PLAY) == False):
+       play_slideshow()
+      if ( GPIO.input(NEXT) == False):
+       main_menu()
+      if ( GPIO.input(PREV) == False):
+       music_menu()
+
+def play_slideshow(): 
+    lcd_status = "SLIDESHOW"
+    time.sleep(0.2)
+    mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+    os.system("/home/pi/scripts/sson.sh")
+    while(1):
+      mylcd.lcd_display_string("                ",2)
+      mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
+      time.sleep(0.1)
+      mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+      if ( GPIO.input(PLAY) == False):
+       os.system("/home/pi/scripts/ssoff.sh")
+       time.sleep(0.2)
+       main_menu()
+      if ( GPIO.input(NEXT) == False):
+       os.system("/home/pi/scripts/ssoff.sh")
+       time.sleep(0.2)
+       main_menu()
+      if ( GPIO.input(PREV) == False):
+       os.system("/home/pi/scripts/ssoff.sh")
+       time.sleep(0.2)
+       main_menu()
+
+def play_music(): 
+    lcd_status = "PLAYING"
+    mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+    os.system("mpc clear -q")
+    os.system("mpc load all")
+    os.system("mpc random on")
+    os.system("mpc repeat off")
+    os.system("mpc play")
+    time.sleep(0.2)
+    while(1):
+     my_title = str_pad + get_radio_title()
+     for i in range (0, len(my_title)):
+      lcd_text = my_title[i:(i+16)]
+      mylcd.lcd_display_string(lcd_text,2)
+      time.sleep(0.4)
+      mylcd.lcd_display_string(str_pad,2)
+      mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
+      time.sleep(0.1)
+      mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+      time.sleep(0.1)
+      if ( GPIO.input(UP) == False):
+       display_volume()
+       os.system("mpc volume +10")
+       display_volume()
+       time.sleep(0.5)
+       mylcd.lcd_display_string("                ",1)
+       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+      if ( GPIO.input(DOWN) == False):
+       display_volume()
+       os.system("mpc volume -10")
+       display_volume()
+       time.sleep(0.5)
+       mylcd.lcd_display_string("                ",1)
+       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+      if ( GPIO.input(PLAY) == False):
+       os.system("mpc stop")
+       time.sleep(0.2)
+       main_menu()
+      if ( GPIO.input(NEXT) == False):
+       mylcd.lcd_display_string("                ",1)
+       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+       os.system("mpc next")
+       time.sleep(0.2)
+      if ( GPIO.input(PREV) == False):
+       os.system("mpc prev")
+       time.sleep(0.2)
 
 def playm_video():
     lcd_status = "PLAYING"
@@ -255,35 +419,20 @@ def playm_video():
       if ( GPIO.input(DOWN) == False):
        os.system("/home/pi/scripts/VolDnm.sh")
       if ( GPIO.input(PLAY) == False):
-       mylcd.lcd_clear()
        os.system("/home/pi/scripts/playm.sh")
       if ( GPIO.input(NEXT) == False):
        mylcd.lcd_clear()
        os.system("/home/pi/scripts/nextm.sh")
        lcd_status = "<<<<< NEXT >>>>>"
        mylcd.lcd_display_string(lcd_status,1)
-       time.sleep(0.2)
+       time.sleep(0.5)
+       mylcd.lcd_clear()
        my_title = str_pad + get_masha_title()
       if ( GPIO.input(PREV) == False):
        mylcd.lcd_clear()
        os.system("/home/pi/scripts/stopm.sh")
        time.sleep(0.3)
        main_menu()
-       
-def barba_menu():
-    timelastchecked = 0
-    time.sleep(0.2)
-    while(1):
-     if time.time() >= timelastchecked:
-      show_status()
-      mylcd.lcd_display_string("[GO]   < Barba >",2)
-     else:
-      if ( GPIO.input(PLAY) == False):
-       playb_video()
-      if ( GPIO.input(NEXT) == False):
-       peppa_menu()
-      if ( GPIO.input(PREV) == False):
-       masha_menu()
 
 def playb_video():
     lcd_status = "PLAYING"
@@ -320,35 +469,20 @@ def playb_video():
       if ( GPIO.input(DOWN) == False):
        os.system("/home/pi/scripts/VolDnb.sh")
       if ( GPIO.input(PLAY) == False):
-       mylcd.lcd_clear()
        os.system("/home/pi/scripts/playb.sh")
       if ( GPIO.input(NEXT) == False):
        mylcd.lcd_clear()
        os.system("/home/pi/scripts/nextb.sh")
        lcd_status = "<<<<< NEXT >>>>>"
        mylcd.lcd_display_string(lcd_status,1)
-       time.sleep(0.2)
+       time.sleep(0.5)
+       mylcd.lcd_clear()
        my_title = str_pad + get_barba_title() 
       if ( GPIO.input(PREV) == False):
        mylcd.lcd_clear()
        os.system("/home/pi/scripts/stopb.sh")
        time.sleep(0.2)
        main_menu()
-       
-def peppa_menu():
-    timelastchecked = 0
-    time.sleep(0.2)
-    while(1):
-     if time.time() >= timelastchecked:
-      show_status()
-      mylcd.lcd_display_string("[GO]   < Peppa >",2)
-     else:
-      if ( GPIO.input(PLAY) == False):
-       playp_video()
-      if ( GPIO.input(NEXT) == False):
-       iradio_menu()
-      if ( GPIO.input(PREV) == False):
-       barba_menu()
 
 def playp_video():
     lcd_status = "PLAYING"
@@ -378,51 +512,26 @@ def playp_video():
         elif status == 0:
          lcd_status = "STOPPED"
          mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-         time.sleep(1.5)
+         time.sleep(2)
          peppa_menu()
       if ( GPIO.input(UP) == False):
        os.system("/home/pi/scripts/VolUpp.sh")
       if ( GPIO.input(DOWN) == False):
        os.system("/home/pi/scripts/VolDnp.sh")
       if ( GPIO.input(PLAY) == False):
-       mylcd.lcd_clear()
        os.system("/home/pi/scripts/playp.sh")
       if ( GPIO.input(NEXT) == False):
        mylcd.lcd_clear()
        os.system("/home/pi/scripts/nextp.sh")
        lcd_status = "<<<<< NEXT >>>>>"
        mylcd.lcd_display_string(lcd_status,1)
-       time.sleep(0.2)
+       time.sleep(0.5)
+       mylcd.lcd_clear()
        my_title = str_pad + get_peppa_title() 
       if ( GPIO.input(PREV) == False):
-       mylcd.lcd_clear()
        os.system("/home/pi/scripts/stopp.sh")
        time.sleep(0.2)
        main_menu()
-       
-def iradio_menu(): 
-    timelastchecked = 0
-    time.sleep(0.2)
-    while(1):
-     if time.time() >= timelastchecked:
-      show_status()
-      mylcd.lcd_display_string("[GO]  < iRadio >",2)
-      os.system("mpc clear -q")
-      os.system("mpc add http://pub2.diforfree.org:8000/di_chillhop_hi")
-      os.system("mpc add http://pub2.diforfree.org:8000/di_chillout_hi")
-      os.system("mpc add http://pub2.diforfree.org:8000/di_liquiddnb_hi")
-      os.system("mpc add http://pub2.diforfree.org:8000/di_liquiddubstep_hi")
-      os.system("mpc add http://pub2.diforfree.org:8000/di_downtempolounge_hi")
-      os.system("mpc add http://streaming.radionula.com:8800/channel2")
-      os.system("mpc add http://78.90.63.199:9000")
-      time.sleep(0.2)
-     else:
-      if ( GPIO.input(PLAY) == False):
-       choose1()
-      if ( GPIO.input(PREV) == False):
-       peppa_menu()
-      if ( GPIO.input(NEXT) == False):
-       music_menu()   
        
 def choose1():
     time.sleep(0.2)
@@ -762,106 +871,6 @@ def station8():
         time.sleep(0.5)
         mylcd.lcd_display_string("   Raggakings   ",1)
 
-def music_menu(): 
-    timelastchecked = 0
-    time.sleep(0.2)
-    while(1):
-     if time.time() >= timelastchecked:
-      show_status()
-      mylcd.lcd_display_string("[GO]   < Music >",2)
-     else:
-      if ( GPIO.input(PLAY) == False):
-       play_music()
-      if ( GPIO.input(NEXT) == False):
-       slideshow_menu()
-      if ( GPIO.input(PREV) == False):
-       iradio_menu()
-
-def play_music(): 
-    lcd_status = "PLAYING"
-    mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-    os.system("mpc clear -q")
-    os.system("mpc load all")
-    os.system("mpc random on")
-    os.system("mpc repeat off")
-    os.system("mpc play")
-    time.sleep(0.2)
-    while(1):
-     my_title = str_pad + get_radio_title()
-     for i in range (0, len(my_title)):
-      lcd_text = my_title[i:(i+16)]
-      mylcd.lcd_display_string(lcd_text,2)
-      time.sleep(0.4)
-      mylcd.lcd_display_string(str_pad,2)
-      mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
-      time.sleep(0.1)
-      mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-      time.sleep(0.1)
-      if ( GPIO.input(UP) == False):
-       display_volume()
-       os.system("mpc volume +10")
-       display_volume()
-       time.sleep(0.5)
-       mylcd.lcd_display_string("                ",1)
-       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-      if ( GPIO.input(DOWN) == False):
-       display_volume()
-       os.system("mpc volume -10")
-       display_volume()
-       time.sleep(0.5)
-       mylcd.lcd_display_string("                ",1)
-       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-      if ( GPIO.input(PLAY) == False):
-       os.system("mpc stop")
-       time.sleep(0.2)
-       main_menu()
-      if ( GPIO.input(NEXT) == False):
-       mylcd.lcd_display_string("                ",1)
-       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-       os.system("mpc next")
-       time.sleep(0.2)
-      if ( GPIO.input(PREV) == False):
-       os.system("mpc prev")
-       time.sleep(0.2)
-       
-def slideshow_menu(): 
-    timelastchecked = 0
-    time.sleep(0.2)
-    while(1):
-     if time.time() >= timelastchecked:
-      show_status()
-      mylcd.lcd_display_string("[GO]  < SlShow >",2)
-     else:
-      if ( GPIO.input(PLAY) == False):
-       play_slideshow()
-      if ( GPIO.input(NEXT) == False):
-       main_menu()
-      if ( GPIO.input(PREV) == False):
-       music_menu()
-
-def play_slideshow(): 
-    lcd_status = "SLIDESHOW"
-    time.sleep(0.2)
-    mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-    os.system("/home/pi/scripts/sson.sh")
-    while(1):
-      mylcd.lcd_display_string("                ",2)
-      mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
-      time.sleep(0.1)
-      mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-      if ( GPIO.input(PLAY) == False):
-       os.system("/home/pi/scripts/ssoff.sh")
-       time.sleep(0.2)
-       main_menu()
-      if ( GPIO.input(NEXT) == False):
-       os.system("/home/pi/scripts/ssoff.sh")
-       time.sleep(0.2)
-       main_menu()
-      if ( GPIO.input(PREV) == False):
-       os.system("/home/pi/scripts/ssoff.sh")
-       time.sleep(0.2)
-       main_menu()
-       
 def get_date():
     d = subprocess.check_output(date_cmd, shell=True, stderr=subprocess.STDOUT)
     return d
@@ -1059,11 +1068,10 @@ def shutdown():
       time.sleep(0.1)
       mylcd.lcd_display_string("      Adeus!     ",1)
       mylcd.lcd_display_string("",2)
-      time.sleep(0.5)
+      time.sleep(2)
       mylcd.lcd_clear()
-      time.sleep(1)
       os.system("sudo shutdown -h now")
-      time.sleep(0.5)
+      time.sleep(3)
      else:
       mylcd.lcd_display_string("   Shut down?   ",1)
       mylcd.lcd_display_string("< No       Yes >",2)
@@ -1074,17 +1082,13 @@ if __name__ == '__main__':
 
   except KeyboardInterrupt:
       os.system("mpc stop  > /dev/null 2>&1")
-      os.system("echo 0 > /tmp/statusm")
-      os.system("echo 0 > /tmp/statusb")
-      os.system("echo 0 > /tmp/statusp")
+      os.system("echo 0 > /tmp/status")
       mylcd.lcd_clear()
       sys.exit()
 
   finally:
       GPIO.cleanup()
       os.system("mpc stop  > /dev/null 2>&1")
-      os.system("echo 0 > /tmp/statusm")
-      os.system("echo 0 > /tmp/statusb")
-      os.system("echo 0 > /tmp/statusp")
+      os.system("echo 0 > /tmp/status")
       mylcd.lcd_clear()
       print "Adeus!"
