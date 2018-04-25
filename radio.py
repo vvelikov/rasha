@@ -38,13 +38,6 @@ speaker_icon = [
 	     [ 0b00100, 0b01010, 0b01010, 0b01110, 0b01110, 0b11111, 0b11111, 0b01110 ],   # thermometer
 	     [ 0b00001, 0b00001, 0b00101, 0b00101, 0b10101, 0b10101, 0b10101, 0b10101 ]    # wifi
 ]
-# hours and minutes array 
-hours = [(i, dt.time(i).strftime('%H')) for i in range(24)]
-minutes = ["%.2d" % i for i in range(60)]
-now = datetime.now()
-h = now.hour
-m = now.minute
-
 # Define some device constants
 mylcd = I2C_LCD_driver.lcd()
 str_pad = " " * 16
@@ -421,17 +414,16 @@ def playm_video():
       if ( GPIO.input(PLAY) == False):
        os.system("/home/pi/scripts/playm.sh")
       if ( GPIO.input(NEXT) == False):
-       mylcd.lcd_clear()
        os.system("/home/pi/scripts/nextm.sh")
-       lcd_status = "<<<<< NEXT >>>>>"
-       mylcd.lcd_display_string(lcd_status,1)
-       time.sleep(0.5)
        mylcd.lcd_clear()
+       lcd_status = "NEXT"
+       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
        my_title = str_pad + get_masha_title()
+       time.sleep(1.5)
       if ( GPIO.input(PREV) == False):
-       mylcd.lcd_clear()
        os.system("/home/pi/scripts/stopm.sh")
-       time.sleep(0.3)
+       mylcd.lcd_clear()
+       time.sleep(0.2)
        main_menu()
 
 def playb_video():
@@ -462,7 +454,7 @@ def playb_video():
         elif status == 0:
          lcd_status = "STOPPED"
          mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-         time.sleep(2)
+         time.sleep(1.5)
          barba_menu()
       if ( GPIO.input(UP) == False):
        os.system("/home/pi/scripts/VolUpb.sh")
@@ -471,13 +463,12 @@ def playb_video():
       if ( GPIO.input(PLAY) == False):
        os.system("/home/pi/scripts/playb.sh")
       if ( GPIO.input(NEXT) == False):
-       mylcd.lcd_clear()
        os.system("/home/pi/scripts/nextb.sh")
-       lcd_status = "<<<<< NEXT >>>>>"
-       mylcd.lcd_display_string(lcd_status,1)
-       time.sleep(0.5)
        mylcd.lcd_clear()
-       my_title = str_pad + get_barba_title() 
+       lcd_status = "NEXT"
+       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+       my_title = str_pad + get_barba_title()
+       time.sleep(1.5)
       if ( GPIO.input(PREV) == False):
        mylcd.lcd_clear()
        os.system("/home/pi/scripts/stopb.sh")
@@ -512,7 +503,7 @@ def playp_video():
         elif status == 0:
          lcd_status = "STOPPED"
          mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-         time.sleep(2)
+         time.sleep(1.5)
          peppa_menu()
       if ( GPIO.input(UP) == False):
        os.system("/home/pi/scripts/VolUpp.sh")
@@ -521,15 +512,15 @@ def playp_video():
       if ( GPIO.input(PLAY) == False):
        os.system("/home/pi/scripts/playp.sh")
       if ( GPIO.input(NEXT) == False):
-       mylcd.lcd_clear()
        os.system("/home/pi/scripts/nextp.sh")
-       lcd_status = "<<<<< NEXT >>>>>"
-       mylcd.lcd_display_string(lcd_status,1)
-       time.sleep(0.5)
        mylcd.lcd_clear()
-       my_title = str_pad + get_peppa_title() 
+       lcd_status = "NEXT"
+       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+       my_title = str_pad + get_peppa_title()
+       time.sleep(1.5)
       if ( GPIO.input(PREV) == False):
        os.system("/home/pi/scripts/stopp.sh")
+       mylcd.lcd_clear()
        time.sleep(0.2)
        main_menu()
        
