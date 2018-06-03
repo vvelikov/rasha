@@ -37,7 +37,7 @@ fi
 	if [ "$play" == "TRUE" ]; then
 	    echo "$now #$counter: $file_ran"
 	    #echo "Playing file #$counter: $file_ran"
-	    omxplayer --vol +500 -b -r -o $1 "$file_ran" < $fifo > /dev/null 2>&1
+	    omxplayer -b -r -o $1 "$file_ran" < $fifo > /dev/null 2>&1
 	    # set status to stop
             echo 0 > /tmp/statusp
     	    file_played[$counter]="$file_ran"
