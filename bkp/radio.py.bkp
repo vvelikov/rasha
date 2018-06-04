@@ -10,7 +10,7 @@ import subprocess
 import socket
 import time
 import sys
-import os, random
+import os
 
 # Define GPIO for button control
 UP = 23
@@ -43,7 +43,9 @@ mylcd = I2C_LCD_driver.lcd()
 str_pad = " " * 16
 
 # some command definitions 
-title_cmd = "dbuscontrol.sh getsource | awk -F '/' '{print $4}' | cut -d '.' -f1 | tr -d '\n'"
+masha_cmd = "tail -n 1 /tmp/masha.log | awk -F'/' '{print $6}' | sed 's/\..\{3\}$//' | tr -d '\n'"
+barba_cmd = "tail -n 1 /tmp/barba.log | awk -F'/' '{print $6}' | sed 's/\..\{3\}$//' | tr -d '\n'"
+peppa_cmd = "tail -n 1 /tmp/peppa.log | awk -F'/' '{print $6}' | sed 's/\..\{3\}$//' | tr -d '\n'"
 date_cmd = "date +%R | tr -d '\n'"
 wifi_cmd = "iwconfig wlan0| grep Signal | awk '{print $4}' | cut -d '-' -f2"
 temp_cmd = "cat /tmp/temp_hum.in | cut -d ' ' -f1 | cut -d '.' -f1 | tr -d '\n'"
@@ -51,8 +53,6 @@ hum_cmd = "cat /tmp/temp_hum.in | cut -d ' ' -f2 | cut -d '.' -f1 | tr -d '\n'"
 temp_out_cmd = "cat /tmp/temp.out | tail -n 1| cut -d '.' -f1 | tr -d '\n'"
 weather_cmd = "cat /tmp/weather.txt | tr -d '\n'"
 radio_cmd = "mpc current -f [%title%] | tr -d '\n'"
-limit = 5
-counter = 1 
 
 # load custom icons
 mylcd.lcd_load_custom_chars(speaker_icon)
@@ -228,7 +228,6 @@ def iradio_menu():
        music_menu()
 
 def masha_menu(): 
-    global counter
     timelastchecked = 0
     time.sleep(0.2)
     while(1):
@@ -238,22 +237,13 @@ def masha_menu():
       mylcd.lcd_display_string("[GO]   < Masha >",2)
      else:
       if ( GPIO.input(PLAY) == False):
-       if counter <= limit:
-        counter+=1
-        playm_video()
-       else:
-        mylcd.lcd_clear()
-        mylcd.lcd_display_string(" Limit reached ",1) 
-        mylcd.lcd_display_string("    Sorry!",2) 
-        time.sleep(1.5)
-        main_menu() 
+       playm_video()
       if ( GPIO.input(NEXT) == False):
        barba_menu()
       if ( GPIO.input(PREV) == False):
        main_menu()
 
-def barba_menu(): 
-    global counter
+def barba_menu():
     timelastchecked = 0
     time.sleep(0.2)
     while(1):
@@ -263,22 +253,13 @@ def barba_menu():
       mylcd.lcd_display_string("[GO]   < Barba >",2)
      else:
       if ( GPIO.input(PLAY) == False):
-       if counter <= limit:
-        counter+=1
-        playb_video()
-       else:
-        mylcd.lcd_clear()
-        mylcd.lcd_display_string(" Limit reached ",1) 
-        mylcd.lcd_display_string("    Sorry!",2) 
-        time.sleep(1.5)
-        main_menu() 
+       playb_video()
       if ( GPIO.input(NEXT) == False):
        peppa_menu()
       if ( GPIO.input(PREV) == False):
        masha_menu()
 
 def peppa_menu():
-    global counter
     timelastchecked = 0
     time.sleep(0.2)
     while(1):
@@ -288,20 +269,12 @@ def peppa_menu():
       mylcd.lcd_display_string("[GO]   < Peppa >",2)
      else:
       if ( GPIO.input(PLAY) == False):
-       if counter <= limit:
-        counter+=1
-        playp_video()
-       else:
-        mylcd.lcd_clear()
-        mylcd.lcd_display_string(" Limit reached ",1) 
-        mylcd.lcd_display_string("    Sorry!",2) 
-        time.sleep(1.5)
-        main_menu() 
+       playp_video()
       if ( GPIO.input(NEXT) == False):
        iradio_menu()
       if ( GPIO.input(PREV) == False):
        barba_menu()
-
+       
 def music_menu(): 
     timelastchecked = 0
     time.sleep(0.2)
@@ -406,139 +379,151 @@ def play_music():
 
 def playm_video():
     lcd_status = "PLAYING"
-    rpath = "/mnt/Masha/"
-    file = randomplay(rpath)
-    omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
+    os.system("/home/pi/scripts/playm.sh")
     time.sleep(0.2)
     while(1):
-     lcd_status = "PLAYING"
-     my_title = str_pad + get_title()
+     my_title = str_pad + get_masha_title()
      for i in range (0, len(my_title)):
       lcd_text = my_title[i:(i+16)]
       mylcd.lcd_display_string(lcd_text,2)
-      time.sleep(0.3)
+      time.sleep(0.4)
       mylcd.lcd_display_string(str_pad,2)
       mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
       time.sleep(0.1)
       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+      time.sleep(0.1)
+      f = os.popen("cat /tmp/statusm | tr -d '\n'")
+      time.sleep(0.2)
+      for i in f.readlines():
+        status = int(i)
+        if status == 1:
+         lcd_status = "PLAYING"
+         mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+        elif status == 2:
+	 lcd_status = "PAUSED"
+         mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+	elif status == 0:
+         lcd_status = "STOPPED"
+         mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+         time.sleep(0.3)
+         masha_menu()
       if ( GPIO.input(UP) == False):
-       os.system("dbuscontrol.sh volumeup +10")
+       os.system("/home/pi/scripts/VolUpm.sh")
       if ( GPIO.input(DOWN) == False):
-       os.system("dbuscontrol.sh volumedown -10")
+       os.system("/home/pi/scripts/VolDnm.sh")
       if ( GPIO.input(PLAY) == False):
-       mylcd.lcd_clear()
-       lcd_status = "PAUSE"
-       os.system("dbuscontrol.sh pause")
+       os.system("/home/pi/scripts/playm.sh")
       if ( GPIO.input(NEXT) == False):
+       os.system("/home/pi/scripts/nextm.sh")
        mylcd.lcd_clear()
        lcd_status = "NEXT"
-       os.system("dbuscontrol.sh stop")
-       file = randomplay(rpath)
-       omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
        mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-       my_title = str_pad + get_title()
-       time.sleep(0.1)
-       lcd_status = "PLAYING"
-       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-       my_title = str_pad + get_title()
-       time.sleep(0.1)
+       my_title = str_pad + get_masha_title()
+       time.sleep(1.5)
       if ( GPIO.input(PREV) == False):
+       os.system("/home/pi/scripts/stopm.sh")
        mylcd.lcd_clear()
-       lcd_status = "STOP"
-       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-       os.system("dbuscontrol.sh stop")
+       time.sleep(0.2)
        main_menu()
 
 def playb_video():
     lcd_status = "PLAYING"
-    rpath = "/mnt/Barba/"
-    file = randomplay(rpath)
-    omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
+    os.system("/home/pi/scripts/playb.sh")
     time.sleep(0.2)
     while(1):
-     lcd_status = "PLAYING"
-     my_title = str_pad + get_title()
+     my_title = str_pad + get_barba_title()
      for i in range (0, len(my_title)):
       lcd_text = my_title[i:(i+16)]
       mylcd.lcd_display_string(lcd_text,2)
-      time.sleep(0.3)
+      time.sleep(0.4)
       mylcd.lcd_display_string(str_pad,2)
       mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
       time.sleep(0.1)
       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+      time.sleep(0.1)
+      f = os.popen("cat /tmp/statusb | tr -d '\n'")
+      time.sleep(0.2)
+      for i in f.readlines():
+        status = int(i)
+        if status == 1:
+         lcd_status = "PLAYING"
+         mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+        elif status == 2:
+         lcd_status = "PAUSED"
+         mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+        elif status == 0:
+         lcd_status = "STOPPED"
+         mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+         time.sleep(1.5)
+         barba_menu()
       if ( GPIO.input(UP) == False):
-       os.system("dbuscontrol.sh volumeup +10")
+       os.system("/home/pi/scripts/VolUpb.sh")
       if ( GPIO.input(DOWN) == False):
-       os.system("dbuscontrol.sh volumedown -10")
+       os.system("/home/pi/scripts/VolDnb.sh")
       if ( GPIO.input(PLAY) == False):
-       mylcd.lcd_clear()
-       lcd_status = "PAUSE"
-       os.system("dbuscontrol.sh pause")
+       os.system("/home/pi/scripts/playb.sh")
       if ( GPIO.input(NEXT) == False):
+       os.system("/home/pi/scripts/nextb.sh")
        mylcd.lcd_clear()
        lcd_status = "NEXT"
-       os.system("dbuscontrol.sh stop")
-       file = randomplay(rpath)
-       omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
        mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-       my_title = str_pad + get_title()
-       time.sleep(0.1)
-       lcd_status = "PLAYING"
-       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-       my_title = str_pad + get_title()
-       time.sleep(0.1)
+       my_title = str_pad + get_barba_title()
+       time.sleep(1.5)
       if ( GPIO.input(PREV) == False):
        mylcd.lcd_clear()
-       lcd_status = "STOP"
-       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-       os.system("dbuscontrol.sh stop")
+       os.system("/home/pi/scripts/stopb.sh")
+       time.sleep(0.2)
        main_menu()
 
 def playp_video():
     lcd_status = "PLAYING"
-    rpath = "/mnt/Peppa/"
-    file = randomplay(rpath)
-    omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
+    os.system("/home/pi/scripts/playp.sh")
     time.sleep(0.2)
     while(1):
-     lcd_status = "PLAYING"
-     my_title = str_pad + get_title()
+     my_title = str_pad + get_peppa_title()
      for i in range (0, len(my_title)):
       lcd_text = my_title[i:(i+16)]
       mylcd.lcd_display_string(lcd_text,2)
-      time.sleep(0.3)
+      time.sleep(0.4)
       mylcd.lcd_display_string(str_pad,2)
       mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
       time.sleep(0.1)
       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+      time.sleep(0.1)
+      f = os.popen("cat /tmp/statusp | tr -d '\n'")
+      time.sleep(0.2)
+      for i in f.readlines():
+        status = int(i)
+        if status == 1:
+         lcd_status = "PLAYING"
+         mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+        elif status == 2:
+         lcd_status = "PAUSED"
+         mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+        elif status == 0:
+         lcd_status = "STOPPED"
+         mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+         time.sleep(1.5)
+         peppa_menu()
       if ( GPIO.input(UP) == False):
-       os.system("dbuscontrol.sh volumeup +10")
+       os.system("/home/pi/scripts/VolUpp.sh")
       if ( GPIO.input(DOWN) == False):
-       os.system("dbuscontrol.sh volumedown -10")
+       os.system("/home/pi/scripts/VolDnp.sh")
       if ( GPIO.input(PLAY) == False):
-       mylcd.lcd_clear()
-       lcd_status = "PAUSE"
-       os.system("dbuscontrol.sh pause")
+       os.system("/home/pi/scripts/playp.sh")
       if ( GPIO.input(NEXT) == False):
+       os.system("/home/pi/scripts/nextp.sh")
        mylcd.lcd_clear()
        lcd_status = "NEXT"
-       os.system("dbuscontrol.sh stop")
-       file = randomplay(rpath)
-       omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
        mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-       my_title = str_pad + get_title()
-       time.sleep(0.1)
-       lcd_status = "PLAYING"
-       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-       my_title = str_pad + get_title()
-       time.sleep(0.1)
+       my_title = str_pad + get_peppa_title()
+       time.sleep(1.5)
       if ( GPIO.input(PREV) == False):
+       os.system("/home/pi/scripts/stopp.sh")
        mylcd.lcd_clear()
-       lcd_status = "STOP"
-       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-       os.system("dbuscontrol.sh stop")
+       time.sleep(0.2)
        main_menu()
-      
+       
 def choose1():
     time.sleep(0.2)
     while(1):
@@ -879,7 +864,7 @@ def station8():
 
 def randomplay( str ):
     randomfile = random.choice(os.listdir( str ))
-    file = str + randomfile
+    file = file = str + randomfile
     return file
 
 def get_date():
@@ -907,11 +892,21 @@ def get_ip_address():
     s.connect(("8.8.8.8", 80))
     return s.getsockname()[0]
 
-def get_title():
-    t = Popen(title_cmd, shell=True, stdout=PIPE)
-    title = t.communicate()[0]
-    return title
+def get_masha_title():
+    p = Popen(masha_cmd, shell=True, stdout=PIPE)
+    masha = p.communicate()[0]
+    return masha
 
+def get_barba_title():
+    p = Popen(barba_cmd, shell=True, stdout=PIPE)
+    barba = p.communicate()[0]
+    return barba
+
+def get_peppa_title():
+    p = Popen(peppa_cmd, shell=True, stdout=PIPE)
+    peppa = p.communicate()[0]
+    return peppa
+    
 def get_radio_title():
     p = Popen(radio_cmd, shell=True, stdout=PIPE)
     radio = p.communicate()[0]
