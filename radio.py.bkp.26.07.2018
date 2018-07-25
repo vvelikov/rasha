@@ -406,15 +406,13 @@ def play_music():
        os.system("mpc prev")
        time.sleep(0.2)
 
-def play_video(str):
+def play_video( str ):
     global counter
-    lasttimechecked = time.time()
-    file = randomplay(str)
-    write_log(file)
-    omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
     lcd_status = "PLAYING"
+    file = randomplay(str)
+    omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
     time.sleep(0.2)
-    while omxproc.poll() is None:
+    while(1):
      lcd_status = "PLAYING"
      my_title = str_pad + get_title()
      for i in range (0, len(my_title)):
@@ -432,7 +430,6 @@ def play_video(str):
       if ( GPIO.input(PLAY) == False):
        lcd_status = "PAUSE"
        os.system("dbuscontrol.sh pause")
-       mylcd.lcd_display_string("                  ",1)
        mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
        time.sleep(0.1)
        mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
@@ -441,33 +438,27 @@ def play_video(str):
         mylcd.lcd_clear()
         os.system("dbuscontrol.sh stop")
         file = randomplay(str)
-        timelast = time.time()
-        last = lasttimechecked + 30
-        if timelast <= last:
-         omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
-         lcd_status = "PLAYING"
-         mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-         my_title = str_pad + get_title()
-         time.sleep(0.1)
-        else:
-         counter+=1
-         write_log(file)
-         omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
-         lcd_status = "PLAYING"
-         mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-         my_title = str_pad + get_title()
-         time.sleep(0.1)
+        counter+=1
+        omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
+        mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+        my_title = str_pad + get_title()
+        time.sleep(0.1)
+        lcd_status = "PLAYING"
+        mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+        my_title = str_pad + get_title()
+        time.sleep(0.1)
        else:
         os.system("dbuscontrol.sh stop")
         mylcd.lcd_clear()
         mylcd.lcd_display_string(" Limit reached ",1) 
         mylcd.lcd_display_string("    Sorry!",2) 
-        time.sleep(3)
+        time.sleep(1.5)
         main_menu() 
       if ( GPIO.input(PREV) == False):
        mylcd.lcd_clear()
+       lcd_status = "STOP"
+       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
        os.system("dbuscontrol.sh stop")
-       time.sleep(0.3)
        main_menu()
 
 def choose1():
