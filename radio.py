@@ -179,7 +179,8 @@ def reset_counter_menu():
      if time.time() >= timelastchecked:
       timelastchecked = time.time()+3
       show_status()
-      mylcd.lcd_display_string("[GO]  < Reset >",2)
+      mylcd.lcd_display_string("                ",2)
+      mylcd.lcd_display_string("[GO]  < Reset > ",2)
      else:
       if ( GPIO.input(PLAY) == False):
        counter_menu()
@@ -438,7 +439,7 @@ def play_video(str):
       time.sleep(0.3)
       mylcd.lcd_display_string(str_pad,2)
       mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
-      time.sleep(0.1)
+      time.sleep(0.3)
       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
       if ( GPIO.input(UP) == False):
        os.system("dbuscontrol.sh volumeup +10")
@@ -449,7 +450,7 @@ def play_video(str):
        os.system("dbuscontrol.sh pause")
        mylcd.lcd_display_string("                  ",1)
        mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
-       time.sleep(0.1)
+       time.sleep(0.3)
        mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
       if ( GPIO.input(NEXT) == False):
        if counter <= limit:
@@ -463,7 +464,7 @@ def play_video(str):
          lcd_status = "PLAYING"
          mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
          my_title = str_pad + get_title()
-         time.sleep(0.1)
+         time.sleep(0.3)
         else:
          counter+=1
          write_log(file)
@@ -471,7 +472,7 @@ def play_video(str):
          lcd_status = "PLAYING"
          mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
          my_title = str_pad + get_title()
-         time.sleep(0.1)
+         time.sleep(0.3)
        else:
         os.system("dbuscontrol.sh stop")
         mylcd.lcd_clear()
@@ -1015,6 +1016,7 @@ def reset_counter():
 
 def reset_counter_now():
     global counter
+    now = get_date_time()
     counter = 0
     f = open( '/tmp/radio.log', 'a' )
     f.write( now )
