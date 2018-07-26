@@ -179,7 +179,9 @@ def reset_counter_menu():
      if time.time() >= timelastchecked:
       timelastchecked = time.time()+3
       show_status()
+      mylcd.lcd_display_string("                ",1)
       mylcd.lcd_display_string("                ",2)
+      time.sleep(0.05)
       mylcd.lcd_display_string("[GO]  < Reset > ",2)
      else:
       if ( GPIO.input(PLAY) == False):
