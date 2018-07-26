@@ -184,9 +184,9 @@ def reset_counter_menu():
       if ( GPIO.input(PLAY) == False):
        counter_menu()
       if ( GPIO.input(PREV) == False):
-       reboot_menu()
-      if ( GPIO.input(NEXT) == False):
        weather_menu()
+      if ( GPIO.input(NEXT) == False):
+       reboot_menu()
 
 def reboot_menu(): 
     timelastchecked = 0
