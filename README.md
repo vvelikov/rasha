@@ -4,7 +4,7 @@
 
 ##########################################################################################
 
-<img src="https://github.com/vvelikov/rasha/blob/master/IMG_2819.jpg" alt="rasha" class="inline"/>
+<img src="/img/IMG_2819.jpg" alt="rasha" class="inline"/>
 
 
 Hardware:
