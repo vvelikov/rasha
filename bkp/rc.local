@@ -1,0 +1,44 @@
+#!/bin/sh -e
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+
+# Print the IP address
+#_IP=$(hostname -I) || true
+#if [ "$_IP" ]; then
+#  printf "My IP address is %s\n" "$_IP"
+#fi
+
+#su pi -c '/home/pi/scripts/randomplaymasha.sh alsa:hw:0,0 /mnt/Masha >> /tmp/masha.log 2>&1 &'
+#su pi -c '/home/pi/scripts/randomplaybarba.sh alsa:hw:0,0 /mnt/Barba >> /tmp/barba.log 2>&1 &'
+#su pi -c '/home/pi/scripts/randomplaypeppa.sh alsa:hw:0,0 /mnt/Peppa >> /tmp/peppa.log 2>&1 &'
+#su pi -c 'echo 0 > /tmp/statusm'
+#su pi -c 'echo 0 > /tmp/statusb'
+#su pi -c 'echo 0 > /tmp/statusp'
+#su pi -c 'touch /tmp/alarm.txt'
+# turn display off
+#/opt/vc/bin/tvservice -o
+
+# log file
+su pi -c 'touch /tmp/radio.log'
+# get temp in
+su pi -c 'python /home/pi/temp/tempIN.py >> /tmp/all.log 2>&1'
+# get temp out
+su pi -c 'bash /home/pi/scripts/tempOUT.sh >> /tmp/all.log 2>&1'
+# radio.py
+su pi -c 'python /home/pi/scripts/radio.py >> /tmp/all.log 2>&1'
+# stop mpd
+su pi -c 'mpc stop > /dev/null 2>&1'
+# update rrd
+su pi -c 'bash /home/pi/temp/update.sh >> /tmp/all.log 2>&1'
+sleep 1
+
+exit 0
