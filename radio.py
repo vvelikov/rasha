@@ -260,6 +260,8 @@ def masha_menu():
        if counter <= limit:
         counter+=1
         play_video("/mnt/Masha/")
+        time.sleep(0.3)
+        main_menu()
        else:
         mylcd.lcd_clear()
         mylcd.lcd_display_string(" Limit reached ",1) 
@@ -285,6 +287,8 @@ def barba_menu():
        if counter <= limit:
         counter+=1
         play_video("/mnt/Barba/")
+        time.sleep(0.3)
+        main_menu()
        else:
         mylcd.lcd_clear()
         mylcd.lcd_display_string(" Limit reached ",1) 
@@ -310,6 +314,8 @@ def peppa_menu():
        if counter <= limit:
         counter+=1
         play_video("/mnt/Peppa/")
+        time.sleep(0.3)
+        main_menu()
        else:
         mylcd.lcd_clear()
         mylcd.lcd_display_string(" Limit reached ",1) 
@@ -429,9 +435,9 @@ def play_video(str):
     file = randomplay(str)
     write_log(file)
     omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
-    lcd_status = "PLAYING"
     time.sleep(0.2)
     while omxproc.poll() is None:
+     lcd_status = "PLAYING"
      my_title = str_pad + get_title()
      for i in range (0, len(my_title)):
       lcd_text = my_title[i:(i+16)]
@@ -462,6 +468,9 @@ def play_video(str):
         if timelast <= last:
          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
          lcd_status = "PLAYING"
+         mylcd.lcd_display_string("                  ",1)
+         mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
+         time.sleep(0.3)
          mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
          my_title = str_pad + get_title()
          time.sleep(0.3)
@@ -470,6 +479,9 @@ def play_video(str):
          write_log(file)
          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
          lcd_status = "PLAYING"
+         mylcd.lcd_display_string("                  ",1)
+         mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
+         time.sleep(0.3)
          mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
          my_title = str_pad + get_title()
          time.sleep(0.3)
