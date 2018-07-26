@@ -135,7 +135,7 @@ def weather_menu():
        mylcd.lcd_display_string(mystring,1)
        mylcd.lcd_display_string(mystring,2)
       if ( GPIO.input(NEXT) == False):
-       reboot_menu()
+       reset_counter_menu()
       if ( GPIO.input(PREV) == False):
        off_menu()
 
@@ -172,6 +172,22 @@ def show_weather():
       time.sleep(5)
      main_menu()
 
+def reset_counter_menu():
+    timelastchecked = 0
+    time.sleep(0.2)
+    while(1):
+     if time.time() >= timelastchecked:
+      timelastchecked = time.time()+3
+      show_status()
+      mylcd.lcd_display_string("[GO]  < Reset >",2)
+     else:
+      if ( GPIO.input(PLAY) == False):
+       counter_menu()
+      if ( GPIO.input(PREV) == False):
+       reboot_menu()
+      if ( GPIO.input(NEXT) == False):
+       weather_menu()
+
 def reboot_menu(): 
     timelastchecked = 0
     time.sleep(0.2)
@@ -184,7 +200,7 @@ def reboot_menu():
       if ( GPIO.input(PLAY) == False):
        reboot()
       if ( GPIO.input(PREV) == False):
-       weather_menu()
+       reset_counter_menu()
       if ( GPIO.input(NEXT) == False):
        shutdown_menu()
 
@@ -415,7 +431,6 @@ def play_video(str):
     lcd_status = "PLAYING"
     time.sleep(0.2)
     while omxproc.poll() is None:
-     lcd_status = "PLAYING"
      my_title = str_pad + get_title()
      for i in range (0, len(my_title)):
       lcd_text = my_title[i:(i+16)]
@@ -430,7 +445,7 @@ def play_video(str):
       if ( GPIO.input(DOWN) == False):
        os.system("dbuscontrol.sh volumedown -10")
       if ( GPIO.input(PLAY) == False):
-       lcd_status = "PAUSE"
+       lcd_status = "PAUSED"
        os.system("dbuscontrol.sh pause")
        mylcd.lcd_display_string("                  ",1)
        mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
@@ -808,100 +823,50 @@ def station8():
         time.sleep(0.5)
         mylcd.lcd_display_string("   Raggakings   ",1)
 
-def reset_counter():
-    global counter
-    dateStr = datetime.now().strftime("%H:%M")
-    now = get_date_time()
-    if (dateStr == '23:58' and counter != 0 ):
-     counter = 0
-     f = open( '/tmp/radio.log', 'a' )
-     f.write( now )
-     f.write( "RESET:" + '\n' )
-     f.write( "# %s" % counter + '\n' )
-     f.close()
-     time.sleep(5)
-
-def write_log(file):
-    global counter
-    f = open( '/tmp/radio.log', 'a' )
-    now = get_date_time()
-    f.write( now  )
-    f.write( "PLAY:" + '\n' )
-    f.write( "# %s" % counter + ' ' + file + '\n' )
-    f.close()
-
-def randomplay(str):
-    randomfile = random.choice(os.listdir( str ))
-    file = str + randomfile
-    return file
-
-def get_date():
-    d = subprocess.check_output(date_cmd, shell=True, stderr=subprocess.STDOUT)
-    return d
- 
-def get_date_time():
-    t = subprocess.check_output(date_time_cmd, shell=True, stderr=subprocess.STDOUT)
-    return t
- 
-def get_temp():
-    temp = subprocess.check_output(temp_cmd, shell=True, stderr=subprocess.STDOUT)
-    return temp
-
-def get_hum():
-    hum = subprocess.check_output(hum_cmd, shell=True, stderr=subprocess.STDOUT)
-    return hum
-
-def get_temp_out():
-    temp_out = 	subprocess.check_output(temp_out_cmd, shell=True, stderr=subprocess.STDOUT)
-    return temp_out
-
-def get_weather():
-    w = subprocess.check_output(weather_cmd, shell=True, stderr=subprocess.STDOUT)
-    return w
-
-def get_ip_address():
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.connect(("8.8.8.8", 80))
-    return s.getsockname()[0]
-
-def get_title():
-    t = Popen(title_cmd, shell=True, stdout=PIPE)
-    title = t.communicate()[0]
-    return title
-
-def get_radio_title():
-    p = Popen(radio_cmd, shell=True, stdout=PIPE)
-    radio = p.communicate()[0]
-    return radio
-
-def get_wifi_signal():
-    p = Popen(wifi_cmd, shell=True, stdout=PIPE)
-    wifi = p.communicate()[0]
-    return wifi
-
-def get_volume():
-    volume = subprocess.check_output("mpc status | grep volume", shell=True, stderr=subprocess.STDOUT)
-    volume = volume[7:volume.find("%")+1]
-    volume = volume.replace("%","")
-    volume = volume.replace(" ","")
-    return volume
-
-def display_volume():
-    Vol = get_volume()
-    mylcd.lcd_clear() # clear screen
-    block = chr(255)  # block character on screen
-    VolInt = int(Vol) # converted to integer
-    if Vol == "100":
-       Vol = ""
-       sign = 'MAX'
-    elif Vol == "0":
-       Vol = ""
-       sign = 'MUTED'
-    else:
-       sign = "%"
-    numBars = int(round(VolInt/10))
-    mylcd.lcd_display_string(chr(0) + chr(1) + " Volume: " + Vol + sign, 1)
-    mylcd.lcd_display_string(chr(2) + chr(3) + " " + (block * numBars), 2)
+def counter_menu():
+    time.sleep(0.2)
+    while(1):
+     if ( GPIO.input(PREV) == False):
+      main_menu()
+     if ( GPIO.input(NEXT) == False):
+      mylcd.lcd_display_string(" Resetting       ",1)
+      mylcd.lcd_display_string("#                ",2)
+      time.sleep(0.05)
+      mylcd.lcd_display_string(" Resetting       ",1)
+      mylcd.lcd_display_string("##               ",2)
+      time.sleep(0.05) 
+      mylcd.lcd_display_string(" Resetting       ",1)
+      mylcd.lcd_display_string("###              ",2)
+      time.sleep(0.05)
+      mylcd.lcd_display_string(" Resetting       ",1)
+      mylcd.lcd_display_string("#####            ",2)
+      time.sleep(0.05)
+      mylcd.lcd_display_string(" Resetting       ",1)
+      mylcd.lcd_display_string("######           ",2)
+      time.sleep(0.05)
+      mylcd.lcd_display_string(" Resetting       ",1)
+      mylcd.lcd_display_string("#######          ",2)
+      time.sleep(0.05)
+      mylcd.lcd_display_string(" Resetting       ",1)
+      mylcd.lcd_display_string("###########      ",2)
+      time.sleep(0.05)
+      mylcd.lcd_display_string(" Resetting       ",1)
+      mylcd.lcd_display_string("#############    ",2)
+      time.sleep(0.05)
+      mylcd.lcd_display_string(" Resetting       ",1)
+      mylcd.lcd_display_string("##############   ",2)
+      time.sleep(0.05)
+      mylcd.lcd_display_string(" Resetting       ",1)
+      mylcd.lcd_display_string("#################",2)
+      time.sleep(0.05)
+      reset_counter_now()
+      mylcd.lcd_clear()
+      mylcd.lcd_display_string("      Done       ",1)
+      time.sleep(1)
+      main_menu()
+     else:
+      mylcd.lcd_display_string("     Reset?      ",1)
+      mylcd.lcd_display_string("< No       Yes >",2)
 
 def reboot():
     time.sleep(0.2)
@@ -1035,19 +1000,120 @@ def shutdown():
       mylcd.lcd_display_string("   Shut down?   ",1)
       mylcd.lcd_display_string("< No       Yes >",2)
 
+def reset_counter():
+    global counter
+    dateStr = datetime.now().strftime("%H:%M")
+    now = get_date_time()
+    if (dateStr == '23:58' and counter != 0 ):
+     counter = 0
+     f = open( '/tmp/radio.log', 'a' )
+     f.write( now )
+     f.write( "RESET:" + '\n' )
+     f.write( "# %s" % counter + '\n' )
+     f.close()
+     time.sleep(5)
+
+def reset_counter_now():
+    global counter
+    counter = 0
+    f = open( '/tmp/radio.log', 'a' )
+    f.write( now )
+    f.write( "RESET:" + '\n' )
+    f.write( "# %s" % counter + '\n' )
+    f.close()
+
+def write_log(file):
+    global counter
+    f = open( '/tmp/radio.log', 'a' )
+    now = get_date_time()
+    f.write( now  )
+    f.write( "PLAY:" + '\n' )
+    f.write( "# %s" % counter + ' ' + file + '\n' )
+    f.close()
+
+def randomplay(str):
+    randomfile = random.choice(os.listdir( str ))
+    file = str + randomfile
+    return file
+
+def get_date():
+    d = subprocess.check_output(date_cmd, shell=True, stderr=subprocess.STDOUT)
+    return d
+ 
+def get_date_time():
+    t = subprocess.check_output(date_time_cmd, shell=True, stderr=subprocess.STDOUT)
+    return t
+ 
+def get_temp():
+    temp = subprocess.check_output(temp_cmd, shell=True, stderr=subprocess.STDOUT)
+    return temp
+
+def get_hum():
+    hum = subprocess.check_output(hum_cmd, shell=True, stderr=subprocess.STDOUT)
+    return hum
+
+def get_temp_out():
+    temp_out = 	subprocess.check_output(temp_out_cmd, shell=True, stderr=subprocess.STDOUT)
+    return temp_out
+
+def get_weather():
+    w = subprocess.check_output(weather_cmd, shell=True, stderr=subprocess.STDOUT)
+    return w
+
+def get_ip_address():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    return s.getsockname()[0]
+
+def get_title():
+    t = Popen(title_cmd, shell=True, stdout=PIPE)
+    title = t.communicate()[0]
+    return title
+
+def get_radio_title():
+    p = Popen(radio_cmd, shell=True, stdout=PIPE)
+    radio = p.communicate()[0]
+    return radio
+
+def get_wifi_signal():
+    p = Popen(wifi_cmd, shell=True, stdout=PIPE)
+    wifi = p.communicate()[0]
+    return wifi
+
+def get_volume():
+    volume = subprocess.check_output("mpc status | grep volume", shell=True, stderr=subprocess.STDOUT)
+    volume = volume[7:volume.find("%")+1]
+    volume = volume.replace("%","")
+    volume = volume.replace(" ","")
+    return volume
+
+def display_volume():
+    Vol = get_volume()
+    mylcd.lcd_clear() # clear screen
+    block = chr(255)  # block character on screen
+    VolInt = int(Vol) # converted to integer
+    if Vol == "100":
+       Vol = ""
+       sign = 'MAX'
+    elif Vol == "0":
+       Vol = ""
+       sign = 'MUTED'
+    else:
+       sign = "%"
+    numBars = int(round(VolInt/10))
+    mylcd.lcd_display_string(chr(0) + chr(1) + " Volume: " + Vol + sign, 1)
+    mylcd.lcd_display_string(chr(2) + chr(3) + " " + (block * numBars), 2)
+
+# Main
+
 if __name__ == '__main__':
   try:
       main()
 
   except KeyboardInterrupt:
-      os.system("mpc stop  > /dev/null 2>&1")
-      os.system("echo 0 > /tmp/status")
       mylcd.lcd_clear()
       sys.exit()
 
   finally:
       GPIO.cleanup()
-      os.system("mpc stop  > /dev/null 2>&1")
-      os.system("echo 0 > /tmp/status")
       mylcd.lcd_clear()
-      print "Adeus!"
