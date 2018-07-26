@@ -4,7 +4,7 @@
 
 ##########################################################################################
 
-[https://github.com/vvelikov/rasha/blob/master/IMG_2819.jpg|alt=rasha]
+[[https://github.com/vvelikov/rasha/blob/master/IMG_2819.jpg]]
 
 Hardware:
 * Raspi 3
