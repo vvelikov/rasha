@@ -231,14 +231,7 @@ def iradio_menu():
       timelastchecked = time.time()+3
       show_status()
       mylcd.lcd_display_string("[GO]  < iRadio >",2)
-      os.system("mpc clear -q")
-      os.system("mpc add http://pub2.diforfree.org:8000/di_chillhop_hi")
-      os.system("mpc add http://pub2.diforfree.org:8000/di_chillout_hi")
-      os.system("mpc add http://pub2.diforfree.org:8000/di_liquiddnb_hi")
-      os.system("mpc add http://pub2.diforfree.org:8000/di_liquiddubstep_hi")
-      os.system("mpc add http://pub2.diforfree.org:8000/di_downtempolounge_hi")
-      os.system("mpc add http://streaming.radionula.com:8800/channel2")
-      os.system("mpc add http://78.90.63.199:9000")
+      os.system("/home/pi/scripts/playlist.sh")
       time.sleep(0.2)
      else:
       if ( GPIO.input(PLAY) == False):
@@ -573,36 +566,10 @@ def choose6():
      if ( GPIO.input(PLAY) == False):
       station6()
      if ( GPIO.input(NEXT) == False):
-      choose7()
-     else:
-      mylcd.lcd_display_string(" Choose Station ",1)
-      mylcd.lcd_display_string("[GO] < Ra NULA >",2)
-
-def choose7():
-    time.sleep(0.2)
-    while(1):
-     if ( GPIO.input(PREV) == False):
-      choose6()
-     if ( GPIO.input(PLAY) == False):
-      station7()
-     if ( GPIO.input(NEXT) == False):
-      choose8()
-     else:
-      mylcd.lcd_display_string(" Choose Station ",1)
-      mylcd.lcd_display_string("[GO]  < Boogie >",2)
-
-def choose8():
-    time.sleep(0.2)
-    while(1):
-     if ( GPIO.input(PREV) == False):
-      choose7()
-     if ( GPIO.input(PLAY) == False):
-      station8()
-     if ( GPIO.input(NEXT) == False):
       choose1()
      else:
       mylcd.lcd_display_string(" Choose Station ",1)
-      mylcd.lcd_display_string("[GO]   < Ragga >",2)
+      mylcd.lcd_display_string("[GO] < Ra NULA >",2)
 
 def station1():
     mylcd.lcd_display_string("    ChillHop    ",1)
@@ -765,7 +732,7 @@ def station6():
        time.sleep(0.4)
        mylcd.lcd_display_string(str_pad,2)
        if ( GPIO.input(NEXT) == False):
-        station7()
+        station1()
        if ( GPIO.input(PREV) == False):
         station5()
        if ( GPIO.input(PLAY) == False):
@@ -783,60 +750,6 @@ def station6():
         display_volume()
         time.sleep(0.5)
         mylcd.lcd_display_string("   Radio Nula     ",1)
-
-def station7():
-    mylcd.lcd_display_string("   Boogie.FM    ",1)
-    os.system("mpc play 7")
-    while(1):
-      my_title = str_pad + get_radio_title()
-      for i in range (0, len(my_title)):
-       lcd_text = my_title[i:(i+16)]
-       mylcd.lcd_display_string(lcd_text,2)
-       time.sleep(0.4)
-       mylcd.lcd_display_string(str_pad,2)
-       if ( GPIO.input(NEXT) == False):
-        station8()
-       if ( GPIO.input(PREV) == False):
-        station6()
-       if ( GPIO.input(PLAY) == False):
-        os.system("mpc stop")
-        main_menu()
-       if ( GPIO.input(UP) == False):
-        display_volume()
-        os.system("mpc volume +10")
-        display_volume()
-        time.sleep(0.5)
-        mylcd.lcd_display_string("   Boogie.FM    ",1)
-       if ( GPIO.input(DOWN) == False):
-        display_volume()
-        os.system("mpc volume -10")
-        display_volume()
-        time.sleep(0.5)
-        mylcd.lcd_display_string("   Boogie.FM    ",1)
-
-def station8():
-    mylcd.lcd_display_string("   Raggakings   ",1)
-    os.system("mpc play 8")
-    while(1):
-      my_title = str_pad + get_radio_title()
-      for i in range (0, len(my_title)):
-       lcd_text = my_title[i:(i+16)]
-       mylcd.lcd_display_string(lcd_text,2)
-       time.sleep(0.4)
-       mylcd.lcd_display_string(str_pad,2)
-       if ( GPIO.input(NEXT) == False):
-        station1()
-       if ( GPIO.input(PREV) == False):
-        station7()
-       if ( GPIO.input(PLAY) == False):
-        os.system("mpc stop")
-        main_menu()
-       if ( GPIO.input(UP) == False):
-        display_volume()
-        os.system("mpc volume +10")
-        display_volume()
-        time.sleep(0.5)
-        mylcd.lcd_display_string("   Raggakings   ",1)
 
 def counter_menu():
     time.sleep(0.2)
