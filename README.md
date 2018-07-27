@@ -8,7 +8,7 @@
 
 
 Hardware:
-* Raspi 3
+* Raspberry 3 
 * 16x2 I2C LCD display
 * DTH22 temp + humidity sensor
 * 5 push buttons connected to GPIOs
@@ -16,9 +16,9 @@ Hardware:
 * Kingston USB 16GB
 
 Software:
-* MainMenu: Temp + WiFi Signal display + Time
+* MainMenu: Time + Temp + WiFi Signal
 * Shutdown / Reset Counter / Reboot / IP / Weather menu
-* play random videos over HDMI (omxplayer) / ext. Monitor required
-* play randomly local music from storage (mpd)
+* Play random videos over HDMI (omxplayer) / ext. Monitor required
+* Play randomly local music from local storage (mpd)
 * stream radio stations (mpd)
 * VolUp/VolDown keys
