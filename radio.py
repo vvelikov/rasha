@@ -47,10 +47,10 @@ title_cmd = "dbuscontrol.sh getsource | awk -F '/' '{print $4}' | cut -d '.' -f1
 date_cmd = "date +%R | tr -d '\n'"
 date_time_cmd = "date +'%d-%m-%Y %H:%M:%S'"
 wifi_cmd = "iwconfig wlan0| grep Signal | awk '{print $4}' | cut -d '-' -f2"
-temp_cmd = "cat /tmp/temp_hum.in | cut -d ' ' -f1 | cut -d '.' -f1 | tr -d '\n'"
-hum_cmd = "cat /tmp/temp_hum.in | cut -d ' ' -f2 | cut -d '.' -f1 | tr -d '\n'"
-temp_out_cmd = "cat /tmp/temp.out | tail -n 1| cut -d '.' -f1 | tr -d '\n'"
-weather_cmd = "cat /tmp/weather.txt | tr -d '\n'"
+temp_cmd = "cat /tmp/temp.log | head -n 1 | cut -d '.' | tr -d '\n'"
+hum_cmd = "cat /tmp/temp.log | tail -n 3 | head -n 1 | cut -d '.' -f1 | tr -d '\n'"
+temp_out_cmd = "cat /tmp/temp.log | tail -n 2 | head -n 1| cut -d '.' -f1 | tr -d '\n'"
+weather_cmd = "cat /tmp/temp.log | tail -n 1 | tr -d '\n'"
 radio_cmd = "mpc current -f [%title%] | tr -d '\n'"
 limit = 4
 counter = 0 
@@ -179,9 +179,6 @@ def reset_counter_menu():
      if time.time() >= timelastchecked:
       timelastchecked = time.time()+3
       show_status()
-      mylcd.lcd_display_string("                ",1)
-      mylcd.lcd_display_string("                ",2)
-      time.sleep(0.05)
       mylcd.lcd_display_string("[GO]  < Reset > ",2)
      else:
       if ( GPIO.input(PLAY) == False):
@@ -584,7 +581,7 @@ def station1():
       if ( GPIO.input(NEXT) == False):
        station2()
       if ( GPIO.input(PREV) == False):
-       station8()
+       station6()
       if ( GPIO.input(PLAY) == False):
        os.system("mpc stop")
        main_menu()
