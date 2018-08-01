@@ -1,26 +1,24 @@
 <html>
   <head>
     <title>RASHA</title>
-	<link rel="icon" href="favicon.ico">
  </head>
   <body>
     <div align="center">
 <!--    <h3>Rasha's Temperature Monitor</h3> -->
 <?php
-    $mytemp=("/tmp/temp.log");
-    $weather=shell_exec("cat /tmp/temp.log | tail -n 1");
-    $tempIN=shell_exec("cat /tmp/temp.log | head -n 1");
-    $tempOUT=shell_exec("cat /tmp/temp.log | tail -n 2 | head -n 1");
+    $myfilename=("/tmp/weather.txt");
+    $mytemp1=("/tmp/temp.out");
+    $mytemp2=("/tmp/temp.in");
     $mylog=("/tmp/all.log");
     $myradio=("/tmp/radio.log");
 
-    if(file_exists($mytemp)){
+    if(file_exists($mytemp1)){
       echo "<br></br>";
-      echo "<div><font size='3'>Munich, Germany: <b>$weather</div></b>";
-      echo "<div><font size='3'>Outside: <b>$tempOUT</b>";
+      echo "<div><font size='3'>Munich, Germany: <b>".file_get_contents($myfilename)."</div></b>";
+      echo "<div><font size='3'>Outside:<b> ".file_get_contents($mytemp1);
       echo "&deg;C";
       echo "</div></b>";
-      echo "<div><font size='3'>Inside: <b>$tempIN</b>";
+      echo "<div><font size='3'>Inside:<b> ".file_get_contents($mytemp2);
       echo "&deg;C";
       echo "</div></b>";
     }

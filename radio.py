@@ -47,7 +47,7 @@ title_cmd = "dbuscontrol.sh getsource | awk -F '/' '{print $4}' | cut -d '.' -f1
 date_cmd = "date +%R | tr -d '\n'"
 date_time_cmd = "date +'%d-%m-%Y %H:%M:%S'"
 wifi_cmd = "iwconfig wlan0| grep Signal | awk '{print $4}' | cut -d '-' -f2"
-temp_cmd = "cat /tmp/temp.log | head -n 1 | cut -d '.' | tr -d '\n'"
+temp_cmd = "cat /tmp/temp.log | head -n 1 | cut -d '.' -f1 | tr -d '\n'"
 hum_cmd = "cat /tmp/temp.log | tail -n 3 | head -n 1 | cut -d '.' -f1 | tr -d '\n'"
 temp_out_cmd = "cat /tmp/temp.log | tail -n 2 | head -n 1| cut -d '.' -f1 | tr -d '\n'"
 weather_cmd = "cat /tmp/temp.log | tail -n 1 | tr -d '\n'"
@@ -427,11 +427,10 @@ def play_video(str):
     file = randomplay(str)
     write_log(file)
     omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
-    time.sleep(0.2)
     while omxproc.poll() is None:
-     lcd_status = "PLAYING"
      my_title = str_pad + get_title()
      for i in range (0, len(my_title)):
+      lcd_status = "PLAYING"
       lcd_text = my_title[i:(i+16)]
       mylcd.lcd_display_string(lcd_text,2)
       time.sleep(0.3)
@@ -456,7 +455,7 @@ def play_video(str):
         os.system("dbuscontrol.sh stop")
         file = randomplay(str)
         timelast = time.time()
-        last = lasttimechecked + 30
+        last = lasttimechecked + 45
         if timelast <= last:
          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
          lcd_status = "PLAYING"
