@@ -1070,7 +1070,7 @@ def get_hum():
     return hum
 
 def get_temp_out():
-    temp_out = 	subprocess.check_output(temp_out_cmd, shell=True, stderr=subprocess.STDOUT)
+    temp_out = subprocess.check_output(temp_out_cmd, shell=True, stderr=subprocess.STDOUT)
     return temp_out
 
 def get_weather():
