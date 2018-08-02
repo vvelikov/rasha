@@ -52,8 +52,8 @@ hum_cmd = "cat /tmp/temp.log | tail -n 3 | head -n 1 | cut -d '.' -f1 | tr -d '\
 temp_out_cmd = "cat /tmp/temp.log | tail -n 2 | head -n 1| cut -d '.' -f1 | tr -d '\n'"
 weather_cmd = "cat /tmp/temp.log | tail -n 1 | tr -d '\n'"
 radio_cmd = "mpc current -f [%title%] | tr -d '\n'"
-limit = 4
-counter = 0 
+limit = 5
+counter = 1 
 
 # load custom icons
 mylcd.lcd_load_custom_chars(speaker_icon)
@@ -1021,7 +1021,7 @@ def reset_counter():
     dateStr = datetime.now().strftime("%H:%M")
     now = get_date_time()
     if (dateStr == '23:58' and counter != 0 ):
-     counter = 0
+     counter = 1
      f = open( '/tmp/radio.log', 'a' )
      f.write( now )
      f.write( "RESET:" + '\n' )
@@ -1032,7 +1032,7 @@ def reset_counter():
 def reset_counter_now():
     global counter
     now = get_date_time()
-    counter = 0
+    counter = 1
     f = open( '/tmp/radio.log', 'a' )
     f.write( now )
     f.write( "RESET:" + '\n' )
