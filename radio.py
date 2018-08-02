@@ -324,11 +324,10 @@ def play_all_menu():
      if time.time() >= timelastchecked:
       timelastchecked = time.time()+3
       show_status()
-      mylcd.lcd_display_string("[GO]  < PlayAll >",2)
+      mylcd.lcd_display_string("[GO] < PlayAll >",2)
      else:
       if ( GPIO.input(PLAY) == False):
        if counter <= limit:
-        counter+=1
         play_video_all("/mnt/Peppa/")
         main_menu()
        else:
