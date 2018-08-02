@@ -252,7 +252,6 @@ def masha_menu():
        if counter <= limit:
         counter+=1
         play_video("/mnt/Masha/")
-        time.sleep(0.3)
         main_menu()
        else:
         mylcd.lcd_clear()
@@ -279,7 +278,6 @@ def barba_menu():
        if counter <= limit:
         counter+=1
         play_video("/mnt/Barba/")
-        time.sleep(0.3)
         main_menu()
        else:
         mylcd.lcd_clear()
@@ -306,7 +304,32 @@ def peppa_menu():
        if counter <= limit:
         counter+=1
         play_video("/mnt/Peppa/")
-        time.sleep(0.3)
+        main_menu()
+       else:
+        mylcd.lcd_clear()
+        mylcd.lcd_display_string(" Limit reached ",1) 
+        mylcd.lcd_display_string("    Sorry!",2) 
+        time.sleep(1.5)
+        main_menu() 
+      if ( GPIO.input(NEXT) == False):
+       play_all_menu()
+      if ( GPIO.input(PREV) == False):
+       barba_menu()
+
+def play_all_menu():
+    global counter
+    timelastchecked = 0
+    time.sleep(0.2)
+    while(1):
+     if time.time() >= timelastchecked:
+      timelastchecked = time.time()+3
+      show_status()
+      mylcd.lcd_display_string("[GO]  < PlayAll >",2)
+     else:
+      if ( GPIO.input(PLAY) == False):
+       if counter <= limit:
+        counter+=1
+        play_video_all("/mnt/Peppa/")
         main_menu()
        else:
         mylcd.lcd_clear()
@@ -317,7 +340,7 @@ def peppa_menu():
       if ( GPIO.input(NEXT) == False):
        iradio_menu()
       if ( GPIO.input(PREV) == False):
-       barba_menu()
+       peppa_menu()
 
 def music_menu(): 
     timelastchecked = 0
@@ -488,6 +511,76 @@ def play_video(str):
        os.system("dbuscontrol.sh stop")
        time.sleep(0.3)
        main_menu()
+
+def play_video_all(str):
+    global counter
+    lasttimechecked = time.time()
+    while counter <= limit:
+     file = randomplay(str)
+     write_log(file)
+     omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
+     counter+=1
+     while omxproc.poll() is None:
+      my_title = str_pad + get_title()
+      for i in range (0, len(my_title)):
+       lcd_status = "PLAYING"
+       lcd_text = my_title[i:(i+16)]
+       mylcd.lcd_display_string(lcd_text,2)
+       time.sleep(0.3)
+       mylcd.lcd_display_string(str_pad,2)
+       mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
+       time.sleep(0.3)
+       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+       if ( GPIO.input(UP) == False):
+        os.system("dbuscontrol.sh volumeup +10")
+       if ( GPIO.input(DOWN) == False):
+        os.system("dbuscontrol.sh volumedown -10")
+       if ( GPIO.input(PLAY) == False):
+        lcd_status = "PAUSED"
+        os.system("dbuscontrol.sh pause")
+        mylcd.lcd_display_string("                  ",1)
+        mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
+        time.sleep(0.3)
+        mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+       if ( GPIO.input(NEXT) == False):
+        if counter <= limit:
+         mylcd.lcd_clear()
+         os.system("dbuscontrol.sh stop")
+         file = randomplay(str)
+         timelast = time.time()
+         last = lasttimechecked + 45
+         if timelast <= last:
+          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
+          lcd_status = "PLAYING"
+          mylcd.lcd_display_string("                  ",1)
+          mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
+          time.sleep(0.3)
+          mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+          my_title = str_pad + get_title()
+          time.sleep(0.3)
+         else:
+          counter+=1
+          write_log(file)
+          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
+          lcd_status = "PLAYING"
+          mylcd.lcd_display_string("                  ",1)
+          mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
+          time.sleep(0.3)
+          mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+          my_title = str_pad + get_title()
+          time.sleep(0.3)
+        else:
+         os.system("dbuscontrol.sh stop")
+         mylcd.lcd_clear()
+         mylcd.lcd_display_string(" Limit reached ",1) 
+         mylcd.lcd_display_string("    Sorry!",2) 
+         time.sleep(3)
+         main_menu() 
+       if ( GPIO.input(PREV) == False):
+        mylcd.lcd_clear()
+        os.system("dbuscontrol.sh stop")
+        time.sleep(0.3)
+        main_menu()
 
 def choose1():
     time.sleep(0.2)
