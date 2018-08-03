@@ -53,7 +53,7 @@ temp_out_cmd = "cat /tmp/temp.log | tail -n 2 | head -n 1| cut -d '.' -f1 | tr -
 weather_cmd = "cat /tmp/temp.log | tail -n 1 | tr -d '\n'"
 radio_cmd = "mpc current -f [%title%] | tr -d '\n'"
 limit = 5
-counter = 1 
+counter = 0 
 
 # load custom icons
 mylcd.lcd_load_custom_chars(speaker_icon)
