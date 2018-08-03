@@ -1037,6 +1037,7 @@ def reset_counter_now():
     f.write( now )
     f.write( "RESET:" + '\n' )
     f.write( "# %s" % counter + '\n' )
+    f.write( "+++++++++++++++++++++++++++++++++" + '\n' )
     f.close()
 
 def write_log(file):
@@ -1046,6 +1047,7 @@ def write_log(file):
     f.write( now  )
     f.write( "PLAY:" + '\n' )
     f.write( "# %s" % counter + ' ' + file + '\n' )
+    f.write( "+++++++++++++++++++++++++++++++++" + '\n' )
     f.close()
 
 def randomplay(str):
