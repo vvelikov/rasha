@@ -1,7 +1,7 @@
 
 	                       	              RASHA Music/Video/iRadio Player
 
-<img src="/img/IMG_2819.jpg" alt="rasha" class="inline"/>
+<img src="/img/rasha_front.jpg" alt="rasha" class="inline"/>
 
 Hardware:
 * Raspberry 3 
