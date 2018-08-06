@@ -507,9 +507,15 @@ def play_video(str):
         main_menu() 
       if ( GPIO.input(PREV) == False):
        mylcd.lcd_clear()
-       os.system("dbuscontrol.sh stop")
-       time.sleep(0.3)
-       main_menu()
+       timelast = time.time()
+       last = lasttimechecked + 45
+       if timelast <= last:
+        counter-=1
+        os.system("dbuscontrol.sh stop")
+        main_menu()
+       else:
+        os.system("dbuscontrol.sh stop")
+        main_menu()
 
 def play_video_all(str):
     global counter
@@ -577,9 +583,15 @@ def play_video_all(str):
          main_menu() 
        if ( GPIO.input(PREV) == False):
         mylcd.lcd_clear()
-        os.system("dbuscontrol.sh stop")
-        time.sleep(0.3)
-        main_menu()
+        timelast = time.time()
+        last = lasttimechecked + 45
+        if timelast <= last:
+         counter-=1
+         os.system("dbuscontrol.sh stop")
+         main_menu()
+        else:
+         os.system("dbuscontrol.sh stop")
+         main_menu()
 
 def choose1():
     time.sleep(0.2)
@@ -1018,36 +1030,27 @@ def shutdown():
 
 def reset_counter():
     global counter
-    dateStr = datetime.now().strftime("%H:%M")
+    dateStr = datetime.now().strftime("%H:%M:%S")
     now = get_date_time()
-    if (dateStr == '23:58' and counter != 0 ):
+    if (dateStr == '23:58:30' and counter != 1 ):
      counter = 1
      f = open( '/tmp/radio.log', 'a' )
-     f.write( now )
-     f.write( "RESET:" + '\n' )
-     f.write( "# %s" % counter + '\n' )
+     f.write( now + "RESET:" +  "# %s" % counter + '\n' )
      f.close()
-     time.sleep(5)
 
 def reset_counter_now():
     global counter
     now = get_date_time()
     counter = 1
     f = open( '/tmp/radio.log', 'a' )
-    f.write( now )
-    f.write( "RESET:" + '\n' )
-    f.write( "# %s" % counter + '\n' )
-    f.write( "+++++++++++++++++++++++++++++++++" + '\n' )
+    f.write( now + "RESET:" + "# %s" % counter + '\n' )
     f.close()
 
 def write_log(file):
     global counter
     f = open( '/tmp/radio.log', 'a' )
     now = get_date_time()
-    f.write( now  )
-    f.write( "PLAY:" + '\n' )
-    f.write( "# %s" % counter + ' ' + file + '\n' )
-    f.write( "+++++++++++++++++++++++++++++++++" + '\n' )
+    f.write( now + "PLAY:" + "# %s" % counter + ' ' + file + '\n' )
     f.close()
 
 def randomplay(str):
