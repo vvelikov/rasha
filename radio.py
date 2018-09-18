@@ -1049,7 +1049,7 @@ def reset_counter():
 def reset_counter_now():
     global counter
     now = get_date_time()
-    counter = 0
+    counter = 1
     f = open( '/tmp/radio.log', 'a' )
     f.write( now + "RESET:" + "# %s" % counter + '\n' )
     f.close()
