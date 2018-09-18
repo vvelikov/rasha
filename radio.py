@@ -52,7 +52,7 @@ hum_cmd = "cat /tmp/temp.log | tail -n 3 | head -n 1 | cut -d '.' -f1 | tr -d '\
 temp_out_cmd = "cat /tmp/temp.log | tail -n 2 | head -n 1| cut -d '.' -f1 | tr -d '\n'"
 weather_cmd = "cat /tmp/temp.log | tail -n 1 | tr -d '\n'"
 radio_cmd = "mpc current -f [%title%] | tr -d '\n'"
-limit = 5
+limit = 6
 counter = 0 
 
 # load custom icons
@@ -251,6 +251,7 @@ def masha_menu():
       if ( GPIO.input(PLAY) == False):
        if counter <= limit:
         counter+=1
+        write_log_counter()
         play_video("/mnt/Masha/")
         main_menu()
        else:
@@ -277,6 +278,7 @@ def barba_menu():
       if ( GPIO.input(PLAY) == False):
        if counter <= limit:
         counter+=1
+        write_log_counter()
         play_video("/mnt/Barba/")
         main_menu()
        else:
@@ -303,6 +305,7 @@ def peppa_menu():
       if ( GPIO.input(PLAY) == False):
        if counter <= limit:
         counter+=1
+        write_log_counter()
         play_video("/mnt/Peppa/")
         main_menu()
        else:
@@ -489,6 +492,7 @@ def play_video(str):
          time.sleep(0.3)
         else:
          counter+=1
+         write_log_counter()
          write_log(file)
          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
          lcd_status = "PLAYING"
@@ -511,6 +515,7 @@ def play_video(str):
        last = lasttimechecked + 45
        if timelast <= last:
         counter-=1
+        write_log_counter()
         os.system("dbuscontrol.sh stop")
         main_menu()
        else:
@@ -525,6 +530,7 @@ def play_video_all(str):
      write_log(file)
      omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
      counter+=1
+     write_log_counter()
      while omxproc.poll() is None:
       my_title = str_pad + get_title()
       for i in range (0, len(my_title)):
@@ -565,6 +571,7 @@ def play_video_all(str):
           time.sleep(0.3)
          else:
           counter+=1
+          write_log_counter()
           write_log(file)
           omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
           lcd_status = "PLAYING"
@@ -587,6 +594,7 @@ def play_video_all(str):
         last = lasttimechecked + 45
         if timelast <= last:
          counter-=1
+         write_log_counter()
          os.system("dbuscontrol.sh stop")
          main_menu()
         else:
@@ -1022,7 +1030,7 @@ def shutdown():
       time.sleep(2)
       mylcd.lcd_clear()
       os.system("sudo shutdown -h now")
-      time.sleep(3)
+      time.sleep(2)
       sys.exit()
      else:
       mylcd.lcd_display_string("   Shut down?   ",1)
@@ -1032,8 +1040,8 @@ def reset_counter():
     global counter
     dateStr = datetime.now().strftime("%H:%M:%S")
     now = get_date_time()
-    if (dateStr == '23:58:30' and counter != 1 ):
-     counter = 1
+    if (dateStr == '23:58:30' and counter != 0 ):
+     counter = 0
      f = open( '/tmp/radio.log', 'a' )
      f.write( now + "RESET:" +  "# %s" % counter + '\n' )
      f.close()
@@ -1041,7 +1049,7 @@ def reset_counter():
 def reset_counter_now():
     global counter
     now = get_date_time()
-    counter = 1
+    counter = 0
     f = open( '/tmp/radio.log', 'a' )
     f.write( now + "RESET:" + "# %s" % counter + '\n' )
     f.close()
@@ -1051,6 +1059,13 @@ def write_log(file):
     f = open( '/tmp/radio.log', 'a' )
     now = get_date_time()
     f.write( now + "PLAY:" + "# %s" % counter + ' ' + file + '\n' )
+    f.close()
+
+def write_log_counter():
+    global counter
+    f = open( '/tmp/radio.log', 'a' )
+    now = get_date_time()
+    f.write( now + "Counter:" + "# %s" % counter + '\n' )
     f.close()
 
 def randomplay(str):
