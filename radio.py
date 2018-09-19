@@ -570,10 +570,11 @@ def play_video_all(str):
           my_title = str_pad + get_title()
           time.sleep(0.3)
          else:
-          counter+=1
-          write_log_counter()
+          file = randomplay(str)
           write_log(file)
           omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
+          counter+=1
+          write_log_counter()
           lcd_status = "PLAYING"
           mylcd.lcd_display_string("                  ",1)
           mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
@@ -593,7 +594,7 @@ def play_video_all(str):
         timelast = time.time()
         last = lasttimechecked + 45
         if timelast <= last:
-         counter-=1
+#        counter-=1
          write_log_counter()
          os.system("dbuscontrol.sh stop")
          main_menu()
