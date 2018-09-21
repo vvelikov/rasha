@@ -331,6 +331,8 @@ def play_all_menu():
      else:
       if ( GPIO.input(PLAY) == False):
        if counter <= limit:
+        counter+=1
+        write_log_counter()
         play_video_all("/mnt/Peppa/")
         main_menu()
        else:
@@ -511,16 +513,8 @@ def play_video(str):
         main_menu() 
       if ( GPIO.input(PREV) == False):
        mylcd.lcd_clear()
-       timelast = time.time()
-       last = lasttimechecked + 45
-       if timelast <= last:
-        counter-=1
-        write_log_counter()
-        os.system("dbuscontrol.sh stop")
-        main_menu()
-       else:
-        os.system("dbuscontrol.sh stop")
-        main_menu()
+       os.system("dbuscontrol.sh stop")
+       main_menu()
 
 def play_video_all(str):
     global counter
@@ -529,7 +523,6 @@ def play_video_all(str):
      file = randomplay(str)
      write_log(file)
      omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
-     counter+=1
      write_log_counter()
      while omxproc.poll() is None:
       my_title = str_pad + get_title()
@@ -572,8 +565,8 @@ def play_video_all(str):
          else:
           file = randomplay(str)
           write_log(file)
-          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
           counter+=1
+          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
           write_log_counter()
           lcd_status = "PLAYING"
           mylcd.lcd_display_string("                  ",1)
@@ -591,16 +584,8 @@ def play_video_all(str):
          main_menu() 
        if ( GPIO.input(PREV) == False):
         mylcd.lcd_clear()
-        timelast = time.time()
-        last = lasttimechecked + 45
-        if timelast <= last:
-#        counter-=1
-         write_log_counter()
-         os.system("dbuscontrol.sh stop")
-         main_menu()
-        else:
-         os.system("dbuscontrol.sh stop")
-         main_menu()
+        os.system("dbuscontrol.sh stop")
+        main_menu()
 
 def choose1():
     time.sleep(0.2)
@@ -1039,9 +1024,10 @@ def shutdown():
 
 def reset_counter():
     global counter
-    dateStr = datetime.now().strftime("%H:%M:%S")
+    #dateStr = datetime.now().strftime("%H:%M:%S")
+    dateStr = datetime.now().strftime("%H:%M")
     now = get_date_time()
-    if (dateStr == '23:58:30' and counter != 0 ):
+    if (dateStr == '23:59' and counter != 0 ):
      counter = 0
      f = open( '/tmp/radio.log', 'a' )
      f.write( now + "RESET:" +  "# %s" % counter + '\n' )
