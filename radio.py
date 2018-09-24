@@ -478,6 +478,7 @@ def play_video(str):
         timelast = time.time()
         last = lasttimechecked + 45
         if timelast <= last:
+         file = randomplay(str)
          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
          lcd_status = "PLAYING"
          mylcd.lcd_display_string("                  ",1)
