@@ -4,7 +4,6 @@
 from subprocess import PIPE, Popen
 import I2C_LCD_driver
 import RPi.GPIO as GPIO
-import datetime as dt
 from datetime import datetime
 import subprocess
 import socket
@@ -52,7 +51,7 @@ hum_cmd = "cat /tmp/temp.log | tail -n 3 | head -n 1 | cut -d '.' -f1 | tr -d '\
 temp_out_cmd = "cat /tmp/temp.log | tail -n 2 | head -n 1| cut -d '.' -f1 | tr -d '\n'"
 weather_cmd = "cat /tmp/temp.log | tail -n 1 | tr -d '\n'"
 radio_cmd = "mpc current -f [%title%] | tr -d '\n'"
-limit = 5
+limit = 6
 counter = 0 
 
 # load custom icons
@@ -489,6 +488,7 @@ def play_video(str):
          time.sleep(0.3)
         else:
          counter+=1
+         file = randomplay(str)
          write_log(file)
          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
          lcd_status = "PLAYING"
@@ -555,6 +555,7 @@ def play_video_all(str):
          timelast = time.time()
          last = lasttimechecked + 45
          if timelast <= last:
+          file = randomplay(str)
           omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
           lcd_status = "PLAYING"
           mylcd.lcd_display_string("                  ",1)
@@ -565,6 +566,7 @@ def play_video_all(str):
           time.sleep(0.3)
          else:
           counter+=1
+          file = randomplay(str)
           write_log(file)
           omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
           lcd_status = "PLAYING"
@@ -674,6 +676,7 @@ def choose6():
 def station1():
     mylcd.lcd_display_string("    ChillHop    ",1)
     os.system("mpc play 1")
+    time.sleep(0.5)
     while(1):
      my_title = str_pad + get_radio_title()
      for i in range (0, len(my_title)):
@@ -704,6 +707,7 @@ def station1():
 def station2():
     mylcd.lcd_display_string("    ChillOut    ",1)
     os.system("mpc play 2")
+    time.sleep(0.5)
     while(1):
      my_title = str_pad + get_radio_title()
      for i in range (0, len(my_title)):
@@ -734,6 +738,7 @@ def station2():
 def station3():
     mylcd.lcd_display_string("   LiquidDnB    ",1)
     os.system("mpc play 3")
+    time.sleep(0.5)
     while(1):
       my_title = str_pad + get_radio_title()
       for i in range (0, len(my_title)):
@@ -764,6 +769,7 @@ def station3():
 def station4():
     mylcd.lcd_display_string(" LiquidDubstep  ",1)
     os.system("mpc play 4")
+    time.sleep(0.5)
     while(1):
       my_title = str_pad + get_radio_title()
       for i in range (0, len(my_title)):
@@ -794,6 +800,7 @@ def station4():
 def station5():
     mylcd.lcd_display_string("    DTLounge    ",1)
     os.system("mpc play 5")
+    time.sleep(0.5)
     while(1):
       my_title = str_pad + get_radio_title()
       for i in range (0, len(my_title)):
@@ -824,6 +831,7 @@ def station5():
 def station6():
     mylcd.lcd_display_string("   Radio Nula     ",1)
     os.system("mpc play 6")
+    time.sleep(0.5)
     while(1):
       my_title = str_pad + get_radio_title()
       for i in range (0, len(my_title)):
@@ -1032,8 +1040,8 @@ def reset_counter():
     global counter
     dateStr = datetime.now().strftime("%H:%M:%S")
     now = get_date_time()
-    if (dateStr == '23:58:30' and counter != 1 ):
-     counter = 1
+    if (dateStr == '23:58:30' and counter != 0 ):
+     counter = 0
      f = open( '/tmp/radio.log', 'a' )
      f.write( now + "RESET:" +  "# %s" % counter + '\n' )
      f.close()
@@ -1041,7 +1049,7 @@ def reset_counter():
 def reset_counter_now():
     global counter
     now = get_date_time()
-    counter = 1
+    counter = 0
     f = open( '/tmp/radio.log', 'a' )
     f.write( now + "RESET:" + "# %s" % counter + '\n' )
     f.close()
