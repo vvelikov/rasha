@@ -1039,13 +1039,14 @@ def shutdown():
 
 def reset_counter():
     global counter
-    dateStr = datetime.now().strftime("%H:%M:%S")
+    dateStr = datetime.now().strftime("%H:%M")
     now = get_date_time()
-    if (dateStr == '23:58:30' and counter != 0 ):
+    if (dateStr == '23:59' and counter != 0 ):
      counter = 0
      f = open( '/tmp/radio.log', 'a' )
      f.write( now + "RESET:" +  "# %s" % counter + '\n' )
      f.close()
+     time.sleep(0.5)
 
 def reset_counter_now():
     global counter
