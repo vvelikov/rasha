@@ -4,12 +4,12 @@
 from subprocess import PIPE, Popen
 import I2C_LCD_driver
 import RPi.GPIO as GPIO
-from datetime import datetime
+import datetime
 import subprocess
+import os, random
 import socket
 import time
 import sys
-import os, random
 
 # Define GPIO for button control
 UP = 23
@@ -1039,7 +1039,7 @@ def shutdown():
 
 def reset_counter():
     global counter
-    dateStr = datetime.now().strftime("%H:%M")
+    dateStr = datetime.datetime.now().strftime("%H:%M")
     now = get_date_time()
     if (dateStr == '23:59' and counter != 0 ):
      counter = 0
