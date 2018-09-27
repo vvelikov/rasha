@@ -51,7 +51,7 @@ hum_cmd = "cat /tmp/temp.log | tail -n 3 | head -n 1 | cut -d '.' -f1 | tr -d '\
 temp_out_cmd = "cat /tmp/temp.log | tail -n 2 | head -n 1| cut -d '.' -f1 | tr -d '\n'"
 weather_cmd = "cat /tmp/temp.log | tail -n 1 | tr -d '\n'"
 radio_cmd = "mpc current -f [%title%] | tr -d '\n'"
-limit = 6
+limit = 5
 counter = 0 
 
 # load custom icons
@@ -280,10 +280,10 @@ def barba_menu():
         main_menu()
        else:
         mylcd.lcd_clear()
-        mylcd.lcd_display_string(" Limit reached ",1) 
-        mylcd.lcd_display_string("    Sorry!",2) 
+        mylcd.lcd_display_string(" Limit reached ",1)
+        mylcd.lcd_display_string("    Sorry!",2)
         time.sleep(1.5)
-        main_menu() 
+        main_menu()
       if ( GPIO.input(NEXT) == False):
        peppa_menu()
       if ( GPIO.input(PREV) == False):
@@ -306,10 +306,10 @@ def peppa_menu():
         main_menu()
        else:
         mylcd.lcd_clear()
-        mylcd.lcd_display_string(" Limit reached ",1) 
-        mylcd.lcd_display_string("    Sorry!",2) 
+        mylcd.lcd_display_string(" Limit reached ",1)
+        mylcd.lcd_display_string("    Sorry!",2)
         time.sleep(1.5)
-        main_menu() 
+        main_menu()
       if ( GPIO.input(NEXT) == False):
        play_all_menu()
       if ( GPIO.input(PREV) == False):
@@ -327,14 +327,15 @@ def play_all_menu():
      else:
       if ( GPIO.input(PLAY) == False):
        if counter <= limit:
+        counter+=1
         play_video_all("/mnt/Peppa/")
         main_menu()
        else:
         mylcd.lcd_clear()
-        mylcd.lcd_display_string(" Limit reached ",1) 
-        mylcd.lcd_display_string("    Sorry!",2) 
+        mylcd.lcd_display_string(" Limit reached ",1)
+        mylcd.lcd_display_string("    Sorry!",2)
         time.sleep(1.5)
-        main_menu() 
+        main_menu()
       if ( GPIO.input(NEXT) == False):
        iradio_menu()
       if ( GPIO.input(PREV) == False):
@@ -474,7 +475,6 @@ def play_video(str):
        if counter <= limit:
         mylcd.lcd_clear()
         os.system("dbuscontrol.sh stop")
-        file = randomplay(str)
         timelast = time.time()
         last = lasttimechecked + 45
         if timelast <= last:
@@ -512,6 +512,7 @@ def play_video(str):
        last = lasttimechecked + 45
        if timelast <= last:
         counter-=1
+        write_log(file)
         os.system("dbuscontrol.sh stop")
         main_menu()
        else:
@@ -525,7 +526,6 @@ def play_video_all(str):
      file = randomplay(str)
      write_log(file)
      omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
-     counter+=1
      while omxproc.poll() is None:
       my_title = str_pad + get_title()
       for i in range (0, len(my_title)):
@@ -552,7 +552,6 @@ def play_video_all(str):
         if counter <= limit:
          mylcd.lcd_clear()
          os.system("dbuscontrol.sh stop")
-         file = randomplay(str)
          timelast = time.time()
          last = lasttimechecked + 45
          if timelast <= last:
@@ -590,6 +589,7 @@ def play_video_all(str):
         last = lasttimechecked + 45
         if timelast <= last:
          counter-=1
+         write_log(file)
          os.system("dbuscontrol.sh stop")
          main_menu()
         else:
@@ -1036,6 +1036,18 @@ def shutdown():
      else:
       mylcd.lcd_display_string("   Shut down?   ",1)
       mylcd.lcd_display_string("< No       Yes >",2)
+
+def do_counter(counter):
+    if counter <= limit:
+     counter+=1
+     return counter
+    else:
+     mylcd.lcd_clear()
+     mylcd.lcd_display_string(" Limit reached ",1)
+     mylcd.lcd_display_string("    Sorry!",2)
+     time.sleep(3)
+     main_menu()
+     return counter
 
 def reset_counter():
     global counter
