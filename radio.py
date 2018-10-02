@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+#
 from subprocess import PIPE, Popen
 import I2C_LCD_driver
 import RPi.GPIO as GPIO
@@ -51,7 +51,7 @@ hum_cmd = "cat /tmp/temp.log | tail -n 3 | head -n 1 | cut -d '.' -f1 | tr -d '\
 temp_out_cmd = "cat /tmp/temp.log | tail -n 2 | head -n 1| cut -d '.' -f1 | tr -d '\n'"
 weather_cmd = "cat /tmp/temp.log | tail -n 1 | tr -d '\n'"
 radio_cmd = "mpc current -f [%title%] | tr -d '\n'"
-limit = 5
+limit = 6
 counter = 0 
 
 # load custom icons
@@ -172,6 +172,7 @@ def show_weather():
      main_menu()
 
 def reset_counter_menu():
+    global counter
     timelastchecked = 0
     time.sleep(0.2)
     while(1):
@@ -248,7 +249,7 @@ def masha_menu():
       mylcd.lcd_display_string("[GO]   < Masha >",2)
      else:
       if ( GPIO.input(PLAY) == False):
-       if counter <= limit:
+       if counter < limit:
         counter+=1
         play_video("/mnt/Masha/")
         main_menu()
@@ -444,7 +445,6 @@ def play_music():
        time.sleep(0.2)
 
 def play_video(str):
-    global counter
     lasttimechecked = time.time()
     file = randomplay(str)
     write_log(file)
@@ -1037,18 +1037,6 @@ def shutdown():
       mylcd.lcd_display_string("   Shut down?   ",1)
       mylcd.lcd_display_string("< No       Yes >",2)
 
-def do_counter(counter):
-    if counter <= limit:
-     counter+=1
-     return counter
-    else:
-     mylcd.lcd_clear()
-     mylcd.lcd_display_string(" Limit reached ",1)
-     mylcd.lcd_display_string("    Sorry!",2)
-     time.sleep(3)
-     main_menu()
-     return counter
-
 def reset_counter():
     global counter
     dateStr = datetime.datetime.now().strftime("%H:%M")
@@ -1069,7 +1057,6 @@ def reset_counter_now():
     f.close()
 
 def write_log(file):
-    global counter
     f = open( '/tmp/radio.log', 'a' )
     now = get_date_time()
     f.write( now + "PLAY:" + "# %s" % counter + ' ' + file + '\n' )
