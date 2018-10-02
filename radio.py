@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#
+
 from subprocess import PIPE, Popen
 import I2C_LCD_driver
 import RPi.GPIO as GPIO
@@ -445,6 +445,7 @@ def play_music():
        time.sleep(0.2)
 
 def play_video(str):
+    global counter
     lasttimechecked = time.time()
     file = randomplay(str)
     write_log(file)
