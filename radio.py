@@ -51,7 +51,7 @@ hum_cmd = "cat /tmp/temp.log | tail -n 3 | head -n 1 | cut -d '.' -f1 | tr -d '\
 temp_out_cmd = "cat /tmp/temp.log | tail -n 2 | head -n 1| cut -d '.' -f1 | tr -d '\n'"
 weather_cmd = "cat /tmp/temp.log | tail -n 1 | tr -d '\n'"
 radio_cmd = "mpc current -f [%title%] | tr -d '\n'"
-limit = 6
+limit = 5
 counter = 0 
 
 # load custom icons
@@ -239,7 +239,6 @@ def iradio_menu():
        music_menu()
 
 def masha_menu(): 
-    global counter
     timelastchecked = 0
     time.sleep(0.2)
     while(1):
@@ -249,8 +248,7 @@ def masha_menu():
       mylcd.lcd_display_string("[GO]   < Masha >",2)
      else:
       if ( GPIO.input(PLAY) == False):
-       if counter < limit:
-        counter+=1
+       if counter <= limit:
         play_video("/mnt/Masha/")
         main_menu()
        else:
@@ -265,7 +263,6 @@ def masha_menu():
        main_menu()
 
 def barba_menu(): 
-    global counter
     timelastchecked = 0
     time.sleep(0.2)
     while(1):
@@ -276,7 +273,6 @@ def barba_menu():
      else:
       if ( GPIO.input(PLAY) == False):
        if counter <= limit:
-        counter+=1
         play_video("/mnt/Barba/")
         main_menu()
        else:
@@ -291,7 +287,6 @@ def barba_menu():
        masha_menu()
 
 def peppa_menu():
-    global counter
     timelastchecked = 0
     time.sleep(0.2)
     while(1):
@@ -302,7 +297,6 @@ def peppa_menu():
      else:
       if ( GPIO.input(PLAY) == False):
        if counter <= limit:
-        counter+=1
         play_video("/mnt/Peppa/")
         main_menu()
        else:
@@ -317,7 +311,6 @@ def peppa_menu():
        barba_menu()
 
 def play_all_menu():
-    global counter
     timelastchecked = 0
     time.sleep(0.2)
     while(1):
@@ -328,7 +321,6 @@ def play_all_menu():
      else:
       if ( GPIO.input(PLAY) == False):
        if counter <= limit:
-        counter+=1
         play_video_all("/mnt/Peppa/")
         main_menu()
        else:
@@ -447,6 +439,7 @@ def play_music():
 def play_video(str):
     global counter
     lasttimechecked = time.time()
+    counter+=1
     file = randomplay(str)
     write_log(file)
     omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
@@ -524,6 +517,7 @@ def play_video_all(str):
     global counter
     lasttimechecked = time.time()
     while counter <= limit:
+     counter+=1
      file = randomplay(str)
      write_log(file)
      omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
