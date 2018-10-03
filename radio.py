@@ -1061,6 +1061,8 @@ def write_log(file):
 def write_slog():
     f = open ( '/logs/radio.log', 'a' )
     now = get_date_time()
+    log = '----------------------------'
+    f.write( log + '\n' )
     f.write( now + '\n' )
     f.close()
 
