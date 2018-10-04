@@ -468,11 +468,14 @@ def play_video(str):
        mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
       if ( GPIO.input(NEXT) == False):
        if counter <= limit:
+		print("NEXT")
+		print("      ")
+		print(counter)
+		print("      ")
         mylcd.lcd_clear()
         os.system("dbuscontrol.sh stop")
-        timelast = time.time()
         last = lasttimechecked + 45
-        if timelast <= last:
+        if time.time() <= last:
          file = randomplay(str)
          write_log(file)
          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
@@ -549,9 +552,8 @@ def play_video_all(str):
         if counter <= limit:
          mylcd.lcd_clear()
          os.system("dbuscontrol.sh stop")
-         timelast = time.time()
          last = lasttimechecked + 45
-         if timelast <= last:
+         if time.time() <= last:
           write_log(file)	 
           file = randomplay(str)
           omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
