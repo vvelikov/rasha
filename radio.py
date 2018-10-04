@@ -51,7 +51,7 @@ hum_cmd = "cat /logs/temp.log | tail -n 3 | head -n 1 | cut -d '.' -f1 | tr -d '
 temp_out_cmd = "cat /logs/temp.log | tail -n 2 | head -n 1| cut -d '.' -f1 | tr -d '\n'"
 weather_cmd = "cat /logs/temp.log | tail -n 1 | tr -d '\n'"
 radio_cmd = "mpc current -f [%title%] | tr -d '\n'"
-limit = 6
+limit = 5
 counter = 0 
 
 # load custom icons
@@ -249,7 +249,7 @@ def masha_menu():
       mylcd.lcd_display_string("[GO]   < Masha >",2)
      else:
       if ( GPIO.input(PLAY) == False):
-       if counter < limit:
+       if counter <= limit:
         play_video("/mnt/Masha/")
         main_menu()
        else:
@@ -273,7 +273,7 @@ def barba_menu():
       mylcd.lcd_display_string("[GO]   < Barba >",2)
      else:
       if ( GPIO.input(PLAY) == False):
-       if counter < limit:
+       if counter <= limit:
         play_video("/mnt/Barba/")
         main_menu()
        else:
@@ -297,7 +297,7 @@ def peppa_menu():
       mylcd.lcd_display_string("[GO]   < Peppa >",2)
      else:
       if ( GPIO.input(PLAY) == False):
-       if counter < limit:
+       if counter <= limit:
         play_video("/mnt/Peppa/")
         main_menu()
        else:
@@ -321,7 +321,7 @@ def play_all_menu():
       mylcd.lcd_display_string("[GO] < PlayAll >",2)
      else:
       if ( GPIO.input(PLAY) == False):
-       if counter < limit:
+       if counter <= limit:
         play_video_all("/mnt/Peppa/")
         main_menu()
        else:
@@ -467,7 +467,7 @@ def play_video(str):
        time.sleep(0.3)
        mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
       if ( GPIO.input(NEXT) == False):
-       if counter < limit:
+       if counter <= limit:
         mylcd.lcd_clear()
         os.system("dbuscontrol.sh stop")
         timelast = time.time()
@@ -517,7 +517,7 @@ def play_video(str):
 def play_video_all(str):
     global counter
     lasttimechecked = time.time()
-    while counter < limit:
+    while counter <= limit:
      counter+=1
      file = randomplay(str)
      write_log(file)
@@ -545,7 +545,7 @@ def play_video_all(str):
         time.sleep(0.3)
         mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
        if ( GPIO.input(NEXT) == False):
-        if counter < limit:
+        if counter <= limit:
          mylcd.lcd_clear()
          os.system("dbuscontrol.sh stop")
          timelast = time.time()
