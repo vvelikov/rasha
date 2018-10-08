@@ -248,7 +248,7 @@ def masha_menu():
       mylcd.lcd_display_string("[GO]   < Masha >",2)
      else:
       if ( GPIO.input(PLAY) == False):
-       if counter <= limit:
+       if counter < limit:
         play_video("/mnt/Masha/")
         main_menu()
        else:
@@ -272,7 +272,7 @@ def barba_menu():
       mylcd.lcd_display_string("[GO]   < Barba >",2)
      else:
       if ( GPIO.input(PLAY) == False):
-       if counter <= limit:
+       if counter < limit:
         play_video("/mnt/Barba/")
         main_menu()
        else:
@@ -296,7 +296,7 @@ def peppa_menu():
       mylcd.lcd_display_string("[GO]   < Peppa >",2)
      else:
       if ( GPIO.input(PLAY) == False):
-       if counter <= limit:
+       if counter < limit:
         play_video("/mnt/Peppa/")
         main_menu()
        else:
@@ -306,7 +306,7 @@ def peppa_menu():
         time.sleep(1.5)
         main_menu() 
       if ( GPIO.input(NEXT) == False):
-       music_menu()
+       iradio_menu()
       if ( GPIO.input(PREV) == False):
        barba_menu()
 
@@ -442,7 +442,7 @@ def play_video(str):
        time.sleep(0.3)
        mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
       if ( GPIO.input(NEXT) == False):
-       if counter <= limit:
+       if counter < limit:
         mylcd.lcd_clear()
         os.system("dbuscontrol.sh stop")
         file = randomplay(str)
@@ -918,7 +918,6 @@ def shutdown():
       mylcd.lcd_display_string("< No       Yes >",2)
 
 def reset_counter():
-    global counter
     dateStr = datetime.now().strftime("%H:%M")
     now = get_date_time()
     if (dateStr == '23:58' and counter != 0 ):
@@ -931,10 +930,10 @@ def reset_counter():
      time.sleep(5)
 
 def reset_counter_now():
-    global counter
     now = get_date_time()
     counter = 1
     f = open( '/logs/radio.log', 'a' )
+    f.write( "+++++++++++++++++++++++++++++++++" + '\n' )
     f.write( now )
     f.write( "RESET:" + '\n' )
     f.write( "# %s" % counter + '\n' )
@@ -948,7 +947,6 @@ def write_log(file):
     f.write( now  )
     f.write( "PLAY:" + '\n' )
     f.write( "# %s" % counter + ' ' + file + '\n' )
-    f.write( "+++++++++++++++++++++++++++++++++" + '\n' )
     f.close()
 
 def randomplay(str):
