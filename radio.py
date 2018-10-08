@@ -927,17 +927,15 @@ def reset_counter():
      f.write( "RESET:" + '\n' )
      f.write( "# %s" % counter + '\n' )
      f.close()
-     time.sleep(5)
+     time.sleep(2)
 
 def reset_counter_now():
     now = get_date_time()
     counter = 1
     f = open( '/logs/radio.log', 'a' )
-    f.write( "+++++++++++++++++++++++++++++++++" + '\n' )
     f.write( now )
     f.write( "RESET:" + '\n' )
     f.write( "# %s" % counter + '\n' )
-    f.write( "+++++++++++++++++++++++++++++++++" + '\n' )
     f.close()
 
 def write_log(file):
