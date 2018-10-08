@@ -467,10 +467,7 @@ def play_video(str):
        time.sleep(0.3)
        mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
       if ( GPIO.input(NEXT) == False):
-       if counter <= limit:
-	print("NEXT")
-	print("      ")
-	print(counter)
+       if counter == limit:
         mylcd.lcd_clear()
         os.system("dbuscontrol.sh stop")
         last = lasttimechecked + 45
@@ -548,7 +545,7 @@ def play_video_all(str):
         time.sleep(0.3)
         mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
        if ( GPIO.input(NEXT) == False):
-        if counter <= limit:
+        if counter == limit:
          mylcd.lcd_clear()
          os.system("dbuscontrol.sh stop")
          last = lasttimechecked + 45
