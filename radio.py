@@ -1,15 +1,16 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 from subprocess import PIPE, Popen
 import I2C_LCD_driver
 import RPi.GPIO as GPIO
-import datetime
+import datetime as dt
+from datetime import datetime
 import subprocess
-import os, random
 import socket
 import time
 import sys
+import os, random
 
 # Define GPIO for button control
 UP = 23
@@ -46,13 +47,13 @@ title_cmd = "dbuscontrol.sh getsource | awk -F '/' '{print $4}' | cut -d '.' -f1
 date_cmd = "date +%R | tr -d '\n'"
 date_time_cmd = "date +'%d-%m-%Y %H:%M:%S'"
 wifi_cmd = "iwconfig wlan0| grep Signal | awk '{print $4}' | cut -d '-' -f2"
-temp_cmd = "cat /logs/temp.log | head -n 1 | cut -d '.' -f1 | tr -d '\n'"
-hum_cmd = "cat /logs/temp.log | tail -n 3 | head -n 1 | cut -d '.' -f1 | tr -d '\n'"
-temp_out_cmd = "cat /logs/temp.log | tail -n 2 | head -n 1| cut -d '.' -f1 | tr -d '\n'"
-weather_cmd = "cat /logs/temp.log | tail -n 1 | tr -d '\n'"
+temp_cmd = "cat /tmp/temp.log | head -n 1 | cut -d '.' -f1 | tr -d '\n'"
+hum_cmd = "cat /tmp/temp.log | tail -n 3 | head -n 1 | cut -d '.' -f1 | tr -d '\n'"
+temp_out_cmd = "cat /tmp/temp.log | tail -n 2 | head -n 1| cut -d '.' -f1 | tr -d '\n'"
+weather_cmd = "cat /tmp/temp.log | tail -n 1 | tr -d '\n'"
 radio_cmd = "mpc current -f [%title%] | tr -d '\n'"
 limit = 5
-counter = 0 
+counter = 1 
 
 # load custom icons
 mylcd.lcd_load_custom_chars(speaker_icon)
@@ -61,7 +62,6 @@ def main():
     mylcd.lcd_clear() # clear screen
     mylcd.lcd_display_string(" --> RASHA <-- ",1)
     mylcd.lcd_display_string(" Music/Video PL ",2)
-    write_slog()
     time.sleep(2)
     main_menu()
 
@@ -173,7 +173,6 @@ def show_weather():
      main_menu()
 
 def reset_counter_menu():
-    global counter
     timelastchecked = 0
     time.sleep(0.2)
     while(1):
@@ -278,10 +277,10 @@ def barba_menu():
         main_menu()
        else:
         mylcd.lcd_clear()
-        mylcd.lcd_display_string(" Limit reached ",1)
-        mylcd.lcd_display_string("    Sorry!",2)
+        mylcd.lcd_display_string(" Limit reached ",1) 
+        mylcd.lcd_display_string("    Sorry!",2) 
         time.sleep(1.5)
-        main_menu()
+        main_menu() 
       if ( GPIO.input(NEXT) == False):
        peppa_menu()
       if ( GPIO.input(PREV) == False):
@@ -302,38 +301,14 @@ def peppa_menu():
         main_menu()
        else:
         mylcd.lcd_clear()
-        mylcd.lcd_display_string(" Limit reached ",1)
-        mylcd.lcd_display_string("    Sorry!",2)
+        mylcd.lcd_display_string(" Limit reached ",1) 
+        mylcd.lcd_display_string("    Sorry!",2) 
         time.sleep(1.5)
-        main_menu()
+        main_menu() 
       if ( GPIO.input(NEXT) == False):
-       play_all_menu()
+       music_menu()
       if ( GPIO.input(PREV) == False):
        barba_menu()
-
-def play_all_menu():
-    timelastchecked = 0
-    time.sleep(0.2)
-    while(1):
-     if time.time() >= timelastchecked:
-      timelastchecked = time.time()+3
-      show_status()
-      mylcd.lcd_display_string("[GO] < PlayAll >",2)
-     else:
-      if ( GPIO.input(PLAY) == False):
-       if counter <= limit:
-        play_video_all("/mnt/Peppa/")
-        main_menu()
-       else:
-        mylcd.lcd_clear()
-        mylcd.lcd_display_string(" Limit reached ",1)
-        mylcd.lcd_display_string("    Sorry!",2)
-        time.sleep(1.5)
-        main_menu()
-      if ( GPIO.input(NEXT) == False):
-       iradio_menu()
-      if ( GPIO.input(PREV) == False):
-       peppa_menu()
 
 def music_menu(): 
     timelastchecked = 0
@@ -439,7 +414,7 @@ def play_music():
 
 def play_video(str):
     global counter
-    lasttimechecked = time.time()
+    time_play = time.time()
     counter+=1
     file = randomplay(str)
     write_log(file)
@@ -467,13 +442,13 @@ def play_video(str):
        time.sleep(0.3)
        mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
       if ( GPIO.input(NEXT) == False):
-       if counter == limit:
+       if counter <= limit:
         mylcd.lcd_clear()
         os.system("dbuscontrol.sh stop")
-        last = lasttimechecked + 45
-        if time.time() <= last:
-         file = randomplay(str)
-         write_log(file)
+        file = randomplay(str)
+        diff = time.time() - time_play
+        if diff > 30:
+         time_play = time.time()
          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
          lcd_status = "PLAYING"
          mylcd.lcd_display_string("                  ",1)
@@ -484,8 +459,8 @@ def play_video(str):
          time.sleep(0.3)
         else:
          counter+=1
-         file = randomplay(str)
          write_log(file)
+         time_play = time.time()
          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
          lcd_status = "PLAYING"
          mylcd.lcd_display_string("                  ",1)
@@ -503,94 +478,9 @@ def play_video(str):
         main_menu() 
       if ( GPIO.input(PREV) == False):
        mylcd.lcd_clear()
-       timelast = time.time()
-       last = lasttimechecked + 45
-       if timelast <= last:
-        counter-=1
-        write_log(file)
-        os.system("dbuscontrol.sh stop")
-        main_menu()
-       else:
-        os.system("dbuscontrol.sh stop")
-        main_menu()
-
-def play_video_all(str):
-    global counter
-    lasttimechecked = time.time()
-    while counter <= limit:
-     counter+=1
-     file = randomplay(str)
-     write_log(file)
-     omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
-     while omxproc.poll() is None:
-      my_title = str_pad + get_title()
-      for i in range (0, len(my_title)):
-       lcd_status = "PLAYING"
-       lcd_text = my_title[i:(i+16)]
-       mylcd.lcd_display_string(lcd_text,2)
+       os.system("dbuscontrol.sh stop")
        time.sleep(0.3)
-       mylcd.lcd_display_string(str_pad,2)
-       mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
-       time.sleep(0.3)
-       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-       if ( GPIO.input(UP) == False):
-        os.system("dbuscontrol.sh volumeup +10")
-       if ( GPIO.input(DOWN) == False):
-        os.system("dbuscontrol.sh volumedown -10")
-       if ( GPIO.input(PLAY) == False):
-        lcd_status = "PAUSED"
-        os.system("dbuscontrol.sh pause")
-        mylcd.lcd_display_string("                  ",1)
-        mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
-        time.sleep(0.3)
-        mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-       if ( GPIO.input(NEXT) == False):
-        if counter == limit:
-         mylcd.lcd_clear()
-         os.system("dbuscontrol.sh stop")
-         last = lasttimechecked + 45
-         if time.time() <= last:
-          write_log(file)	 
-          file = randomplay(str)
-          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
-          lcd_status = "PLAYING"
-          mylcd.lcd_display_string("                  ",1)
-          mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
-          time.sleep(0.3)
-          mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-          my_title = str_pad + get_title()
-          time.sleep(0.3)
-         else:
-          counter+=1
-          file = randomplay(str)
-          write_log(file)
-          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
-          lcd_status = "PLAYING"
-          mylcd.lcd_display_string("                  ",1)
-          mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
-          time.sleep(0.3)
-          mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-          my_title = str_pad + get_title()
-          time.sleep(0.3)
-        else:
-         os.system("dbuscontrol.sh stop")
-         mylcd.lcd_clear()
-         mylcd.lcd_display_string(" Limit reached ",1) 
-         mylcd.lcd_display_string("    Sorry!",2) 
-         time.sleep(3)
-         main_menu() 
-       if ( GPIO.input(PREV) == False):
-        mylcd.lcd_clear()
-        timelast = time.time()
-        last = lasttimechecked + 45
-        if timelast <= last:
-         counter-=1
-         write_log(file)
-         os.system("dbuscontrol.sh stop")
-         main_menu()
-        else:
-         os.system("dbuscontrol.sh stop")
-         main_menu()
+       main_menu()
 
 def choose1():
     time.sleep(0.2)
@@ -673,7 +563,6 @@ def choose6():
 def station1():
     mylcd.lcd_display_string("    ChillHop    ",1)
     os.system("mpc play 1")
-    time.sleep(0.5)
     while(1):
      my_title = str_pad + get_radio_title()
      for i in range (0, len(my_title)):
@@ -704,7 +593,6 @@ def station1():
 def station2():
     mylcd.lcd_display_string("    ChillOut    ",1)
     os.system("mpc play 2")
-    time.sleep(0.5)
     while(1):
      my_title = str_pad + get_radio_title()
      for i in range (0, len(my_title)):
@@ -735,7 +623,6 @@ def station2():
 def station3():
     mylcd.lcd_display_string("   LiquidDnB    ",1)
     os.system("mpc play 3")
-    time.sleep(0.5)
     while(1):
       my_title = str_pad + get_radio_title()
       for i in range (0, len(my_title)):
@@ -766,7 +653,6 @@ def station3():
 def station4():
     mylcd.lcd_display_string(" LiquidDubstep  ",1)
     os.system("mpc play 4")
-    time.sleep(0.5)
     while(1):
       my_title = str_pad + get_radio_title()
       for i in range (0, len(my_title)):
@@ -797,7 +683,6 @@ def station4():
 def station5():
     mylcd.lcd_display_string("    DTLounge    ",1)
     os.system("mpc play 5")
-    time.sleep(0.5)
     while(1):
       my_title = str_pad + get_radio_title()
       for i in range (0, len(my_title)):
@@ -828,7 +713,6 @@ def station5():
 def station6():
     mylcd.lcd_display_string("   Radio Nula     ",1)
     os.system("mpc play 6")
-    time.sleep(0.5)
     while(1):
       my_title = str_pad + get_radio_title()
       for i in range (0, len(my_title)):
@@ -1035,35 +919,36 @@ def shutdown():
 
 def reset_counter():
     global counter
-    dateStr = datetime.datetime.now().strftime("%H:%M")
+    dateStr = datetime.now().strftime("%H:%M")
     now = get_date_time()
-    if (dateStr == '23:59' and counter != 0 ):
-     counter = 0
-     f = open( '/logs/radio.log', 'a' )
-     f.write( now + "RESET:" +  "# %s" % counter + '\n' )
+    if (dateStr == '23:58' and counter != 0 ):
+     counter = 1
+     f = open( '/tmp/radio.log', 'a' )
+     f.write( now )
+     f.write( "RESET:" + '\n' )
+     f.write( "# %s" % counter + '\n' )
      f.close()
-     time.sleep(0.5)
+     time.sleep(5)
 
 def reset_counter_now():
     global counter
     now = get_date_time()
-    counter = 0
-    f = open( '/logs/radio.log', 'a' )
-    f.write( now + "RESET:" + "# %s" % counter + '\n' )
+    counter = 1
+    f = open( '/tmp/radio.log', 'a' )
+    f.write( now )
+    f.write( "RESET:" + '\n' )
+    f.write( "# %s" % counter + '\n' )
+    f.write( "+++++++++++++++++++++++++++++++++" + '\n' )
     f.close()
 
 def write_log(file):
-    f = open( '/logs/radio.log', 'a' )
+    global counter
+    f = open( '/tmp/radio.log', 'a' )
     now = get_date_time()
-    f.write( now + "PLAY:" + "# %s" % counter + ' ' + file + '\n' )
-    f.close()
-
-def write_slog():
-    f = open ( '/logs/radio.log', 'a' )
-    now = get_date_time()
-    log = '----------------------------'
-    f.write( log + '\n' )
-    f.write( now + '\n' )
+    f.write( now  )
+    f.write( "PLAY:" + '\n' )
+    f.write( "# %s" % counter + ' ' + file + '\n' )
+    f.write( "+++++++++++++++++++++++++++++++++" + '\n' )
     f.close()
 
 def randomplay(str):
