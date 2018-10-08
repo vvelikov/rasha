@@ -923,7 +923,7 @@ def reset_counter():
     now = get_date_time()
     if (dateStr == '23:58' and counter != 0 ):
      counter = 1
-     f = open( '/tmp/radio.log', 'a' )
+     f = open( '/logs/radio.log', 'a' )
      f.write( now )
      f.write( "RESET:" + '\n' )
      f.write( "# %s" % counter + '\n' )
@@ -934,7 +934,7 @@ def reset_counter_now():
     global counter
     now = get_date_time()
     counter = 1
-    f = open( '/tmp/radio.log', 'a' )
+    f = open( '/logs/radio.log', 'a' )
     f.write( now )
     f.write( "RESET:" + '\n' )
     f.write( "# %s" % counter + '\n' )
@@ -943,7 +943,7 @@ def reset_counter_now():
 
 def write_log(file):
     global counter
-    f = open( '/tmp/radio.log', 'a' )
+    f = open( '/logs/radio.log', 'a' )
     now = get_date_time()
     f.write( now  )
     f.write( "PLAY:" + '\n' )
