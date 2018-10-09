@@ -7,12 +7,13 @@
     <div align="center">
 <!--    <h3>Rasha's Temperature Monitor</h3> -->
 <?php
-    $mytemp=("/tmp/temp.log");
-    $weather=shell_exec("cat /tmp/temp.log | tail -n 1");
-    $tempIN=shell_exec("cat /tmp/temp.log | head -n 1");
-    $tempOUT=shell_exec("cat /tmp/temp.log | tail -n 2 | head -n 1");
-    $mylog=("/tmp/all.log");
-    $myradio=("/tmp/radio.log");
+    $mytemp=("/logs/temp.log");
+    $weather=shell_exec("cat /logs/temp.log | tail -n 1");
+    $tempIN=shell_exec("cat /logs/temp.log | head -n 1");
+    $tempOUT=shell_exec("cat /logs/temp.log | tail -n 2 | head -n 1");
+    $mylog=("/logs/all.log");
+    $myradio=("/logs/radio.log");
+    $mytitle=shell_exec("mpc current -f [%title%] | tr -d '\n'");
 
     if(file_exists($mytemp)){
       echo "<br></br>";
@@ -40,6 +41,13 @@
   <p></p>
   <input type="submit" value="Show" />
 </form>
+<?php
+    if (!empty($mytitle)) {
+	  echo "<div><b><font size='3'>Current song: </div></b>"; 
+	  echo "<pre>$mytitle</pre>";
+    }
+?>
+ <br></br>  
 <?php
 if(file_exists($myradio)){
   echo "<div><font size='2'>";
