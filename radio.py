@@ -921,7 +921,7 @@ def reset_counter():
     dateStr = datetime.now().strftime("%H:%M")
     now = get_date_time()
     if (dateStr == '23:58' and counter != 0 ):
-     counter = 1
+     counter = 0
      f = open( '/logs/radio.log', 'a' )
      f.write( now )
      f.write( "RESET:" + '\n' )
@@ -931,7 +931,7 @@ def reset_counter():
 
 def reset_counter_now():
     now = get_date_time()
-    counter = 1
+    counter = 0
     f = open( '/logs/radio.log', 'a' )
     f.write( now )
     f.write( "RESET:" + '\n' )
@@ -939,7 +939,6 @@ def reset_counter_now():
     f.close()
 
 def write_log(file):
-    global counter
     f = open( '/logs/radio.log', 'a' )
     now = get_date_time()
     f.write( now  )
