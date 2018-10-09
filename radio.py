@@ -446,8 +446,8 @@ def play_video(str):
         mylcd.lcd_clear()
         os.system("dbuscontrol.sh stop")
         file = randomplay(str)
-        diff = time.time() - time_play
-        if diff > 30:
+        diff = time_play - time.time()
+        if diff < 45:
          time_play = time.time()
          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
          lcd_status = "PLAYING"
@@ -918,6 +918,7 @@ def shutdown():
       mylcd.lcd_display_string("< No       Yes >",2)
 
 def reset_counter():
+    global counter
     dateStr = datetime.now().strftime("%H:%M")
     now = get_date_time()
     if (dateStr == '23:58' and counter != 0 ):
@@ -930,6 +931,7 @@ def reset_counter():
      time.sleep(2)
 
 def reset_counter_now():
+    global counter
     now = get_date_time()
     counter = 0
     f = open( '/logs/radio.log', 'a' )
@@ -939,6 +941,7 @@ def reset_counter_now():
     f.close()
 
 def write_log(file):
+    global counter
     f = open( '/logs/radio.log', 'a' )
     now = get_date_time()
     f.write( now  )
