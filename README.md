@@ -14,7 +14,8 @@ Hardware:
 Software:
 * MainMenu: Time + Temp + WiFi Signal
 * Shutdown / Reset Counter / Reboot / IP / Weather menu
+* Masha / Barba / Peppa / iRadio / Music / Slideshow / menu
 * Play random videos over HDMI (omxplayer) / ext. Monitor required
-* Play randomly local music from local storage (mpd)
+* Play randomly music from local storage (mpd)
 * stream radio stations (mpd)
 * VolUp/VolDown keys
