@@ -4,9 +4,8 @@
 from subprocess import PIPE, Popen
 import I2C_LCD_driver
 import RPi.GPIO as GPIO
-import datetime as dt
-from datetime import datetime
 import subprocess
+import datetime
 import socket
 import time
 import sys
@@ -923,7 +922,7 @@ def shutdown():
 
 def reset_counter():
     global counter
-    dateStr = datetime.now().strftime("%H:%M")
+    dateStr = datetime.datetime.now().strftime("%H:%M")
     now = get_date_time()
     if (dateStr == '23:58' and counter != 0 ):
      counter = 0
