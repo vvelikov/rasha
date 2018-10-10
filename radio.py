@@ -53,9 +53,9 @@ weather_cmd = "cat /logs/temp.log | tail -n 1 | tr -d '\n'"
 radio_cmd = "mpc current -f [%title%] | tr -d '\n'"
 
 # other variables
-limit = 5                   # only 5 videos are allowed
-counter = 0                 # our counter starts at 0 
-time_diff = 30              # how many seconds before counting
+limit = 5                   # only 5 videos are allowed per day
+counter = 0                 # counter starts at 0 
+time_diff = 30              # buffer before counting video
 
 # load custom icons
 mylcd.lcd_load_custom_chars(speaker_icon)
@@ -251,7 +251,7 @@ def masha_menu():
       mylcd.lcd_display_string("[GO]   < Masha >",2)
      else:
       if ( GPIO.input(PLAY) == False):
-       if counter < limit:
+       if counter <= limit:
         play_video("/mnt/Masha/")
         main_menu()
        else:
@@ -275,7 +275,7 @@ def barba_menu():
       mylcd.lcd_display_string("[GO]   < Barba >",2)
      else:
       if ( GPIO.input(PLAY) == False):
-       if counter < limit:
+       if counter <= limit:
         play_video("/mnt/Barba/")
         main_menu()
        else:
@@ -299,7 +299,7 @@ def peppa_menu():
       mylcd.lcd_display_string("[GO]   < Peppa >",2)
      else:
       if ( GPIO.input(PLAY) == False):
-       if counter < limit:
+       if counter <= limit:
         play_video("/mnt/Peppa/")
         main_menu()
        else:
@@ -445,7 +445,7 @@ def play_video(str):
        time.sleep(0.3)
        mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
       if ( GPIO.input(NEXT) == False):
-       if counter < limit:
+       if counter <= limit:
         mylcd.lcd_clear()
         os.system("dbuscontrol.sh stop")
         file = randomplay(str)
