@@ -923,44 +923,37 @@ def shutdown():
 def reset_counter():
     global counter
     dateStr = datetime.datetime.now().strftime("%H:%M")
-    now = get_date_time()
+    now = get_date()
     if (dateStr == '23:58' and counter != 0 ):
      counter = 0
      f = open( '/logs/radio.log', 'a' )
      f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
-     f.write( now )
-     f.write( "RESET:" + '\n' )
+     f.write( "%s" % now + ' ' + "RESET" + '\n' )
      f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
      f.close()
-     time.sleep(2)
+     time.sleep(5)
 
 def reset_counter_now():
     global counter
-    now = get_date_time()
     counter = 0
+    now = get_date()
     f = open( '/logs/radio.log', 'a' )
     f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
-    f.write( now )
-    f.write( "RESET:" + '\n' )
+    f.write( "%s" % now + ' ' + "RESET" + '\n' )
     f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
     f.close()
 
 def write_slog(file):
+    now = get_date()
     f = open( '/logs/radio.log', 'a' )
-    now = get_date_time()
-    f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
-    f.write( now  )
-    f.write( "IM READY" + '\n' )
-    f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
+    f.write( "%s" % now + ' ' + "READY" + '\n' )
     f.close()
 
 def write_log(file):
     global counter
     f = open( '/logs/radio.log', 'a' )
-    now = get_date_time()
-    f.write( now  )
-    f.write( "PLAY:" + '\n' )
-    f.write( "# %s" % counter + ' ' + file + '\n' )
+    now = get_date()
+    f.write( "%s" % now + ' ' + "PLAY" + "# %s" % counter + ' ' + file + '\n' )
     f.close()
 
 def randomplay(str):
