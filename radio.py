@@ -52,8 +52,11 @@ hum_cmd = "cat /logs/temp.log | tail -n 3 | head -n 1 | cut -d '.' -f1 | tr -d '
 temp_out_cmd = "cat /logs/temp.log | tail -n 2 | head -n 1| cut -d '.' -f1 | tr -d '\n'"
 weather_cmd = "cat /logs/temp.log | tail -n 1 | tr -d '\n'"
 radio_cmd = "mpc current -f [%title%] | tr -d '\n'"
-limit = 5
-counter = 0 
+
+# other variables
+limit = 5                   # only 5 videos are allowed
+counter = 0                 # our counter starts at 0 
+time_diff = 30              # how many seconds before counting
 
 # load custom icons
 mylcd.lcd_load_custom_chars(speaker_icon)
@@ -62,6 +65,7 @@ def main():
     mylcd.lcd_clear() # clear screen
     mylcd.lcd_display_string(" --> RASHA <-- ",1)
     mylcd.lcd_display_string(" Music/Video PL ",2)
+    write_slog(file)
     time.sleep(2)
     main_menu()
 
@@ -447,7 +451,7 @@ def play_video(str):
         os.system("dbuscontrol.sh stop")
         file = randomplay(str)
         diff = time_play - time.time()
-        if diff < 45:
+        if diff < time_diff:
          time_play = time.time()
          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
          lcd_status = "PLAYING"
@@ -924,9 +928,11 @@ def reset_counter():
     if (dateStr == '23:58' and counter != 0 ):
      counter = 0
      f = open( '/logs/radio.log', 'a' )
+     f.write( "++++++++++++++++++++++++++++++++++++++++++++++++++++++" )
      f.write( now )
      f.write( "RESET:" + '\n' )
      f.write( "# %s" % counter + '\n' )
+     f.write( "++++++++++++++++++++++++++++++++++++++++++++++++++++++" )
      f.close()
      time.sleep(2)
 
@@ -935,9 +941,20 @@ def reset_counter_now():
     now = get_date_time()
     counter = 0
     f = open( '/logs/radio.log', 'a' )
+    f.write( "++++++++++++++++++++++++++++++++++++++++++++++++++++++" )
     f.write( now )
     f.write( "RESET:" + '\n' )
     f.write( "# %s" % counter + '\n' )
+    f.write( "++++++++++++++++++++++++++++++++++++++++++++++++++++++" )
+    f.close()
+
+def write_slog(file):
+    f = open( '/logs/radio.log', 'a' )
+    now = get_date_time()
+    f.write( "++++++++++++++++++++++++++++++++++++++++++++++++++++++" )
+    f.write( now  )
+    f.write( "IM READY" + '\n' )
+    f.write( "++++++++++++++++++++++++++++++++++++++++++++++++++++++" )
     f.close()
 
 def write_log(file):
