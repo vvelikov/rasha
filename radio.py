@@ -1,4 +1,4 @@
-#!/usr/bin/python
+ #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 from subprocess import PIPE, Popen
@@ -946,14 +946,15 @@ def reset_counter_now():
 def write_slog(file):
     now = get_date()
     f = open( '/logs/radio.log', 'a' )
-    f.write( "%s" % now + ' ' + "READY" + '\n' )
+    f.write( "%s" % now + ' ' + "IM READY" + '\n' )
+    f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
     f.close()
 
 def write_log(file):
     global counter
     f = open( '/logs/radio.log', 'a' )
     now = get_date()
-    f.write( "%s" % now + ' ' + "PLAY" + "# %s" % counter + ' ' + file + '\n' )
+    f.write( "%s" % now + ' ' + "# %s" % counter + ' ' + file + '\n' )
     f.close()
 
 def randomplay(str):
