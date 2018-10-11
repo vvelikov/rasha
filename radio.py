@@ -927,9 +927,9 @@ def reset_counter():
     if (dateStr == '23:58' and counter != 0 ):
      counter = 0
      f = open( '/logs/radio.log', 'a' )
-     f.write( "+++++++++++++++++++++++++++++++++++++++" + '\n' )
+     f.write( "+++++++++++++++++++++++++++++++++++++" + '\n' )
      f.write( "%s" % now + ' ' + "RESET" + '\n' )
-     f.write( "+++++++++++++++++++++++++++++++++++++++" + '\n' )
+     f.write( "+++++++++++++++++++++++++++++++++++++" + '\n' )
      f.close()
      time.sleep(5)
 
@@ -938,16 +938,16 @@ def reset_counter_now():
     counter = 0
     now = get_date()
     f = open( '/logs/radio.log', 'a' )
-    f.write( "+++++++++++++++++++++++++++++++++++++++" + '\n' )
+    f.write( "+++++++++++++++++++++++++++++++++++++" + '\n' )
     f.write( "%s" % now + ' ' + "RESET" + '\n' )
-    f.write( "+++++++++++++++++++++++++++++++++++++++" + '\n' )
+    f.write( "+++++++++++++++++++++++++++++++++++++" + '\n' )
     f.close()
 
 def write_slog(file):
     now = get_date_time()
     f = open( '/logs/radio.log', 'a' )
-    f.write( "%s" % now + ' ' + "READY" + '\n' )
-    f.write( "+++++++++++++++++++++++++++++++++++++++" + '\n' )
+    f.write( "%s" % now + '\n' )
+    f.write( "+++++++++++++++++++++++++++++++++++++" + '\n' )
     f.close()
 
 def write_log(file):
