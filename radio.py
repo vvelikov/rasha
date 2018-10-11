@@ -944,9 +944,9 @@ def reset_counter_now():
     f.close()
 
 def write_slog(file):
-    now = get_date()
+    now = get_date_time()
     f = open( '/logs/radio.log', 'a' )
-    f.write( "%s" % now + ' ' + "IM READY" + '\n' )
+    f.write( "%s" % now + ' ' + "READY" + '\n' )
     f.write( "+++++++++++++++++++++++++++++++++++++++" + '\n' )
     f.close()
 
