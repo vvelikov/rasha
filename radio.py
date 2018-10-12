@@ -251,7 +251,7 @@ def masha_menu():
       mylcd.lcd_display_string("[GO]   < Masha >",2)
      else:
       if ( GPIO.input(PLAY) == False):
-       if counter <= limit:
+       if counter < limit:
         play_video("/mnt/Masha/")
         main_menu()
        else:
@@ -275,7 +275,7 @@ def barba_menu():
       mylcd.lcd_display_string("[GO]   < Barba >",2)
      else:
       if ( GPIO.input(PLAY) == False):
-       if counter <= limit:
+       if counter < limit:
         play_video("/mnt/Barba/")
         main_menu()
        else:
@@ -299,7 +299,7 @@ def peppa_menu():
       mylcd.lcd_display_string("[GO]   < Peppa >",2)
      else:
       if ( GPIO.input(PLAY) == False):
-       if counter <= limit:
+       if counter < limit:
         play_video("/mnt/Peppa/")
         main_menu()
        else:
@@ -445,13 +445,14 @@ def play_video(str):
        time.sleep(0.3)
        mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
       if ( GPIO.input(NEXT) == False):
-       if counter <= limit:
+       if counter < limit:
         mylcd.lcd_clear()
         os.system("dbuscontrol.sh stop")
         file = randomplay(str)
-        diff = time_play - time.time()
+        diff = time.time() - time_play
         if diff < time_diff:
          time_play = time.time()
+         write_log(file)
          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
          lcd_status = "PLAYING"
          mylcd.lcd_display_string("                  ",1)
@@ -946,7 +947,7 @@ def reset_counter_now():
 def write_slog(file):
     now = get_date_time()
     f = open( '/logs/radio.log', 'a' )
-    f.write( "%s" % now + '\n' )
+    f.write( "%s" % now  )
     f.write( "+++++++++++++++++++++++++++++++++++++" + '\n' )
     f.close()
 
