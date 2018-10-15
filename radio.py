@@ -55,7 +55,7 @@ radio_cmd = "mpc current -f [%title%] | tr -d '\n'"
 # other variables
 limit = 5                   # only 5 videos are allowed per day
 counter = 0                 # counter starts at 0 
-time_diff = 30              # buffer before counting video
+time_diff = 45              # buffer before counting video
 
 # load custom icons
 mylcd.lcd_load_custom_chars(speaker_icon)
@@ -452,6 +452,7 @@ def play_video(str):
         diff = time.time() - time_play
         if diff < time_diff:
          time_play = time.time()
+         file = randomplay(str)
          write_log(file)
          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
          lcd_status = "PLAYING"
@@ -463,6 +464,7 @@ def play_video(str):
          time.sleep(0.3)
         else:
          counter+=1
+         file = randomplay(str)
          write_log(file)
          time_play = time.time()
          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
