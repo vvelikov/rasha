@@ -64,7 +64,7 @@ def main():
     mylcd.lcd_clear() # clear screen
     mylcd.lcd_display_string(" --> RASHA <-- ",1)
     mylcd.lcd_display_string(" Music/Video PL ",2)
-    write_slog(file)
+    #write_slog(file)
     time.sleep(2)
     main_menu()
 
@@ -929,34 +929,34 @@ def reset_counter():
     now = get_date()
     if (dateStr == '23:58' and counter != 0 ):
      counter = 0
-     f = open( '/logs/radio.log', 'a' )
-     f.write( "+++++++++++++++++++++++++++++++++++++" + '\n' )
-     f.write( "%s" % now + ' ' + "RESET" + '\n' )
-     f.write( "+++++++++++++++++++++++++++++++++++++" + '\n' )
-     f.close()
+     #f = open( '/logs/radio.log', 'a' )
+     #f.write( "++++++++++++++++++++" + '\n' )
+     #f.write( "%s" % now + ' ' + "RESET" + '\n' )
+     #f.write( "++++++++++++++++++++" + '\n' )
+     #f.close()
      time.sleep(5)
 
 def reset_counter_now():
     global counter
     counter = 0
-    now = get_date()
-    f = open( '/logs/radio.log', 'a' )
-    f.write( "+++++++++++++++++++++++++++++++++++++" + '\n' )
-    f.write( "%s" % now + ' ' + "RESET" + '\n' )
-    f.write( "+++++++++++++++++++++++++++++++++++++" + '\n' )
-    f.close()
+    #now = get_date()
+    #f = open( '/logs/radio.log', 'a' )
+    #f.write( "++++++++++++++++++++" + '\n' )
+    #f.write( "%s" % now + ' ' + "RESET" + '\n' )
+    #f.write( "++++++++++++++++++++" + '\n' )
+    #f.close()
 
 def write_slog(file):
-    now = get_date_time()
+    now = get_date()
     f = open( '/logs/radio.log', 'a' )
     f.write( "%s" % now  )
-    f.write( "+++++++++++++++++++++++++++++++++++++" + '\n' )
+    f.write( "++++++++++++++++++++" + '\n' )
     f.close()
 
 def write_log(file):
     global counter
     f = open( '/logs/radio.log', 'a' )
-    now = get_date_time()
+    now = get_date()
     f.write( "%s" % now + ' ' + "# %s" % counter + ' ' + file + '\n' )
     f.close()
 
