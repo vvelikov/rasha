@@ -43,8 +43,8 @@ str_pad = " " * 16
 
 # some command definitions 
 title_cmd = "dbuscontrol.sh getsource | awk -F '/' '{print $4}' | cut -d '.' -f1 | tr -d '\n'"
-date_cmd = "date +%R | tr -d '\n'"
-date_time_cmd = "date +'%d-%m-%Y %H:%M:%S'"
+date_cmd = "date +%R:%S | tr -d '\n'"
+date_time_cmd = "date +%R | tr -d '\n'"
 wifi_cmd = "iwconfig wlan0| grep Signal | awk '{print $4}' | cut -d '-' -f2"
 temp_cmd = "cat /logs/temp.log | head -n 1 | cut -d '.' -f1 | tr -d '\n'"
 hum_cmd = "cat /logs/temp.log | tail -n 3 | head -n 1 | cut -d '.' -f1 | tr -d '\n'"
@@ -53,7 +53,7 @@ weather_cmd = "cat /logs/temp.log | tail -n 1 | tr -d '\n'"
 radio_cmd = "mpc current -f [%title%] | tr -d '\n'"
 
 # other variables
-limit = 6                   # only 6 videos are allowed per day
+limit = 5                   # only 5 videos are allowed per day
 counter = 0                 # counter starts at 0 
 time_diff = 45              # buffer before counting video
 
@@ -69,7 +69,7 @@ def main():
     main_menu()
 
 def show_status():
-    mytime = get_date()
+    mytime = get_date_time()
     mytemp = get_temp()
     mywifi = get_wifi_signal()
     mystring = mytime + " " + chr(5) + ":" + mytemp + chr(223) + " " + chr(6) + ":" + mywifi
@@ -86,7 +86,7 @@ def main_menu():
        mylcd.lcd_display_string("< Off     Menu >",2)
       else:
        if ( GPIO.input(NEXT) == False):
-        conni_menu()
+        masha_menu()
        if (GPIO.input(PREV) == False):
         off_menu()
 
@@ -241,30 +241,6 @@ def iradio_menu():
       if ( GPIO.input(NEXT) == False):
        music_menu()
 
-def conni_menu(): 
-    timelastchecked = 0
-    time.sleep(0.2)
-    while(1):
-     if time.time() >= timelastchecked:
-      timelastchecked = time.time()+3
-      show_status()
-      mylcd.lcd_display_string("[GO]   < Conni >",2)
-     else:
-      if ( GPIO.input(PLAY) == False):
-       if counter < limit:
-        play_video("/mnt/Conni/")
-        main_menu()
-       else:
-        mylcd.lcd_clear()
-        mylcd.lcd_display_string(" Limit reached ",1) 
-        mylcd.lcd_display_string("    Sorry!",2) 
-        time.sleep(1.5)
-        main_menu() 
-      if ( GPIO.input(NEXT) == False):
-       masha_menu()
-      if ( GPIO.input(PREV) == False):
-       main_menu()
-       
 def masha_menu(): 
     timelastchecked = 0
     time.sleep(0.2)
@@ -287,7 +263,7 @@ def masha_menu():
       if ( GPIO.input(NEXT) == False):
        barba_menu()
       if ( GPIO.input(PREV) == False):
-       conni_menu()
+       main_menu()
 
 def barba_menu(): 
     timelastchecked = 0
@@ -442,14 +418,7 @@ def play_music():
 def play_video(str):
     global counter
     time_play = time.time()
-    if ( str == "/mnt/Peppa/"):
-     counter+=1
-    elif ( str == "/mnt/Barba/"):
-     counter+=1
-    elif ( str == "/mnt/Masha/"):
-     counter+=1.2
-    else:
-     counter+=2  
+    counter+=1
     file = randomplay(str)
     write_log(file)
     omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
@@ -494,14 +463,7 @@ def play_video(str):
          my_title = str_pad + get_title()
          time.sleep(0.3)
         else:
-         if ( str == "/mnt/Peppa/"):
-	  counter+=1
-         elif ( str == "/mnt/Barba/"):
-          counter+=1
-         elif ( str == "/mnt/Masha/"):
-          counter+=1.2
-         else:
-          counter+=2  
+         counter+=1
          file = randomplay(str)
          write_log(file)
          time_play = time.time()
@@ -967,35 +929,37 @@ def reset_counter():
     now = get_date()
     if (dateStr == '23:58' and counter != 0 ):
      counter = 0
-     #f = open( '/logs/radio.log', 'a' )
-     #f.write( "++++++++++++++++++++" + '\n' )
-     #f.write( "%s" % now + ' ' + "RESET" + '\n' )
-     #f.write( "++++++++++++++++++++" + '\n' )
-     #f.close()
+     f = open( '/logs/radio.log', 'a' )
+     f.write( "                                              " + '\n' )
+     f.write( '++' + ' ' + "%s" % now + ' ' + '++++++++++' + ' ' + "[DAILY RESET]" + '\n' )
+     f.write( "                                              " + '\n' )
+     f.close()
      time.sleep(5)
 
 def reset_counter_now():
     global counter
     counter = 0
-    #now = get_date()
-    #f = open( '/logs/radio.log', 'a' )
-    #f.write( "++++++++++++++++++++" + '\n' )
-    #f.write( "%s" % now + ' ' + "RESET" + '\n' )
-    #f.write( "++++++++++++++++++++" + '\n' )
-    #f.close()
-
-def write_slog(file):
     now = get_date()
     f = open( '/logs/radio.log', 'a' )
+    f.write( "                                              " + '\n' )
+    f.write( '++' + ' ' + "%s" % now + ' ' + '++++++++++' + ' ' + "[RESET]" + '\n' )
+    f.write( "                                              " + '\n' )
+    f.close()
+
+def write_slog(file):
+    now = get_date_time()
+    f = open( '/logs/radio.log', 'a' )
     f.write( "%s" % now  )
-    f.write( "++++++++++++++++++++" + '\n' )
+    f.write( "                                              " + '\n' )
     f.close()
 
 def write_log(file):
     global counter
     f = open( '/logs/radio.log', 'a' )
     now = get_date()
-    f.write( "%s" % now + ' ' + "# %s" % counter + ' ' + file + '\n' )
+    #f.write( "%s" % now + ' ' + "#%s" % counter + ' ' + file + '\n' )
+    path, filename = os.path.split(file)
+    f.write( "#%s" % counter + ' ' + "%s" % now + ' ' + path[5:] + ' ' + "-" + ' ' + filename  + '\n' )
     f.close()
 
 def randomplay(str):
