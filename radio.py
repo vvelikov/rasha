@@ -253,6 +253,7 @@ def conni_menu():
       if ( GPIO.input(PLAY) == False):
        if check_limit(counter):
         play_video("/mnt/Conni/")
+        time.sleep(1)
         main_menu()
        else:
         show_error()
@@ -273,6 +274,7 @@ def masha_menu():
       if ( GPIO.input(PLAY) == False):
        if check_limit(counter):
         play_video("/mnt/Masha/")
+        time.sleep(1)
         main_menu()
        else:
         show_error()
@@ -293,6 +295,7 @@ def barba_menu():
       if ( GPIO.input(PLAY) == False):
        if check_limit(counter):
         play_video("/mnt/Barba/")
+        time.sleep(1)
         main_menu()
        else:
         show_error()
