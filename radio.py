@@ -1052,6 +1052,7 @@ def show_error():
     main_menu()
 
 def do_limit(str):
+    global counter
     if ( str == "/mnt/Peppa/"):
         counter+=1
     elif ( str == "/mnt/Barba/"):
