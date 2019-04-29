@@ -436,6 +436,7 @@ def play_video(str):
      write_log(file)
      omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
      while omxproc.poll() is None:
+      os.wait()
       my_title = str_pad + get_title()
       for i in range (0, len(my_title)):
        lcd_status = "PLAYING"
