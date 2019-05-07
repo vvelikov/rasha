@@ -64,7 +64,6 @@ def main():
     mylcd.lcd_clear() # clear screen
     mylcd.lcd_display_string(" --> RASHA <-- ",1)
     mylcd.lcd_display_string(" Music/Video PL ",2)
-    #write_slog(file)
     time.sleep(2)
     main_menu()
 
@@ -956,13 +955,6 @@ def reset_counter_now():
     f.write( "++++++++++++++++++++" + '\n' )
     f.close()
 
-def write_slog(file):
-    now = get_date()
-    f = open( '/logs/radio.log', 'a' )
-    f.write( "%s" % now  )
-    f.write( "++++++++++++++++++++" + '\n' )
-    f.close()
-
 def write_log(file):
     global counter
     f = open( '/logs/radio.log', 'a' )
@@ -1046,8 +1038,8 @@ def display_volume():
 def show_error():
     os.system("dbuscontrol.sh stop")
     mylcd.lcd_clear()
-    mylcd.lcd_display_string(" Limit reached: %s" % (counter),1)
-    mylcd.lcd_display_string("    Sorry!",2)
+    mylcd.lcd_display_string("Limit reached %s" % (counter),1)
+    mylcd.lcd_display_string("   Sorry!",2)
     time.sleep(3)
     main_menu()
 
