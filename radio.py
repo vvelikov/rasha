@@ -782,7 +782,6 @@ def counter_menu():
       reset_counter_now()
       mylcd.lcd_clear()
       mylcd.lcd_display_string("      Done       ",1)
-      time.sleep(0.5)
       main_menu()
      else:
       mylcd.lcd_display_string("     Reset?      ",1)
@@ -951,8 +950,9 @@ def write_log(file):
     f.close()
 
 def randomplay(str):
-    randomfile = random.choice(os.listdir( str ))
-    file = str + randomfile
+    files = os.listdir(str)
+    index = random.randrange(0, len(files))
+    file = str + files[index]
     return file
 
 def get_date():
