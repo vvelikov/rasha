@@ -453,7 +453,8 @@ def play_video(str):
      do_limit(str)
      file = randomplay(str)
      write_log(file)
-     omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa'], stdout=subprocess.PIPE, close_fds=True) 
+     print(file)
+     omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa' ], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
      while omxproc.poll() is None:
       my_title = str_pad + get_title()
       for i in range (0, len(my_title)):
@@ -486,7 +487,7 @@ def play_video(str):
           time_play = time.time()
           file = randomplay(str)
           write_log(file)
-          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
+          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa' ], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
           lcd_status = "PLAYING"
           mylcd.lcd_display_string("                  ",1)
           mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
@@ -974,7 +975,7 @@ def randomplay(str):
        for line in new_f:
            if item not in line:
               f.write(line)
-       f.truncate()  
+       f.truncate()
     elif ( str == "/mnt/Barba/"):
       lines = get_barba()
       index = random.randrange(0, int(lines))
@@ -1008,8 +1009,9 @@ def randomplay(str):
             if item not in line:
                c.write(line)
         c.truncate()
-    return item 
-        
+    item = item.strip()
+    return item
+
 def write_log(file):
     global counter
     f = open( '/logs/radio.log', 'a' )
