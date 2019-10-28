@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+rrdtool create Temp.rrd --step 1200 \
+DS:tempIN:GAUGE:1800:-40:80 \
+DS:tempOUT:GAUGE:1800:-40:80 \
+DS:humidity:GAUGE:1800:0:100 \
+RRA:AVERAGE:0.5:1:1440 \
+RRA:MIN:0.5:96:3600 \
+RRA:MAX:0.5:96:3600 \
+RRA:AVERAGE:0.5:96:17520 \
+RRA:MIN:0.5:96:17520 \
+RRA:MAX:0.5:96:17520 \

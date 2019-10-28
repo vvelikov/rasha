@@ -1,9 +1,4 @@
 .git
 bkp/
 pl/
-add_stations.sh
-add_videos.sh
-ssoff.sh
-sson.sh
-temp.sh
-x.sh
+/*.sh
