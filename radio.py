@@ -44,13 +44,17 @@ str_pad = " " * 16
 # some command definitions
 title_cmd = "dbuscontrol.sh getsource | awk -F '/' '{print $4}' | cut -d '.' -f1 | tr -d '\n'"
 date_cmd = "date +%R | tr -d '\n'"
-date_time_cmd = "date +'%d-%m-%Y %H:%M:%S'"
 wifi_cmd = "iwconfig wlan0| grep Signal | awk '{print $4}' | cut -d '-' -f2"
 temp_cmd = "cat /logs/temp.log | head -n 1 | cut -d '.' -f1 | tr -d '\n'"
 hum_cmd = "cat /logs/temp.log | tail -n 3 | head -n 1 | cut -d '.' -f1 | tr -d '\n'"
 temp_out_cmd = "cat /logs/temp.log | tail -n 2 | head -n 1| cut -d '.' -f1 | tr -d '\n'"
 weather_cmd = "cat /logs/temp.log | tail -n 1 | tr -d '\n'"
 radio_cmd = "mpc current -f [%title%] | tr -d '\n'"
+# playlists
+masha_cmd = "cat /home/pi/scripts/pl/masha.m3u | wc -l | xargs"
+barba_cmd = "cat /home/pi/scripts/pl/barba.m3u | wc -l | xargs"
+peppa_cmd = "cat /home/pi/scripts/pl/peppa.m3u | wc -l | xargs"
+conni_cmd = "cat /home/pi/scripts/pl/conni.m3u | wc -l | xargs"
 
 # other variables
 limit = 6                   # only 6 videos are allowed per day Barba/Peppa = 1 Masha = 1.2 Conni = 2
@@ -64,7 +68,23 @@ def main():
     mylcd.lcd_clear() # clear screen
     mylcd.lcd_display_string(" --> RASHA <-- ",1)
     mylcd.lcd_display_string(" Music/Video PL ",2)
-    time.sleep(2)
+    time.sleep(1.5)
+    mylcd.lcd_display_string("               ",1)
+    mylcd.lcd_display_string("                ",2)
+    time.sleep(0.1)
+    check_playlist()
+    mylcd.lcd_display_string("Loading Videos ",1)
+    mylcd.lcd_display_string("      .        ",2)
+    time.sleep(0.1)
+    mylcd.lcd_display_string("Loading Videos ",1)
+    mylcd.lcd_display_string("      ..       ",2)
+    time.sleep(0.1)
+    mylcd.lcd_display_string("Loading Videos ",1)
+    mylcd.lcd_display_string("     ...       ",2)
+    time.sleep(0.1)
+    mylcd.lcd_display_string("     Done      ",1)
+    mylcd.lcd_display_string("               ",2)
+    time.sleep(0.1)
     main_menu()
 
 def show_status():
@@ -230,7 +250,7 @@ def iradio_menu():
       timelastchecked = time.time()+3
       show_status()
       mylcd.lcd_display_string("[GO]  < iRadio >",2)
-      os.system("/home/pi/scripts/playlist.sh")
+      os.system("/home/pi/scripts/add_stations.sh")
       time.sleep(0.2)
      else:
       if ( GPIO.input(PLAY) == False):
@@ -433,7 +453,7 @@ def play_video(str):
      do_limit(str)
      file = randomplay(str)
      write_log(file)
-     omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdout=subprocess.PIPE, close_fds=True) 
+     omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa'], stdout=subprocess.PIPE, close_fds=True) 
      while omxproc.poll() is None:
       my_title = str_pad + get_title()
       for i in range (0, len(my_title)):
@@ -466,7 +486,7 @@ def play_video(str):
           time_play = time.time()
           file = randomplay(str)
           write_log(file)
-          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
+          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
           lcd_status = "PLAYING"
           mylcd.lcd_display_string("                  ",1)
           mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
@@ -479,7 +499,7 @@ def play_video(str):
           file = randomplay(str)
           write_log(file)
           time_play = time.time()
-          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:0,0'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
+          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
           lcd_status = "PLAYING"
           mylcd.lcd_display_string("                  ",1)
           mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
@@ -942,6 +962,54 @@ def reset_counter_now():
     f.write( "++++++++++++++++++++" + '\n' )
     f.close()
 
+def randomplay(str):
+    global item
+    if ( str == "/mnt/Masha/"):
+     lines = get_masha()
+     index = random.randrange(0, int(lines))
+     with open("/home/pi/scripts/pl/masha.m3u", "r+") as f:
+       new_f = f.readlines()
+       f.seek(0)
+       item = new_f[index]
+       for line in new_f:
+           if item not in line:
+              f.write(line)
+       f.truncate()  
+    elif ( str == "/mnt/Barba/"):
+      lines = get_barba()
+      index = random.randrange(0, int(lines))
+      with open("/home/pi/scripts/pl/barba.m3u", "r+") as b:
+        new_b = b.readlines()
+        b.seek(0)
+        item = new_b[index]
+        for line in new_b:
+            if item not in line:
+               b.write(line)
+        b.truncate()
+    elif ( str == "/mnt/Peppa/"):
+      lines = get_peppa()
+      index = random.randrange(0, int(lines))
+      with open("/home/pi/scripts/pl/peppa.m3u", "r+") as p:
+        new_p = p.readlines()
+        p.seek(0)
+        item = new_p[index]
+        for line in new_p:
+            if item not in line:
+               p.write(line)
+        p.truncate()
+    else:
+      lines = get_conni()
+      index = random.randrange(0, int(lines))
+      with open("/home/pi/scripts/pl/conni.m3u", "r+") as c:
+        new_c = c.readlines()
+        c.seek(0)
+        item = new_c[index]
+        for line in new_c:
+            if item not in line:
+               c.write(line)
+        c.truncate()
+    return item 
+        
 def write_log(file):
     global counter
     f = open( '/logs/radio.log', 'a' )
@@ -949,19 +1017,25 @@ def write_log(file):
     f.write( "%s" % now + ' ' + "# %s" % counter + ' ' + file + '\n' )
     f.close()
 
-def randomplay(str):
-    files = os.listdir(str)
-    index = random.randrange(0, len(files))
-    file = str + files[index]
-    return file
+def get_masha():
+    m = subprocess.check_output(masha_cmd, shell=True, stderr=subprocess.STDOUT)
+    return m
+
+def get_peppa():
+    p = subprocess.check_output(peppa_cmd, shell=True, stderr=subprocess.STDOUT)
+    return p
+
+def get_barba():
+    b = subprocess.check_output(barba_cmd, shell=True, stderr=subprocess.STDOUT)
+    return b
+
+def get_conni():
+    c = subprocess.check_output(conni_cmd, shell=True, stderr=subprocess.STDOUT)
+    return c
 
 def get_date():
     d = subprocess.check_output(date_cmd, shell=True, stderr=subprocess.STDOUT)
     return d
-
-def get_date_time():
-    t = subprocess.check_output(date_time_cmd, shell=True, stderr=subprocess.STDOUT)
-    return t
 
 def get_temp():
     temp = subprocess.check_output(temp_cmd, shell=True, stderr=subprocess.STDOUT)
@@ -1028,7 +1102,7 @@ def show_error():
     mylcd.lcd_clear()
     mylcd.lcd_display_string("Limit reached %s" % (counter),1)
     mylcd.lcd_display_string("   Sorry!",2)
-    time.sleep(3)
+    time.sleep(2)
     main_menu()
 
 def do_limit(str):
@@ -1047,6 +1121,10 @@ def check_limit(counter):
         return True
     else:
         return False
+
+def check_playlist():
+    os.system("/home/pi/scripts/add_videos.sh")
+    time.sleep(0.5)
 
 # Main
 
