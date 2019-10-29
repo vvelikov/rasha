@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
 from subprocess import PIPE, Popen
@@ -57,7 +57,7 @@ peppa_cmd = "cat /home/pi/scripts/pl/peppa.m3u | wc -l | xargs"
 conni_cmd = "cat /home/pi/scripts/pl/conni.m3u | wc -l | xargs"
 
 # other variables
-limit = 6                   # only 6 videos are allowed per day Barba/Peppa = 1 Masha = 1.2 Conni = 2
+limit = 7                   # only 6 videos are allowed per day Barba/Peppa = 1 Masha = 1.2 Conni = 2
 counter = 0                 # counter starts at 0
 time_diff = 45              # buffer before counting video
 
@@ -89,8 +89,11 @@ def main():
 
 def show_status():
     mytime = get_date()
+    mytime = mytime.decode()
     mytemp = get_temp()
+    mytemp = mytemp.decode()
     mywifi = get_wifi_signal()
+    mywifi = mywifi.decode()
     mystring = mytime + " " + chr(5) + ":" + mytemp + chr(223) + " " + chr(6) + ":" + mywifi
     mylcd.lcd_display_string(mystring,1)
 
@@ -453,7 +456,6 @@ def play_video(str):
      do_limit(str)
      file = randomplay(str)
      write_log(file)
-     print(file)
      omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa' ], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
      while omxproc.poll() is None:
       my_title = str_pad + get_title()
@@ -1141,5 +1143,5 @@ if __name__ == '__main__':
   finally:
       GPIO.cleanup()
       mylcd.lcd_clear()
-      print "Adeus!"
+      print ("Adeus!")
 
