@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 from subprocess import PIPE, Popen
@@ -89,11 +89,8 @@ def main():
 
 def show_status():
     mytime = get_date()
-    mytime = mytime.decode()
     mytemp = get_temp()
-    mytemp = mytemp.decode()
     mywifi = get_wifi_signal()
-    mywifi = mywifi.decode()
     mystring = mytime + " " + chr(5) + ":" + mytemp + chr(223) + " " + chr(6) + ":" + mywifi
     mylcd.lcd_display_string(mystring,1)
 
@@ -631,7 +628,7 @@ def station1():
 def station2():
     mylcd.lcd_display_string("    ChillOut    ",1)
     os.system("mpc play 2")
-    while(1):
+    while(1): 
      my_title = str_pad + get_radio_title()
      for i in range (0, len(my_title)):
       lcd_text = my_title[i:(i+16)]
@@ -722,7 +719,6 @@ def station5():
     mylcd.lcd_display_string("    DTLounge    ",1)
     os.system("mpc play 5")
     while(1):
-      my_title = str_pad + get_radio_title()
       for i in range (0, len(my_title)):
        lcd_text = my_title[i:(i+16)]
        mylcd.lcd_display_string(lcd_text,2)
@@ -1143,5 +1139,5 @@ if __name__ == '__main__':
   finally:
       GPIO.cleanup()
       mylcd.lcd_clear()
-      print ("Adeus!")
+      print "Adeus!"
 
