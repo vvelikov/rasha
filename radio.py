@@ -210,7 +210,7 @@ def reset_counter_menu():
       if ( GPIO.input(NEXT) == False):
        reboot_menu()
 
-def reboot_menu(): 
+def reboot_menu():
     timelastchecked = 0
     time.sleep(0.2)
     while(1):
@@ -360,7 +360,7 @@ def music_menu():
       if ( GPIO.input(PREV) == False):
        iradio_menu()
 
-def slideshow_menu():
+def ilideshow_menu():
     timelastchecked = 0
     time.sleep(0.2)
     while(1):
@@ -1014,7 +1014,12 @@ def write_log(file):
     global counter
     f = open( '/logs/radio.log', 'a' )
     now = get_date()
-    f.write( "%s" % now + ' ' + "# %s" % counter + ' ' + file + '\n' )
+    x = file[5:]
+    y = x[:-4]
+    y = y.replace('/',' - ')
+    if y.startswith('Conni'):
+        y = y[8:]
+    f.write( "%s" % now + ' ' + "# %s" % counter + ' ' + y + '\n' )
     f.close()
 
 def get_masha():
