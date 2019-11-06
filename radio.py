@@ -948,7 +948,7 @@ def shutdown():
 def reset_counter():
     global counter
     dateStr = datetime.datetime.now().strftime("%H:%M")
-    now = get_date()
+    now = get_date().decode()
     if (dateStr == '23:58' and counter != 0 ):
      counter = 0
      f = open( '/logs/radio.log', 'a' )
@@ -961,7 +961,7 @@ def reset_counter():
 def reset_counter_now():
     global counter
     counter = 0
-    now = get_date()
+    now = get_date().decode()
     f = open( '/logs/radio.log', 'a' )
     f.write( "++++++++++++++++++++" + '\n' )
     f.write( "%s" % now + ' ' + "RESET" + '\n' )
@@ -1020,7 +1020,7 @@ def randomplay(str):
 def write_log(file):
     global counter
     f = open( '/logs/radio.log', 'a' )
-    now = get_date()
+    now = get_date().decode()
     x = file[5:]
     y = x[:-4]
     y = y.replace('/',' - ')
