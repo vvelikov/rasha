@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
 from subprocess import PIPE, Popen
@@ -91,7 +91,10 @@ def show_status():
     mytime = get_date()
     mytemp = get_temp()
     mywifi = get_wifi_signal()
-    mystring = mytime + " " + chr(5) + ":" + mytemp + chr(223) + " " + chr(6) + ":" + mywifi
+    time = mytime.decode()
+    temp = mytemp.decode()
+    wifi = mywifi.decode()
+    mystring = time + " " + chr(5) + ":" + temp + chr(223) + " " + chr(6) + ":" + wifi
     mylcd.lcd_display_string(mystring,1)
 
 def main_menu():
@@ -409,7 +412,8 @@ def play_music():
     os.system("mpc play")
     time.sleep(0.2)
     while(1):
-     my_title = str_pad + get_radio_title()
+     title = get_radio_title().decode()
+     my_title = str_pad + title
      for i in range (0, len(my_title)):
       lcd_text = my_title[i:(i+16)]
       mylcd.lcd_display_string(lcd_text,2)
@@ -455,7 +459,8 @@ def play_video(str):
      write_log(file)
      omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa' ], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
      while omxproc.poll() is None:
-      my_title = str_pad + get_title()
+      title = get_title().decode()
+      my_title = str_pad + title
       for i in range (0, len(my_title)):
        lcd_status = "PLAYING"
        lcd_text = my_title[i:(i+16)]
@@ -492,7 +497,8 @@ def play_video(str):
           mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
           time.sleep(0.3)
           mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-          my_title = str_pad + get_title()
+          title = get_title().decode()
+          my_title = str_pad + title
           time.sleep(0.3)
          else:
           do_limit(str)
@@ -505,7 +511,8 @@ def play_video(str):
           mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
           time.sleep(0.3)
           mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-          my_title = str_pad + get_title()
+          title = get_title().decode()
+          my_title = str_pad + title
           time.sleep(0.3)
         else:
          show_error()
@@ -1144,5 +1151,5 @@ if __name__ == '__main__':
   finally:
       GPIO.cleanup()
       mylcd.lcd_clear()
-      print "Adeus!"
+      print ("Adeus!")
 
