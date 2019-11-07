@@ -73,6 +73,7 @@ def main():
     mylcd.lcd_display_string("                ",2)
     time.sleep(0.1)
     check_playlist()
+    check_music()
     mylcd.lcd_display_string("Loading Videos ",1)
     mylcd.lcd_display_string("      .        ",2)
     time.sleep(0.1)
@@ -970,6 +971,11 @@ def check_playlist():
     os.system("/home/pi/scripts/add_videos.sh")
     time.sleep(0.5)
 
+def check_music():
+    os.system("/home/pi/scripts/add_music.sh")
+    time.sleep(0.5)
+
+# Main
 # Main
 
 if __name__ == '__main__':
