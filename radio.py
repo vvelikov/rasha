@@ -57,7 +57,7 @@ peppa_cmd = "cat /home/pi/scripts/pl/peppa.m3u | wc -l | xargs"
 conni_cmd = "cat /home/pi/scripts/pl/conni.m3u | wc -l | xargs"
 
 # other variables
-limit = 7                   # only 6 videos are allowed per day Barba/Peppa = 1 Masha = 1.2 Conni = 2
+limit = 7                   # only 7 videos are allowed per day Barba/Peppa = 1 Masha = 1.2 Conni = 2
 counter = 0                 # counter starts at 0
 time_diff = 45              # buffer before counting video
 
@@ -68,12 +68,13 @@ def main():
     mylcd.lcd_clear() # clear screen
     mylcd.lcd_display_string(" --> RASHA <-- ",1)
     mylcd.lcd_display_string(" Music/Video PL ",2)
-    time.sleep(1.5)
+    time.sleep(1)
     mylcd.lcd_display_string("               ",1)
     mylcd.lcd_display_string("                ",2)
-    time.sleep(0.1)
+    # make sure videos & music is available
     check_playlist()
     check_music()
+    time.sleep(0.5)
     mylcd.lcd_display_string("Loading Videos ",1)
     mylcd.lcd_display_string("      .        ",2)
     time.sleep(0.1)
