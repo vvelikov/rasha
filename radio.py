@@ -174,26 +174,30 @@ def show_weather():
     myhum = get_hum()
     mytemp_out = get_temp_out()
     myweather = get_weather()
+    temp = mytemp.decode()
+    hum = myhum.decode()
+    tempout = mytemp_out.decode()
+    weather = myweather.decode()
     time.sleep(0.2)
     while(1):
-     mylcd.lcd_display_string(chr(5) + ":" + mytemp + chr(223) + "|" + mytemp_out + chr(223) + " " + "H:" + myhum + "%",2)
+     mylcd.lcd_display_string(chr(5) + ":" + temp + chr(223) + "|" + temp_out + chr(223) + " " + "H:" + hum + "%",2)
      time.sleep(5)
      mylcd.lcd_display_string("                ",2)
      time.sleep(0.1)
      if len(myweather) == 5:
-      mylcd.lcd_display_string("     " + myweather,2)
+      mylcd.lcd_display_string("     " + weather,2)
       time.sleep(5)
      elif len(myweather) == 6:
-      mylcd.lcd_display_string("    " + myweather,2)
+      mylcd.lcd_display_string("    " + weather,2)
       time.sleep(5)
      elif len(myweather) == 8:
-      mylcd.lcd_display_string("    " + myweather,2)
+      mylcd.lcd_display_string("    " + weather,2)
       time.sleep(5)
      elif len(myweather) >= 13:
-      mylcd.lcd_display_string(" " + myweather,2)
+      mylcd.lcd_display_string(" " + weather,2)
       time.sleep(5)
      else:
-      mylcd.lcd_display_string(" " + myweather,2)
+      mylcd.lcd_display_string(" " + weather,2)
       time.sleep(5)
      main_menu()
 
