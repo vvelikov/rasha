@@ -44,7 +44,7 @@ str_pad = " " * 16
 # some command definitions
 title_cmd = "dbuscontrol.sh getsource | awk -F '/' '{print $4}' | cut -d '.' -f1 | tr -d '\n'"
 date_cmd = "date +%R | tr -d '\n'"
-wifi_cmd = "iwconfig wlan0| grep Signal | awk '{print $4}' | cut -d '-' -f2"
+wifi_cmd = "iwconfig wlan0| grep Signal | awk '{print $4}' | cut -d '-' -f2 | tr -d '\n'"
 temp_cmd = "cat /logs/temp.log | head -n 1 | cut -d '.' -f1 | tr -d '\n'"
 hum_cmd = "cat /logs/temp.log | tail -n 3 | head -n 1 | cut -d '.' -f1 | tr -d '\n'"
 temp_out_cmd = "cat /logs/temp.log | tail -n 2 | head -n 1| cut -d '.' -f1 | tr -d '\n'"
@@ -363,7 +363,7 @@ def music_menu():
       if ( GPIO.input(PREV) == False):
        iradio_menu()
 
-def ilideshow_menu():
+def slideshow_menu():
     timelastchecked = 0
     time.sleep(0.2)
     while(1):
@@ -528,14 +528,14 @@ def choose1():
     time.sleep(0.2)
     while(1):
      if ( GPIO.input(PREV) == False):
-      choose8()
+      choose2()
      if ( GPIO.input(PLAY) == False):
       station1()
      if ( GPIO.input(NEXT) == False):
       choose2()
      else:
       mylcd.lcd_display_string(" Choose Station ",1)
-      mylcd.lcd_display_string("[GO] < ChilHop >",2)
+      mylcd.lcd_display_string("[GO] < Ra NULA >",2)
 
 def choose2():
     time.sleep(0.2)
@@ -545,68 +545,17 @@ def choose2():
      if ( GPIO.input(PLAY) == False):
       station2()
      if ( GPIO.input(NEXT) == False):
-      choose3()
+      choose1()
      else:
       mylcd.lcd_display_string(" Choose Station ",1)
       mylcd.lcd_display_string("[GO] < ChilOut >",2)
 
-def choose3():
-    time.sleep(0.2)
-    while(1):
-     if ( GPIO.input(PREV) == False):
-      choose2()
-     if ( GPIO.input(PLAY) == False):
-      station3()
-     if ( GPIO.input(NEXT) == False):
-      choose4()
-     else:
-      mylcd.lcd_display_string(" Choose Station ",1)
-      mylcd.lcd_display_string("[GO]  < LiqDnB >",2)
-
-def choose4():
-    time.sleep(0.2)
-    while(1):
-     if ( GPIO.input(PREV) == False):
-      choose3()
-     if ( GPIO.input(PLAY) == False):
-      station4()
-     if ( GPIO.input(NEXT) == False):
-      choose5()
-     else:
-      mylcd.lcd_display_string(" Choose Station ",1)
-      mylcd.lcd_display_string("[GO] < LiDStep >",2)
-
-def choose5():
-    time.sleep(0.2)
-    while(1):
-     if ( GPIO.input(PREV) == False):
-      choose4()
-     if ( GPIO.input(PLAY) == False):
-      station5()
-     if ( GPIO.input(NEXT) == False):
-      choose6()
-     else:
-      mylcd.lcd_display_string(" Choose Station ",1)
-      mylcd.lcd_display_string("[GO]  < Lounge >",2)
-
-def choose6():
-    time.sleep(0.2)
-    while(1):
-     if ( GPIO.input(PREV) == False):
-      choose5()
-     if ( GPIO.input(PLAY) == False):
-      station6()
-     if ( GPIO.input(NEXT) == False):
-      choose1()
-     else:
-      mylcd.lcd_display_string(" Choose Station ",1)
-      mylcd.lcd_display_string("[GO] < Ra NULA >",2)
-
 def station1():
-    mylcd.lcd_display_string("    ChillHop    ",1)
+    mylcd.lcd_display_string("   Radio Nula     ",1)
     os.system("mpc play 1")
     while(1):
-     my_title = str_pad + get_radio_title()
+     title = get_radio_title().decode()
+     my_title = str_pad + title
      for i in range (0, len(my_title)):
       lcd_text = my_title[i:(i+16)]
       mylcd.lcd_display_string(lcd_text,2)
@@ -615,7 +564,7 @@ def station1():
       if ( GPIO.input(NEXT) == False):
        station2()
       if ( GPIO.input(PREV) == False):
-       station6()
+       station2()
       if ( GPIO.input(PLAY) == False):
        os.system("mpc stop")
        main_menu()
@@ -624,26 +573,27 @@ def station1():
        os.system("mpc volume +10")
        display_volume()
        time.sleep(0.5)
-       mylcd.lcd_display_string("    ChillHop    ",1)
+       mylcd.lcd_display_string("   Radio Nula     ",1)
       if ( GPIO.input(DOWN) == False):
        display_volume()
        os.system("mpc volume -10")
        display_volume()
        time.sleep(0.5)
-       mylcd.lcd_display_string("    ChillHop    ",1)
+       mylcd.lcd_display_string("   Radio Nula     ",1)
 
 def station2():
-    mylcd.lcd_display_string("    ChillOut    ",1)
+    mylcd.lcd_display_string("  RaggaKings   ",1)
     os.system("mpc play 2")
-    while(1): 
-     my_title = str_pad + get_radio_title()
+    while(1):
+     title = get_radio_title().decode()
+     my_title = str_pad + title
      for i in range (0, len(my_title)):
       lcd_text = my_title[i:(i+16)]
       mylcd.lcd_display_string(lcd_text,2)
       time.sleep(0.4)
       mylcd.lcd_display_string(str_pad,2)
       if ( GPIO.input(NEXT) == False):
-       station3()
+       station1()
       if ( GPIO.input(PREV) == False):
        station1()
       if ( GPIO.input(PLAY) == False):
@@ -654,132 +604,13 @@ def station2():
        os.system("mpc volume +10")
        display_volume()
        time.sleep(0.5)
-       mylcd.lcd_display_string("    ChillOut    ",1)
+       mylcd.lcd_display_string("  RaggaKings   ",1)
       if ( GPIO.input(DOWN) == False):
        display_volume()
        os.system("mpc volume -10")
        display_volume()
        time.sleep(0.5)
-       mylcd.lcd_display_string("    ChillOut    ",1)
-
-def station3():
-    mylcd.lcd_display_string("   LiquidDnB    ",1)
-    os.system("mpc play 3")
-    while(1):
-      my_title = str_pad + get_radio_title()
-      for i in range (0, len(my_title)):
-       lcd_text = my_title[i:(i+16)]
-       mylcd.lcd_display_string(lcd_text,2)
-       time.sleep(0.4)
-       mylcd.lcd_display_string(str_pad,2)
-       if ( GPIO.input(NEXT) == False):
-        station4()
-       if ( GPIO.input(PREV) == False):
-        station2()
-       if ( GPIO.input(PLAY) == False):
-        os.system("mpc stop")
-        main_menu()
-       if ( GPIO.input(UP) == False):
-        display_volume()
-        os.system("mpc volume +10")
-        display_volume()
-        time.sleep(0.5)
-        mylcd.lcd_display_string("   LiquidDnB    ",1)
-       if ( GPIO.input(DOWN) == False):
-        display_volume()
-        os.system("mpc volume -10")
-        display_volume()
-        time.sleep(0.5)
-        mylcd.lcd_display_string("   LiquidDnB    ",1)
-
-def station4():
-    mylcd.lcd_display_string(" LiquidDubstep  ",1)
-    os.system("mpc play 4")
-    while(1):
-      my_title = str_pad + get_radio_title()
-      for i in range (0, len(my_title)):
-       lcd_text = my_title[i:(i+16)]
-       mylcd.lcd_display_string(lcd_text,2)
-       time.sleep(0.4)
-       mylcd.lcd_display_string(str_pad,2)
-       if ( GPIO.input(NEXT) == False):
-        station5()
-       if ( GPIO.input(PREV) == False):
-        station3()
-       if ( GPIO.input(PLAY) == False):
-        os.system("mpc stop")
-        main_menu()
-       if ( GPIO.input(UP) == False):
-        display_volume()
-        os.system("mpc volume +10")
-        display_volume()
-        time.sleep(0.5)
-        mylcd.lcd_display_string(" LiquidDubstep  ",1)
-       if ( GPIO.input(DOWN) == False):
-        display_volume()
-        os.system("mpc volume -10")
-        display_volume()
-        time.sleep(0.5)
-        mylcd.lcd_display_string(" LiquidDubstep  ",1)
-
-def station5():
-    mylcd.lcd_display_string("    DTLounge    ",1)
-    os.system("mpc play 5")
-    while(1):
-      for i in range (0, len(my_title)):
-       lcd_text = my_title[i:(i+16)]
-       mylcd.lcd_display_string(lcd_text,2)
-       time.sleep(0.4)
-       mylcd.lcd_display_string(str_pad,2)
-       if ( GPIO.input(NEXT) == False):
-        station6()
-       if ( GPIO.input(PREV) == False):
-        station4()
-       if ( GPIO.input(PLAY) == False):
-        os.system("mpc stop")
-        main_menu()
-       if ( GPIO.input(UP) == False):
-        display_volume()
-        os.system("mpc volume +10")
-        display_volume()
-        time.sleep(0.5)
-        mylcd.lcd_display_string("    DTLounge    ",1)
-       if ( GPIO.input(DOWN) == False):
-        display_volume()
-        os.system("mpc volume -10")
-        display_volume()
-        time.sleep(0.5)
-        mylcd.lcd_display_string("    DTLounge    ",1)
-
-def station6():
-    mylcd.lcd_display_string("   Radio Nula     ",1)
-    os.system("mpc play 6")
-    while(1):
-      my_title = str_pad + get_radio_title()
-      for i in range (0, len(my_title)):
-       lcd_text = my_title[i:(i+16)]
-       mylcd.lcd_display_string(lcd_text,2)
-       time.sleep(0.4)
-       mylcd.lcd_display_string(str_pad,2)
-       if ( GPIO.input(NEXT) == False):
-        station1()
-       if ( GPIO.input(PREV) == False):
-        station5()
-       if ( GPIO.input(PLAY) == False):
-        os.system("mpc stop")
-        main_menu()
-       if ( GPIO.input(UP) == False):
-        display_volume()
-        os.system("mpc volume +10")
-        display_volume()
-        time.sleep(0.5)
-        mylcd.lcd_display_string("   Radio Nula     ",1)
-       if ( GPIO.input(DOWN) == False):
-        display_volume()
-        os.system("mpc volume -10")
-        display_volume()
-        time.sleep(0.5)
-        mylcd.lcd_display_string("   Radio Nula     ",1)
+       mylcd.lcd_display_string("  RaggaKings   ",1)
 
 def counter_menu():
     time.sleep(0.2)
@@ -797,17 +628,14 @@ def counter_menu():
       mylcd.lcd_display_string("#####           ",2)
       time.sleep(0.01)
       mylcd.lcd_display_string(" Resetting       ",1)
-      mylcd.lcd_display_string("########         ",2)
-      time.sleep(0.01)
-      mylcd.lcd_display_string(" Resetting       ",1)
       mylcd.lcd_display_string("#############    ",2)
       time.sleep(0.01)
       mylcd.lcd_display_string(" Resetting       ",1)
       mylcd.lcd_display_string("################ ",2)
       time.sleep(0.01)
       reset_counter_now()
-      mylcd.lcd_clear()
       mylcd.lcd_display_string("      Done       ",1)
+      mylcd.lcd_display_string("                 ",2)
       main_menu()
      else:
       mylcd.lcd_display_string("     Reset?      ",1)
