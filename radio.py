@@ -180,22 +180,23 @@ def show_weather():
     hum = myhum.decode()
     tempout = mytemp_out.decode()
     weather = myweather.decode()
+    mystring = chr(5) + ":" + temp + chr(223) + "|" + tempout + chr(223) + " " + "H:" + hum + "%"
     time.sleep(0.2)
     while(1):
-     mylcd.lcd_display_string(chr(5) + ":" + temp + chr(223) + "|" + temp_out + chr(223) + " " + "H:" + hum + "%",2)
+     mylcd.lcd_display_string(mystring,2)
      time.sleep(5)
      mylcd.lcd_display_string("                ",2)
      time.sleep(0.1)
-     if len(myweather) == 5:
+     if len(weather) == 5:
       mylcd.lcd_display_string("     " + weather,2)
       time.sleep(5)
-     elif len(myweather) == 6:
+     elif len(weather) == 6:
       mylcd.lcd_display_string("    " + weather,2)
       time.sleep(5)
-     elif len(myweather) == 8:
+     elif len(weather) == 8:
       mylcd.lcd_display_string("    " + weather,2)
       time.sleep(5)
-     elif len(myweather) >= 13:
+     elif len(weather) >= 13:
       mylcd.lcd_display_string(" " + weather,2)
       time.sleep(5)
      else:
