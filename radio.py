@@ -78,16 +78,16 @@ def main():
     time.sleep(0.5)
     mylcd.lcd_display_string("Loading Videos ",1)
     mylcd.lcd_display_string("     .         ",2)
-    time.sleep(0.1)
+    time.sleep(0.3)
     mylcd.lcd_display_string("Loading Videos ",1)
     mylcd.lcd_display_string("     ...       ",2)
-    time.sleep(0.1)
+    time.sleep(0.3)
     mylcd.lcd_display_string("Loading Videos ",1)
     mylcd.lcd_display_string("     .....     ",2)
-    time.sleep(0.1)
+    time.sleep(0.3)
     mylcd.lcd_display_string("     Done      ",1)
     mylcd.lcd_display_string("      :)       ",2)
-    time.sleep(0.1)
+    time.sleep(0.3)
     main_menu()
 
 def show_status():
@@ -97,7 +97,6 @@ def show_status():
     time = mytime.decode()
     temp = mytemp.decode()
     wifi = mywifi.decode()
-    #mystring = time + " " + chr(5) + ":" + temp + chr(223) + " " + chr(6) + ":" + wifi
     mystring = time + " " + chr(5) + ":" + temp + degree + " " + chr(6) + ":" + wifi
     mylcd.lcd_display_string(mystring,1)
 
@@ -182,7 +181,7 @@ def show_weather():
     hum = myhum.decode()
     tempout = mytemp_out.decode()
     weather = myweather.decode()
-    mystring = chr(5) + ":" + temp + chr(176) + "|" + tempout + chr(176) + " " + "H:" + hum + "%"
+    mystring = chr(5) + ":" + temp + degree + "|" + tempout + degree + " " + "H:" + hum + "%"
     time.sleep(0.2)
     while(1):
      mylcd.lcd_display_string(mystring,2)
