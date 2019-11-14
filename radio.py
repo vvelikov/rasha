@@ -57,7 +57,7 @@ peppa_cmd = "cat /home/pi/scripts/pl/peppa.m3u | wc -l | xargs"
 conni_cmd = "cat /home/pi/scripts/pl/conni.m3u | wc -l | xargs"
 
 # other variables
-limit = 7                   # only 7 videos are allowed per day Barba/Peppa = 1 Masha = 1.2 Conni = 2
+limit = 7                   # only 7 videos are allowed per day Barba = 0.8 Peppa = 1 Masha = 1.2 Conni = 2
 counter = 0                 # counter starts at 0
 time_diff = 45              # buffer before counting video
 
@@ -787,9 +787,9 @@ def reset_counter():
     if (dateStr == '23:58' and counter != 0 ):
      counter = 0
      f = open( '/logs/radio.log', 'a' )
-     f.write( "++++++++++++++++++++" + '\n' )
+     f.write( "+++++++++++++++++++++++++++++++++++++++++++" + '\n' )
      f.write( "%s" % now + ' ' + "RESET" + '\n' )
-     f.write( "++++++++++++++++++++" + '\n' )
+     f.write( "+++++++++++++++++++++++++++++++++++++++++++" + '\n' )
      f.close()
      time.sleep(5)
 
@@ -798,9 +798,9 @@ def reset_counter_now():
     counter = 0
     now = get_date().decode()
     f = open( '/logs/radio.log', 'a' )
-    f.write( "++++++++++++++++++++" + '\n' )
+    f.write( "+++++++++++++++++++++++++++++++++++++++++++" + '\n' )
     f.write( "%s" % now + ' ' + "RESET" + '\n' )
-    f.write( "++++++++++++++++++++" + '\n' )
+    f.write( "+++++++++++++++++++++++++++++++++++++++++++" + '\n' )
     f.close()
 
 def randomplay(str):
@@ -861,7 +861,7 @@ def write_log(file):
     y = y.replace('/',' - ')
     if y.startswith('Conni'):
         y = y[8:]
-    f.write( "%s" % now + ' ' + "# %s" % counter + ' ' + y + '\n' )
+    f.write( "%s" % now + ' ' + "# %s" % round(counter,1) + ' ' + y + '\n' )
     f.close()
 
 def get_masha():
@@ -957,7 +957,7 @@ def do_limit(str):
     if ( str == "/mnt/Peppa/"):
         counter+=1
     elif ( str == "/mnt/Barba/"):
-        counter+=1
+        counter+=0.8
     elif ( str == "/mnt/Masha/"):
         counter+=1.2
     else:
@@ -977,7 +977,6 @@ def check_music():
     os.system("/home/pi/scripts/add_music.sh")
     time.sleep(0.5)
 
-# Main
 # Main
 
 if __name__ == '__main__':
