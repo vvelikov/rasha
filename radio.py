@@ -76,36 +76,30 @@ def main():
     # make sure videos & music are available
     check_playlist()
     check_music()
-    mylcd.lcd_display_string(" Loading        ",1)
-    mylcd.lcd_display_string("..              ",2)
-    time.sleep(0.1)
-    mylcd.lcd_display_string(" Loading        ",1)
-    mylcd.lcd_display_string("....            ",2)
-    time.sleep(0.1)
-    mylcd.lcd_display_string(" Loading        ",1)
-    mylcd.lcd_display_string(".......         ",2)
-    time.sleep(0.3)
-    mylcd.lcd_display_string(" Loading        ",1)
-    mylcd.lcd_display_string("............    ",2)
-    time.sleep(0.3)
-    mylcd.lcd_display_string(" Loading        ",1)
-    mylcd.lcd_display_string("................",2)
-    time.sleep(0.3)
-    mylcd.lcd_display_string("     Done       ",1)
-    mylcd.lcd_display_string("      :)        ",2)
-    time.sleep(0.2)
-    mylcd.lcd_display_string("                ",1)
-    mylcd.lcd_display_string("      :*)       ",2)
-    time.sleep(0.2)
-    mylcd.lcd_display_string("                ",1)
-    mylcd.lcd_display_string("      :)        ",2)
+    mylcd.lcd_display_string("    LOADING     ",1)
+    mylcd.lcd_display_string("       #        ",2)
+    time.sleep(0.05)
+    mylcd.lcd_display_string("    LOADING     ",1)
+    mylcd.lcd_display_string("      ###       ",2)
+    time.sleep(0.05)
+    mylcd.lcd_display_string("    LOADING     ",1)
+    mylcd.lcd_display_string("    #######     ",2)
+    time.sleep(0.05)
+    mylcd.lcd_display_string("    LOADING     ",1)
+    mylcd.lcd_display_string("   #########    ",2)
+    time.sleep(0.05)
+    mylcd.lcd_display_string("    LOADING     ",1)
+    mylcd.lcd_display_string(" ############## ",2)
+    time.sleep(0.05)
+    mylcd.lcd_display_string("     DONE!      ",1)
+    mylcd.lcd_display_string("                ",2)
     time.sleep(0.5)
     main_menu()
 
 def show_status():
-    time = run_cmd(get_date)
-    temp = run_cmd(get_temp)
-    wifi = run_cmd(get_wifi_signal)
+    time = run_cmd(date_cmd)
+    temp = run_cmd(temp_cmd)
+    wifi = run_cmd(wifi_cmd)
     mystring = time + " " + chr(5) + ":" + temp + degree + " " + chr(6) + ":" + wifi
     mylcd.lcd_display_string(mystring,1)
 
@@ -471,37 +465,39 @@ def play_video(str):
      file = randomplay(str)
      write_log(file)
      omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa' ], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
+     lcd_status = "PLAYING"
+     scroll_text(lcd_status, 2)
      while omxproc.poll() is None:
-      scroll_text(lcd_status, lcd_title)
       if ( GPIO.input(UP) == False):
-       os.system("dbuscontrol.sh volumeup +10")  
+       os.system("dbuscontrol.sh volumeup +10")
       if ( GPIO.input(DOWN) == False):
        os.system("dbuscontrol.sh volumedown -10")
-      if ( GPIO.input(PLAY) == False):      
+      if ( GPIO.input(PLAY) == False):
        lcd_status = "PAUSED"
-       scroll_text(lcd_status) 
        os.system("dbuscontrol.sh pause")
-       if ( GPIO.input(NEXT) == False):
-        if check_limit(counter):
-         mylcd.lcd_clear()
-         os.system("dbuscontrol.sh stop")
-         file = randomplay(str)
-         diff = time.time() - time_play
-         if diff < time_diff:
-          time_play = time.time()
-          lcd_status = "PLAYING"
-          scroll_title(lcd_status)
-         else:
-          time_play = time.time()
-          lcd_status = "PLAYING"
-          scroll_text(lcd_status)
-        else:
-         display_error()
-       if ( GPIO.input(PREV) == False):
-        mylcd.lcd_clear()
+       scroll_text(lcd_status, 2)
+      if ( GPIO.input(NEXT) == False):
+       if check_limit(counter):
         os.system("dbuscontrol.sh stop")
-        time.sleep(0.3)
-        main_menu()
+        diff = time.time() - time_play
+        if diff < time_diff:
+         time_play = time.time()
+         file = randomplay(str)
+         write_log(file)
+         omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa' ], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
+         lcd_status = "PLAYING"
+         scroll_text(lcd_status, 2)
+        else:
+         time_play = time.time()
+         lcd_status = "PLAYING"
+         scroll_text(lcd_status, 2)
+       else:
+        display_error()
+      if ( GPIO.input(PREV) == False):
+       mylcd.lcd_clear()
+       os.system("dbuscontrol.sh stop")
+       time.sleep(0.3)
+       main_menu()
     else:
      display_error()
 
@@ -619,7 +615,7 @@ def counter_menu():
       mylcd.lcd_display_string("                 ",2)
       main_menu()
      else:
-      mylcd.lcd_display_string("     Reset?      ",1)
+      mylcd.lcd_display_string("     RESET?      ",1)
       mylcd.lcd_display_string("< No       Yes >",2)
 
 def reboot():
@@ -683,7 +679,7 @@ def reboot():
       os.system("sudo reboot")
       time.sleep(1)
      else:
-      mylcd.lcd_display_string("     Reboot?    ",1)
+      mylcd.lcd_display_string("     REBOOT?    ",1)
       mylcd.lcd_display_string("< No       Yes >",2)
 
 def shutdown():
@@ -743,21 +739,20 @@ def shutdown():
       mylcd.lcd_display_string("  Shutting Down  ",1)
       mylcd.lcd_display_string("#################",2)
       time.sleep(0.1)
-      mylcd.lcd_display_string("      Adeus!     ",1)
-      mylcd.lcd_display_string("                 ",2)
+      mylcd.lcd_display_string("   POWER OFF     ",1)
+      mylcd.lcd_display_string("@@@@@@@@@@@@@@@@@",2)
       time.sleep(2)
       mylcd.lcd_clear()
       os.system("sudo shutdown -h now")
-      time.sleep(3)
       sys.exit()
      else:
-      mylcd.lcd_display_string("   Shut down?   ",1)
+      mylcd.lcd_display_string("   SHUT DOWN?   ",1)
       mylcd.lcd_display_string("< No       Yes >",2)
 
 def reset_counter():
     global counter
     dateStr = datetime.datetime.now().strftime("%H:%M")
-    now = get_date().decode()
+    now = run_cmd(date_cmd)
     if (dateStr == '23:58' and counter != 0 ):
      counter = 0
      f = open( '/logs/radio.log', 'a' )
@@ -770,7 +765,7 @@ def reset_counter():
 def reset_counter_now():
     global counter
     counter = 0
-    now = get_date().decode()
+    now = run_cmd(date_cmd)
     f = open( '/logs/radio.log', 'a' )
     f.write( "+++++++++++++++++++++++++++++++++++++++++++" + '\n' )
     f.write( "%s" % now + ' ' + "RESET" + '\n' )
@@ -780,7 +775,7 @@ def reset_counter_now():
 def randomplay(str):
     global item
     if ( str == "/mnt/Masha/"):
-     lines = get_masha()
+     lines = run_cmd(masha_cmd)
      index = random.randrange(0, int(lines))
      with open("/home/pi/scripts/pl/masha.m3u", "r+") as f:
        new_f = f.readlines()
@@ -791,7 +786,7 @@ def randomplay(str):
               f.write(line)
        f.truncate()
     elif ( str == "/mnt/Barba/"):
-      lines = get_barba()
+      lines = run_cmd(barba_cmd)
       index = random.randrange(0, int(lines))
       with open("/home/pi/scripts/pl/barba.m3u", "r+") as b:
         new_b = b.readlines()
@@ -802,7 +797,7 @@ def randomplay(str):
                b.write(line)
         b.truncate()
     elif ( str == "/mnt/Peppa/"):
-      lines = get_peppa()
+      lines = run_cmd(peppa_cmd)
       index = random.randrange(0, int(lines))
       with open("/home/pi/scripts/pl/peppa.m3u", "r+") as p:
         new_p = p.readlines()
@@ -813,7 +808,7 @@ def randomplay(str):
                p.write(line)
         p.truncate()
     else:
-      lines = get_conni()
+      lines = run_cmd(conni_cmd)
       index = random.randrange(0, int(lines))
       with open("/home/pi/scripts/pl/conni.m3u", "r+") as c:
         new_c = c.readlines()
@@ -829,7 +824,7 @@ def randomplay(str):
 def write_log(file):
     global counter
     f = open( '/logs/radio.log', 'a' )
-    now = get_date().decode()
+    now = run_cmd(date_cmd)
     x = file[5:]
     y = x[:-4]
     y = y.replace('/',' - ')
@@ -870,8 +865,8 @@ def display_volume():
 def display_error():
     os.system("dbuscontrol.sh stop")
     mylcd.lcd_clear()
-    mylcd.lcd_display_string("No more! %s" % (round(counter,1)),1)
-    mylcd.lcd_display_string("   Sorry!       ",2)
+    mylcd.lcd_display_string("LIMIT %s" % (round(counter,1)),1)
+    mylcd.lcd_display_string("REACHED!    ",2)
     time.sleep(2)
     main_menu()
 
@@ -892,34 +887,25 @@ def check_limit(counter):
     else:
         return False
 
-def scroll_text(lcd_status, lcd_title):
+def scroll_text(lcd_status,rowN):
     if lcd_status == "PLAYING":
-     lcd_title = run_cmd(get_title)
+     lcd_title = run_cmd(title_cmd)
      lcd_title = lcd_title + " "                                             # add space at the end
-     str_pad = " " * 16
-     mylcd.lcd_display_string(lcd_title[:16], 2)
-     # display lcd_status on 1 line
-     mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
-     time.sleep(0.5)
-     mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-     time.sleep(0.5)
-     # display lcd_title and scroll on 2 line
-     mylcd.lcd_display_string(lcd_title[:16], 2)
-     sleep(0.5)
+     mylcd.lcd_display_string(lcd_title[:16], rowN)
      for i in range (0, len(lcd_title)):
       lcd_text = lcd_title[i:(i+16)]
-      mylcd.lcd_display_string(lcd_text,2)
-      sleep(0.14) # adjust this to a comfortable value
-     mylcd.lcd_display_string(str_pad,2)
-     mylcd.lcd_display_string(lcd_title[:16], 2)
+      mylcd.lcd_display_string(lcd_text, rowN)
+      mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ", 1)
+      time.sleep(0.3) # adjust this to a comfortable value
+      mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ", 1)
+      time.sleep(0.3) # adjust this to a comfortable value
+     mylcd.lcd_display_string(str_pad, rowN)
+     mylcd.lcd_display_string(lcd_title[:16], rowN)
     else:
      os.system("dbuscontrol.sh pause")
-     mylcd.lcd_display_string("                  ",1)
-     mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
+     lcd_status = "PAUSED"
+     mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ", rowN)
      time.sleep(0.3)
-     mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-     time.sleep(0.3)
-     mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
 
 # run unix shell command, return as ASCII
 def run_cmd(cmd):
