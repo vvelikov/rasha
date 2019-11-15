@@ -54,7 +54,6 @@ hum_cmd = "cat /logs/temp.log | tail -n 3 | head -n 1 | cut -d '.' -f1 | tr -d '
 temp_out_cmd = "cat /logs/temp.log | tail -n 2 | head -n 1| cut -d '.' -f1 | tr -d '\n'"
 weather_cmd = "cat /logs/temp.log | tail -n 1 | tr -d '\n'"
 radio_cmd = "mpc current -f [%title%] | tr -d '\n'"
-status_cmd = "dbuscontrol.sh status | tail -n 1 | cut -d ':' -f2 | tr -d '\n'"
 
 # playlists
 masha_cmd = "cat /home/pi/scripts/pl/masha.m3u | wc -l | xargs"
@@ -952,3 +951,4 @@ if __name__ == '__main__':
       GPIO.cleanup()
       mylcd.lcd_clear()
       print ("Adeus!")
+
