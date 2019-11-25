@@ -58,10 +58,10 @@ radio_cmd = "mpc current -f [%title%] | tr -d '\n'"
 status_cmd = "dbuscontrol.sh status | tail -n 1 | cut -d ':' -f2 | tr -d '\n'"
 
 # playlists
-masha_cmd = "cat /home/pi/scripts/pl/masha.m3u | wc -l | xargs"
-barba_cmd = "cat /home/pi/scripts/pl/barba.m3u | wc -l | xargs"
-peppa_cmd = "cat /home/pi/scripts/pl/peppa.m3u | wc -l | xargs"
-conni_cmd = "cat /home/pi/scripts/pl/conni.m3u | wc -l | xargs"
+masha_cmd = "cat /home/pi/scripts/pl/masha.m3u | wc -l | xargs | tr -d '\n'"
+barba_cmd = "cat /home/pi/scripts/pl/barba.m3u | wc -l | xargs | tr -d '\n'"
+peppa_cmd = "cat /home/pi/scripts/pl/peppa.m3u | wc -l | xargs | tr -d '\n'"
+conni_cmd = "cat /home/pi/scripts/pl/conni.m3u | wc -l | xargs | tr -d '\n'"
 
 # other variables
 limit = 7                   # only 7 videos are allowed per day Barba = 0.8 Peppa = 1 Masha = 1.2 Conni = 2
@@ -81,21 +81,40 @@ def main():
     write_msg()
     mylcd.lcd_display_string("    LOADING     ",1)
     mylcd.lcd_display_string("       #        ",2)
-    time.sleep(0.05)
+    time.sleep(0.5)
     mylcd.lcd_display_string("    LOADING     ",1)
     mylcd.lcd_display_string("      ###       ",2)
-    time.sleep(0.05)
+    time.sleep(0.5)
     mylcd.lcd_display_string("    LOADING     ",1)
     mylcd.lcd_display_string("    #######     ",2)
-    time.sleep(0.05)
+    time.sleep(0.5)
     mylcd.lcd_display_string("    LOADING     ",1)
     mylcd.lcd_display_string("   #########    ",2)
-    time.sleep(0.05)
+    time.sleep(0.5)
     mylcd.lcd_display_string("    LOADING     ",1)
     mylcd.lcd_display_string(" ############## ",2)
-    time.sleep(0.05)
+    time.sleep(0.5)
+    c = run_cmd(conni_cmd)
+    mylcd.lcd_display_string("Conni" + " " + str(c) + " " + "Videos",1)
+    time.sleep(2)
+    m = run_cmd(masha_cmd)
+    mylcd.lcd_display_string("Masha" + " " + str(m) + " " + "Videos",1)
+    time.sleep(2)
+    b = run_cmd(barba_cmd)
+    mylcd.lcd_display_string("Barba" + " " + str(b) + " " + "Videos",1)
+    time.sleep(2)
+    p = run_cmd(peppa_cmd)
+    mylcd.lcd_display_string("Peppa" + " " + str(p) + " " + "Videos",1)
+    time.sleep(2)
+    mylcd.lcd_display_string("      D         ",1)
+    time.sleep(0.1)
+    mylcd.lcd_display_string("      DO        ",1)
+    time.sleep(0.1)
+    mylcd.lcd_display_string("      DON       ",1)
+    time.sleep(0.1)
+    mylcd.lcd_display_string("      DONE      ",1)
+    time.sleep(0.1)
     mylcd.lcd_display_string("      DONE!     ",1)
-    mylcd.lcd_display_string("                ",2)
     time.sleep(0.7)
     main_menu()
 
