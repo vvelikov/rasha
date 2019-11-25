@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#/usr/bin/python3
 # -*- coding: utf-8 -*-
 
 from subprocess import PIPE, Popen
@@ -76,6 +76,7 @@ def main():
     # make sure videos & music are available
     check_playlist()
     check_music()
+    write_msg()
     mylcd.lcd_display_string("    LOADING     ",1)
     mylcd.lcd_display_string("       #        ",2)
     time.sleep(0.05)
@@ -286,7 +287,7 @@ def conni_menu():
         time.sleep(1)
         main_menu()
        else:
-        show_error()
+        display_error()
       if ( GPIO.input(NEXT) == False):
        masha_menu()
       if ( GPIO.input(PREV) == False):
@@ -307,7 +308,7 @@ def masha_menu():
         time.sleep(1)
         main_menu()
        else:
-        show_error()
+        display_error()
       if ( GPIO.input(NEXT) == False):
        barba_menu()
       if ( GPIO.input(PREV) == False):
@@ -328,7 +329,7 @@ def barba_menu():
         time.sleep(1)
         main_menu()
        else:
-        show_error()
+        display_error()
       if ( GPIO.input(NEXT) == False):
        peppa_menu()
       if ( GPIO.input(PREV) == False):
@@ -349,7 +350,7 @@ def peppa_menu():
         time.sleep(1)
         main_menu()
        else:
-        show_error()
+        display_error()
       if ( GPIO.input(NEXT) == False):
        iradio_menu()
       if ( GPIO.input(PREV) == False):
@@ -790,7 +791,7 @@ def reset_counter():
     global counter
     dateStr = datetime.datetime.now().strftime("%H:%M")
     now = run_cmd(date_cmd)
-    if (dateStr == '23:59' and counter != 0 ):
+    if (dateStr == '00:00' and counter != 0 ):
      counter = 0
      f = open( '/logs/radio.log', 'a' )
      f.write( "+++++++++++++++++++++++++++++++++++++++++++" + '\n' )
@@ -808,6 +809,14 @@ def reset_counter_now():
     f.write( "%s" % now + ' ' + "RESET" + '\n' )
     f.write( "+++++++++++++++++++++++++++++++++++++++++++" + '\n' )
     f.close()
+
+def write_msg():
+    f = open( '/logs/radio.log', 'a')
+    now = run_cmd(date_cmd)
+    f.write( "+++++++++++++++++++++++++++++++++++++++++++" + '\n' )
+    f.write( "%s" % now + ' ' + 'Rasha ready!' + '\n' )
+    f.write( "+++++++++++++++++++++++++++++++++++++++++++" + '\n' )
+    f.close
 
 def randomplay(str):
     global item
@@ -903,8 +912,8 @@ def display_error():
     os.system("dbuscontrol.sh stop")
     mylcd.lcd_display_string("                ", 1)
     mylcd.lcd_display_string("                ", 2)
-    mylcd.lcd_display_string("LIMIT %s" % (round(counter,1)),1)
-    mylcd.lcd_display_string("REACHED!    ",2)
+    mylcd.lcd_display_string(" LIMIT %s" % (round(counter,1)),1)
+    mylcd.lcd_display_string(" REACHED!    ",2)
     time.sleep(2)
     main_menu()
 
@@ -931,7 +940,7 @@ def run_cmd(cmd):
     output = p.communicate()[0]
     return output.decode('ascii')
 
-# rewrite in python 
+# rewrite in python
 def check_playlist():
     os.system("/home/pi/scripts/add_videos.sh")
 
