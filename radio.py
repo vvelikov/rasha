@@ -48,12 +48,14 @@ mylcd.lcd_load_custom_chars(speaker_icon)
 # some command definitions
 title_cmd = "dbuscontrol.sh getsource | awk -F '/' '{print $4}' | cut -d '.' -f1 | tr -d '\n'"
 date_cmd = "date +%R | tr -d '\n'"
+time_cmd = "date '+%F [%H:%M]' | tr -d '\n'"
 wifi_cmd = "iwconfig wlan0| grep Signal | awk '{print $4}' | cut -d '-' -f2 | tr -d '\n'"
 temp_cmd = "cat /logs/temp.log | head -n 1 | cut -d '.' -f1 | tr -d '\n'"
 hum_cmd = "cat /logs/temp.log | tail -n 3 | head -n 1 | cut -d '.' -f1 | tr -d '\n'"
 temp_out_cmd = "cat /logs/temp.log | tail -n 2 | head -n 1| cut -d '.' -f1 | tr -d '\n'"
 weather_cmd = "cat /logs/temp.log | tail -n 1 | tr -d '\n'"
 radio_cmd = "mpc current -f [%title%] | tr -d '\n'"
+status_cmd = "dbuscontrol.sh status | tail -n 1 | cut -d ':' -f2 | tr -d '\n'"
 
 # playlists
 masha_cmd = "cat /home/pi/scripts/pl/masha.m3u | wc -l | xargs"
@@ -145,7 +147,7 @@ def ip_menu():
       time.sleep(0.1)
       mystring = "                   "
       mylcd.lcd_display_string(mystring,1)
-      mylcd.lcd_display_string(mystring,2) 
+      mylcd.lcd_display_string(mystring,2)
       mylcd.lcd_display_string("   IPv4 Addr:  ",1)
       ipaddr = get_ip_address()
       mylcd.lcd_display_string(" " + " " + ipaddr,2)
@@ -168,7 +170,7 @@ def weather_menu():
        mylcd.lcd_display_string(mystring,1)
        mylcd.lcd_display_string(mystring,2)
       if ( GPIO.input(NEXT) == False):
-       reset_counter_menu()
+       show_counter_menu()
       if ( GPIO.input(PREV) == False):
        off_menu()
 
@@ -206,6 +208,40 @@ def show_weather():
       time.sleep(5)
      main_menu()
 
+def show_counter_menu():
+    timelastchecked = 0
+    time.sleep(0.2)
+    while(1):
+     if time.time() >= timelastchecked:
+      timelastchecked = time.time()+3
+      show_status()
+      mylcd.lcd_display_string("[GO]  < Show # >",2)
+     else:
+      if ( GPIO.input(PLAY) == False):
+       show_counter()
+      if ( GPIO.input(NEXT) == False):
+       reset_counter_menu()
+      if ( GPIO.input(PREV) == False):
+       off_menu()
+
+def show_counter():
+    global counter
+    timelastchecked = 0
+    time.sleep(0.2)
+    while(1):
+     if time.time() >= timelastchecked:
+      timelastchecked = time.time()+3
+      show_status()
+      time.sleep(0.1)
+      mystring = "                "
+      mylcd.lcd_display_string(mystring,1)
+      mylcd.lcd_display_string(mystring,2)
+      time.sleep(0.01)
+      mylcd.lcd_display_string("    Counter     ",1)
+      mylcd.lcd_display_string("      #:" + str(counter),2)
+      time.sleep(5)
+      main_menu()
+
 def reset_counter_menu():
     timelastchecked = 0
     time.sleep(0.2)
@@ -213,12 +249,12 @@ def reset_counter_menu():
      if time.time() >= timelastchecked:
       timelastchecked = time.time()+3
       show_status()
-      mylcd.lcd_display_string("[GO]  < Reset > ",2)
+      mylcd.lcd_display_string("[GO] < Reset # >",2)
      else:
       if ( GPIO.input(PLAY) == False):
        counter_menu()
       if ( GPIO.input(PREV) == False):
-       weather_menu()
+       show_counter_menu()
       if ( GPIO.input(NEXT) == False):
        reboot_menu()
 
@@ -794,9 +830,9 @@ def reset_counter():
     if (dateStr == '00:00' and counter != 0 ):
      counter = 0
      f = open( '/logs/radio.log', 'a' )
-     f.write( "+++++++++++++++++++++++++++++++++++++++++++" + '\n' )
+     f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
      f.write( "%s" % now + ' ' + "RESET" + '\n' )
-     f.write( "+++++++++++++++++++++++++++++++++++++++++++" + '\n' )
+     f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
      f.close()
      time.sleep(5)
 
@@ -805,17 +841,17 @@ def reset_counter_now():
     counter = 0
     now = run_cmd(date_cmd)
     f = open( '/logs/radio.log', 'a' )
-    f.write( "+++++++++++++++++++++++++++++++++++++++++++" + '\n' )
+    f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
     f.write( "%s" % now + ' ' + "RESET" + '\n' )
-    f.write( "+++++++++++++++++++++++++++++++++++++++++++" + '\n' )
+    f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
     f.close()
 
 def write_msg():
     f = open( '/logs/radio.log', 'a')
-    now = run_cmd(date_cmd)
-    f.write( "+++++++++++++++++++++++++++++++++++++++++++" + '\n' )
+    now = run_cmd(time_cmd)
+    f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
     f.write( "%s" % now + ' ' + 'Rasha ready!' + '\n' )
-    f.write( "+++++++++++++++++++++++++++++++++++++++++++" + '\n' )
+    f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
     f.close
 
 def randomplay(str):
