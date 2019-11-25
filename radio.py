@@ -237,7 +237,7 @@ def show_counter():
       mylcd.lcd_display_string(mystring,1)
       mylcd.lcd_display_string(mystring,2)
       time.sleep(0.01)
-      mylcd.lcd_display_string("    Counter     ",1)
+      mylcd.lcd_display_string("  Counter     ",1)
       mylcd.lcd_display_string("      #:" + str(counter),2)
       time.sleep(5)
       main_menu()
