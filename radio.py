@@ -247,9 +247,10 @@ def show_counter():
       mylcd.lcd_display_string(mystring,1)
       mylcd.lcd_display_string(mystring,2)
       time.sleep(0.01)
-      mylcd.lcd_display_string("  Counter     ",1)
-      mylcd.lcd_display_string("      #:" + str(counter),2)
-      time.sleep(5)
+      x = round(counter,1)
+      mylcd.lcd_display_string(" Counter:      ",1)
+      mylcd.lcd_display_string("   #:" + str(x),2)
+      time.sleep(3)
       main_menu()
 
 def reset_counter_menu():
