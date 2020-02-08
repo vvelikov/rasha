@@ -511,7 +511,6 @@ def play_music():
 def play_video(str):
     global counter
     time_play = time.time()
-    check_playlist()
     if check_limit(counter):
      do_limit(str)
      file = randomplay(str)
