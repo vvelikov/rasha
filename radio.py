@@ -50,10 +50,10 @@ title_cmd = "dbuscontrol.sh getsource | awk -F '/' '{print $4}' | cut -d '.' -f1
 date_cmd = "date +%R | tr -d '\n'"
 time_cmd = "date '+%F [%H:%M]' | tr -d '\n'"
 wifi_cmd = "iwconfig wlan0| grep Signal | awk '{print $4}' | cut -d '-' -f2 | tr -d '\n'"
-temp_cmd = "cat /logs/temp.log | head -n 1 | cut -d '.' -f1 | tr -d '\n'"
-hum_cmd = "cat /logs/temp.log | tail -n 3 | head -n 1 | cut -d '.' -f1 | tr -d '\n'"
-temp_out_cmd = "cat /logs/temp.log | tail -n 2 | head -n 1| cut -d '.' -f1 | tr -d '\n'"
-weather_cmd = "cat /logs/temp.log | tail -n 1 | tr -d '\n'"
+temp_cmd = "cat /var/log/rasha/temp.log | head -n 1 | cut -d '.' -f1 | tr -d '\n'"
+hum_cmd = "cat /var/log/rasha/temp.log | tail -n 3 | head -n 1 | cut -d '.' -f1 | tr -d '\n'"
+temp_out_cmd = "cat /var/log/rasha/temp.log | tail -n 2 | head -n 1| cut -d '.' -f1 | tr -d '\n'"
+weather_cmd = "cat /var/log/rasha/temp.log | tail -n 1 | tr -d '\n'"
 radio_cmd = "mpc current -f [%title%] | tr -d '\n'"
 
 # playlists
@@ -91,7 +91,7 @@ def main():
     mylcd.lcd_display_string("   #########    ",2)
     time.sleep(0.5)
     mylcd.lcd_display_string("    LOADING     ",1)
-    mylcd.lcd_display_string(" ############## ",2)
+    mylcd.lcd_display_string("################",2)
     time.sleep(0.5)
     c = run_cmd(conni_cmd)
     mylcd.lcd_display_string("Conni" + " " + str(c) + " " + "Videos",1)
@@ -106,7 +106,9 @@ def main():
     mylcd.lcd_display_string("Peppa" + " " + str(p) + " " + "Videos",1)
     time.sleep(2)
     mylcd.lcd_display_string("      DONE      ",1)
-    time.sleep(0.7)
+    # load thd script fix
+    os.system("/home/pi/scripts/thd.sh &")
+    time.sleep(0.5)
     main_menu()
 
 def show_status():
@@ -509,11 +511,12 @@ def play_music():
 def play_video(str):
     global counter
     time_play = time.time()
+    check_playlist()
     if check_limit(counter):
      do_limit(str)
      file = randomplay(str)
      write_log(file)
-     omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa' ], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
+     omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:1' ], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
      lcd_status = "PLAYING"
      while omxproc.poll() is None:
       title = run_cmd(title_cmd)
@@ -554,7 +557,7 @@ def play_video(str):
           time_play = time.time()
           file = randomplay(str)
           write_log(file)
-          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa' ], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
+          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:1' ], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
           lcd_status = "PLAYING"
           mylcd.lcd_display_string("                  ",1)
           mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
@@ -568,7 +571,7 @@ def play_video(str):
           file = randomplay(str)
           write_log(file)
           time_play = time.time()
-          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
+          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:1'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
           lcd_status = "PLAYING"
           mylcd.lcd_display_string("                  ",1)
           mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
@@ -840,9 +843,9 @@ def reset_counter():
     now = run_cmd(date_cmd)
     if (dateStr == '00:00' and counter != 0 ):
      counter = 0
-     f = open( '/logs/radio.log', 'a' )
+     f = open( '/var/log/rasha/radio.log', 'a' )
      f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
-     f.write( "%s" % now + ' ' + "RESET" + '\n' )
+     f.write( "%s" % now + ' ' + "DAILY RESET" + '\n' )
      f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
      f.close()
      time.sleep(5)
@@ -851,14 +854,14 @@ def reset_counter_now():
     global counter
     counter = 0
     now = run_cmd(date_cmd)
-    f = open( '/logs/radio.log', 'a' )
+    f = open( '/var/log/rasha/radio.log', 'a' )
     f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
-    f.write( "%s" % now + ' ' + "RESET" + '\n' )
+    f.write( "%s" % now + ' ' + "MANUAL RESET" + '\n' )
     f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
     f.close()
 
 def write_msg():
-    f = open( '/logs/radio.log', 'a')
+    f = open( '/var/log/rasha/radio.log', 'a')
     now = run_cmd(time_cmd)
     f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
     f.write( "%s" % now + ' ' + 'Rasha ready!' + '\n' )
@@ -916,7 +919,7 @@ def randomplay(str):
 
 def write_log(file):
     global counter
-    f = open( '/logs/radio.log', 'a' )
+    f = open( '/var/log/rasha/radio.log', 'a' )
     now = run_cmd(date_cmd)
     x = file[5:]
     y = x[:-4]

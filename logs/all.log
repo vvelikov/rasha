@@ -1,0 +1,1052 @@
+cat: /var/lib/mpd/playlists/all.m3u: No such file or directory
+rm: cannot remove '/var/lib/mpd/playlists/all.m3u': No such file or directory
+/home/pi/scripts/add_music.sh: line 14: /var/lib/mpd/playlists/all.m3u: Permission denied
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+cat: /home/pi/scripts/logs/temp.log: No such file or directory
+rm: cannot remove '/var/lib/mpd/playlists/all.m3u': Permission denied
+/bin/sh: 1: dbuscontrol.sh: not found
+sh: 1: dbuscontrol.sh: not found
+cat: /tmp/omxplayerdbus.pi: No such file or directory
+cat: /tmp/omxplayerdbus.pi.pid: No such file or directory
+Must have DBUS_SESSION_BUS_ADDRESS
+cat: /tmp/omxplayerdbus.pi: No such file or directory
+cat: /tmp/omxplayerdbus.pi.pid: No such file or directory
+Must have DBUS_SESSION_BUS_ADDRESS
+Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.mpris.MediaPlayer2.omxplayer was not provided by any .service files
+cat: /tmp/omxplayerdbus.pi: No such file or directory
+Must have DBUS_SESSION_BUS_ADDRESS
+cat: /tmp/omxplayerdbus.pi: No such file or directory
+cat: /tmp/omxplayerdbus.pi.pid: No such file or directory
+Must have DBUS_SESSION_BUS_ADDRESS
+Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.mpris.MediaPlayer2.omxplayer was not provided by any .service files
+Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.mpris.MediaPlayer2.omxplayer was not provided by any .service files
+cat: /tmp/omxplayerdbus.pi: No such file or directory
+cat: /tmp/omxplayerdbus.pi.pid: No such file or directory
+Must have DBUS_SESSION_BUS_ADDRESS
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 13 [13%] [-44.00dB] [on]
+  Front Right: Playback 13 [13%] [-44.00dB] [on]
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 16 [18%] [-38.00dB] [on]
+  Front Right: Playback 16 [18%] [-38.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 21 [29%] [-28.00dB] [on]
+  Front Right: Playback 21 [29%] [-28.00dB] [on]
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 23 [35%] [-24.00dB] [on]
+  Front Right: Playback 23 [35%] [-24.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 27 [51%] [-16.00dB] [on]
+  Front Right: Playback 27 [51%] [-16.00dB] [on]
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 29 [60%] [-12.00dB] [on]
+  Front Right: Playback 29 [60%] [-12.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 31 [72%] [-8.00dB] [on]
+  Front Right: Playback 31 [72%] [-8.00dB] [on]
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 32 [78%] [-6.00dB] [on]
+  Front Right: Playback 32 [78%] [-6.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 33 [85%] [-4.00dB] [on]
+  Front Right: Playback 33 [85%] [-4.00dB] [on]
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 35 [100%] [0.00dB] [on]
+  Front Right: Playback 35 [100%] [0.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 34 [92%] [-2.00dB] [on]
+  Front Right: Playback 34 [92%] [-2.00dB] [on]
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 32 [78%] [-6.00dB] [on]
+  Front Right: Playback 32 [78%] [-6.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 31 [72%] [-8.00dB] [on]
+  Front Right: Playback 31 [72%] [-8.00dB] [on]
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 30 [66%] [-10.00dB] [on]
+  Front Right: Playback 30 [66%] [-10.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 29 [60%] [-12.00dB] [on]
+  Front Right: Playback 29 [60%] [-12.00dB] [on]
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 28 [55%] [-14.00dB] [on]
+  Front Right: Playback 28 [55%] [-14.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 24 [39%] [-22.00dB] [on]
+  Front Right: Playback 24 [39%] [-22.00dB] [on]
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 22 [32%] [-26.00dB] [on]
+  Front Right: Playback 22 [32%] [-26.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 20 [27%] [-30.00dB] [on]
+  Front Right: Playback 20 [27%] [-30.00dB] [on]
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 14 [14%] [-42.00dB] [on]
+  Front Right: Playback 14 [14%] [-42.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 10 [8%] [-50.00dB] [on]
+  Front Right: Playback 10 [8%] [-50.00dB] [on]
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 5 [3%] [-60.00dB] [on]
+  Front Right: Playback 5 [3%] [-60.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 7 [5%] [-56.00dB] [on]
+  Front Right: Playback 7 [5%] [-56.00dB] [on]
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 12 [11%] [-46.00dB] [on]
+  Front Right: Playback 12 [11%] [-46.00dB] [on]
+Adeus!
+cat: /tmp/omxplayerdbus.pi: No such file or directory
+cat: /tmp/omxplayerdbus.pi.pid: No such file or directory
+Must have DBUS_SESSION_BUS_ADDRESS
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 13 [13%] [-44.00dB] [on]
+  Front Right: Playback 13 [13%] [-44.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 9 [7%] [-52.00dB] [on]
+  Front Right: Playback 9 [7%] [-52.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 3 [2%] [-64.00dB] [on]
+  Front Right: Playback 3 [2%] [-64.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 9 [7%] [-52.00dB] [on]
+  Front Right: Playback 9 [7%] [-52.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 13 [13%] [-44.00dB] [on]
+  Front Right: Playback 13 [13%] [-44.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 16 [18%] [-38.00dB] [on]
+  Front Right: Playback 16 [18%] [-38.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 19 [24%] [-32.00dB] [on]
+  Front Right: Playback 19 [24%] [-32.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 16 [18%] [-38.00dB] [on]
+  Front Right: Playback 16 [18%] [-38.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 13 [13%] [-44.00dB] [on]
+  Front Right: Playback 13 [13%] [-44.00dB] [on]
+Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.mpris.MediaPlayer2.omxplayer was not provided by any .service files
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 16 [18%] [-38.00dB] [on]
+  Front Right: Playback 16 [18%] [-38.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 19 [24%] [-32.00dB] [on]
+  Front Right: Playback 19 [24%] [-32.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 21 [29%] [-28.00dB] [on]
+  Front Right: Playback 21 [29%] [-28.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 23 [35%] [-24.00dB] [on]
+  Front Right: Playback 23 [35%] [-24.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 25 [42%] [-20.00dB] [on]
+  Front Right: Playback 25 [42%] [-20.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 27 [51%] [-16.00dB] [on]
+  Front Right: Playback 27 [51%] [-16.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 29 [60%] [-12.00dB] [on]
+  Front Right: Playback 29 [60%] [-12.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 30 [66%] [-10.00dB] [on]
+  Front Right: Playback 30 [66%] [-10.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 31 [72%] [-8.00dB] [on]
+  Front Right: Playback 31 [72%] [-8.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 32 [78%] [-6.00dB] [on]
+  Front Right: Playback 32 [78%] [-6.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 33 [85%] [-4.00dB] [on]
+  Front Right: Playback 33 [85%] [-4.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 32 [78%] [-6.00dB] [on]
+  Front Right: Playback 32 [78%] [-6.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 31 [72%] [-8.00dB] [on]
+  Front Right: Playback 31 [72%] [-8.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 30 [66%] [-10.00dB] [on]
+  Front Right: Playback 30 [66%] [-10.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 29 [60%] [-12.00dB] [on]
+  Front Right: Playback 29 [60%] [-12.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 28 [55%] [-14.00dB] [on]
+  Front Right: Playback 28 [55%] [-14.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 26 [46%] [-18.00dB] [on]
+  Front Right: Playback 26 [46%] [-18.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 24 [39%] [-22.00dB] [on]
+  Front Right: Playback 24 [39%] [-22.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 26 [46%] [-18.00dB] [on]
+  Front Right: Playback 26 [46%] [-18.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 24 [39%] [-22.00dB] [on]
+  Front Right: Playback 24 [39%] [-22.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 22 [32%] [-26.00dB] [on]
+  Front Right: Playback 22 [32%] [-26.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 20 [27%] [-30.00dB] [on]
+  Front Right: Playback 20 [27%] [-30.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 22 [32%] [-26.00dB] [on]
+  Front Right: Playback 22 [32%] [-26.00dB] [on]
+cat: /tmp/omxplayerdbus.pi: No such file or directory
+cat: /tmp/omxplayerdbus.pi.pid: No such file or directory
+Must have DBUS_SESSION_BUS_ADDRESS
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 24 [39%] [-22.00dB] [on]
+  Front Right: Playback 24 [39%] [-22.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 26 [46%] [-18.00dB] [on]
+  Front Right: Playback 26 [46%] [-18.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 28 [55%] [-14.00dB] [on]
+  Front Right: Playback 28 [55%] [-14.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 29 [60%] [-12.00dB] [on]
+  Front Right: Playback 29 [60%] [-12.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 28 [55%] [-14.00dB] [on]
+  Front Right: Playback 28 [55%] [-14.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 26 [46%] [-18.00dB] [on]
+  Front Right: Playback 26 [46%] [-18.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 24 [39%] [-22.00dB] [on]
+  Front Right: Playback 24 [39%] [-22.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 22 [32%] [-26.00dB] [on]
+  Front Right: Playback 22 [32%] [-26.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 20 [27%] [-30.00dB] [on]
+  Front Right: Playback 20 [27%] [-30.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 17 [20%] [-36.00dB] [on]
+  Front Right: Playback 17 [20%] [-36.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 20 [27%] [-30.00dB] [on]
+  Front Right: Playback 20 [27%] [-30.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 22 [32%] [-26.00dB] [on]
+  Front Right: Playback 22 [32%] [-26.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 24 [39%] [-22.00dB] [on]
+  Front Right: Playback 24 [39%] [-22.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 26 [46%] [-18.00dB] [on]
+  Front Right: Playback 26 [46%] [-18.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 28 [55%] [-14.00dB] [on]
+  Front Right: Playback 28 [55%] [-14.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 29 [60%] [-12.00dB] [on]
+  Front Right: Playback 29 [60%] [-12.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 28 [55%] [-14.00dB] [on]
+  Front Right: Playback 28 [55%] [-14.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 26 [46%] [-18.00dB] [on]
+  Front Right: Playback 26 [46%] [-18.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 24 [39%] [-22.00dB] [on]
+  Front Right: Playback 24 [39%] [-22.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 22 [32%] [-26.00dB] [on]
+  Front Right: Playback 22 [32%] [-26.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 20 [27%] [-30.00dB] [on]
+  Front Right: Playback 20 [27%] [-30.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 22 [32%] [-26.00dB] [on]
+  Front Right: Playback 22 [32%] [-26.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 24 [39%] [-22.00dB] [on]
+  Front Right: Playback 24 [39%] [-22.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 22 [32%] [-26.00dB] [on]
+  Front Right: Playback 22 [32%] [-26.00dB] [on]
+Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.mpris.MediaPlayer2.omxplayer was not provided by any .service files
+cat: /tmp/omxplayerdbus.pi: No such file or directory
+cat: /tmp/omxplayerdbus.pi.pid: No such file or directory
+Must have DBUS_SESSION_BUS_ADDRESS
+Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.mpris.MediaPlayer2.omxplayer was not provided by any .service files
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 24 [39%] [-22.00dB] [on]
+  Front Right: Playback 24 [39%] [-22.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 26 [46%] [-18.00dB] [on]
+  Front Right: Playback 26 [46%] [-18.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 28 [55%] [-14.00dB] [on]
+  Front Right: Playback 28 [55%] [-14.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 29 [60%] [-12.00dB] [on]
+  Front Right: Playback 29 [60%] [-12.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 30 [66%] [-10.00dB] [on]
+  Front Right: Playback 30 [66%] [-10.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 31 [72%] [-8.00dB] [on]
+  Front Right: Playback 31 [72%] [-8.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 32 [78%] [-6.00dB] [on]
+  Front Right: Playback 32 [78%] [-6.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 31 [72%] [-8.00dB] [on]
+  Front Right: Playback 31 [72%] [-8.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 30 [66%] [-10.00dB] [on]
+  Front Right: Playback 30 [66%] [-10.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 29 [60%] [-12.00dB] [on]
+  Front Right: Playback 29 [60%] [-12.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 28 [55%] [-14.00dB] [on]
+  Front Right: Playback 28 [55%] [-14.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 26 [46%] [-18.00dB] [on]
+  Front Right: Playback 26 [46%] [-18.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 24 [39%] [-22.00dB] [on]
+  Front Right: Playback 24 [39%] [-22.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 22 [32%] [-26.00dB] [on]
+  Front Right: Playback 22 [32%] [-26.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 20 [27%] [-30.00dB] [on]
+  Front Right: Playback 20 [27%] [-30.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 22 [32%] [-26.00dB] [on]
+  Front Right: Playback 22 [32%] [-26.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 24 [39%] [-22.00dB] [on]
+  Front Right: Playback 24 [39%] [-22.00dB] [on]
+Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.mpris.MediaPlayer2.omxplayer was not provided by any .service files
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 22 [32%] [-26.00dB] [on]
+  Front Right: Playback 22 [32%] [-26.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 20 [27%] [-30.00dB] [on]
+  Front Right: Playback 20 [27%] [-30.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 17 [20%] [-36.00dB] [on]
+  Front Right: Playback 17 [20%] [-36.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 14 [14%] [-42.00dB] [on]
+  Front Right: Playback 14 [14%] [-42.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 10 [8%] [-50.00dB] [on]
+  Front Right: Playback 10 [8%] [-50.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 14 [14%] [-42.00dB] [on]
+  Front Right: Playback 14 [14%] [-42.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 17 [20%] [-36.00dB] [on]
+  Front Right: Playback 17 [20%] [-36.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 20 [27%] [-30.00dB] [on]
+  Front Right: Playback 20 [27%] [-30.00dB] [on]
+Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.mpris.MediaPlayer2.omxplayer was not provided by any .service files
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 17 [20%] [-36.00dB] [on]
+  Front Right: Playback 17 [20%] [-36.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 14 [14%] [-42.00dB] [on]
+  Front Right: Playback 14 [14%] [-42.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 10 [8%] [-50.00dB] [on]
+  Front Right: Playback 10 [8%] [-50.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 5 [3%] [-60.00dB] [on]
+  Front Right: Playback 5 [3%] [-60.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 10 [8%] [-50.00dB] [on]
+  Front Right: Playback 10 [8%] [-50.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 14 [14%] [-42.00dB] [on]
+  Front Right: Playback 14 [14%] [-42.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 17 [20%] [-36.00dB] [on]
+  Front Right: Playback 17 [20%] [-36.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 20 [27%] [-30.00dB] [on]
+  Front Right: Playback 20 [27%] [-30.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 22 [32%] [-26.00dB] [on]
+  Front Right: Playback 22 [32%] [-26.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 20 [27%] [-30.00dB] [on]
+  Front Right: Playback 20 [27%] [-30.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 17 [20%] [-36.00dB] [on]
+  Front Right: Playback 17 [20%] [-36.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 14 [14%] [-42.00dB] [on]
+  Front Right: Playback 14 [14%] [-42.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 17 [20%] [-36.00dB] [on]
+  Front Right: Playback 17 [20%] [-36.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 20 [27%] [-30.00dB] [on]
+  Front Right: Playback 20 [27%] [-30.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%+
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 22 [32%] [-26.00dB] [on]
+  Front Right: Playback 22 [32%] [-26.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 20 [27%] [-30.00dB] [on]
+  Front Right: Playback 20 [27%] [-30.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 17 [20%] [-36.00dB] [on]
+  Front Right: Playback 17 [20%] [-36.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 14 [14%] [-42.00dB] [on]
+  Front Right: Playback 14 [14%] [-42.00dB] [on]
+Executing trigger action: /usr/bin/amixer -c1 -M set PCM 5%-
+Simple mixer control 'PCM',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 35
+  Mono:
+  Front Left: Playback 10 [8%] [-50.00dB] [on]
+  Front Right: Playback 10 [8%] [-50.00dB] [on]
