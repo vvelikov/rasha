@@ -1,4 +1,4 @@
-#/usr/bin/python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 from subprocess import PIPE, Popen
@@ -511,6 +511,7 @@ def play_music():
 def play_video(str):
     global counter
     time_play = time.time()
+    check_playlist()
     if check_limit(counter):
      do_limit(str)
      file = randomplay(str)
@@ -703,7 +704,7 @@ def counter_menu():
       main_menu()
      else:
       mylcd.lcd_display_string("     RESET?      ",1)
-      mylcd.lcd_display_string("< No       Yes >",2)
+      mylcd.lcd_display_string("< No        Yes >",2)
 
 def reboot():
     time.sleep(0.2)
@@ -839,7 +840,7 @@ def shutdown():
 def reset_counter():
     global counter
     dateStr = datetime.datetime.now().strftime("%H:%M")
-    now = run_cmd(date_cmd)
+    now = run_cmd(time_cmd)
     if (dateStr == '00:00' and counter != 0 ):
      counter = 0
      f = open( '/var/log/rasha/radio.log', 'a' )
@@ -847,12 +848,12 @@ def reset_counter():
      f.write( "%s" % now + ' ' + "DAILY RESET" + '\n' )
      f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
      f.close()
-     time.sleep(5)
+     time.sleep(3)
 
 def reset_counter_now():
     global counter
     counter = 0
-    now = run_cmd(date_cmd)
+    now = run_cmd(time_cmd)
     f = open( '/var/log/rasha/radio.log', 'a' )
     f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
     f.write( "%s" % now + ' ' + "MANUAL RESET" + '\n' )
