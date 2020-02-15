@@ -108,6 +108,7 @@ def main():
     mylcd.lcd_display_string("      DONE      ",1)
     # load thd script fix
     os.system("/home/pi/scripts/thd.sh &")
+    os.system("sudo /usr/local/bin/asciiquarium > /dev/tty1  &")
     time.sleep(0.5)
     main_menu()
 
