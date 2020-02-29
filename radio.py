@@ -535,7 +535,6 @@ def play_video(str):
     x = f.read()
     f.close()
     counter = float(x)
-    check_playlist()
     if check_limit(counter):
      do_limit(str)
      file = randomplay(str)
@@ -1051,10 +1050,6 @@ def run_cmd(cmd):
 # rewrite in python
 def check_music():
     os.system("/home/pi/scripts/add_music.sh")
-
-# rewrite in python
-def check_playlist():
-    os.system("/home/pi/scripts/add_videos.sh")
 
 # Main
 if __name__ == '__main__':
