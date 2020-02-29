@@ -994,15 +994,14 @@ def display_volume():
 
 def display_error():
     os.system("dbuscontrol.sh stop")
-    os.system("omxplayer /home/pi/scripts/byebye.wav -o alsa:hw:1")
     f = open("/var/log/rasha/counter","r")
     x = f.read()
     f.close()
     counter = float(x)
-    mylcd.lcd_display_string("                ", 1)
-    mylcd.lcd_display_string("                ", 2)
+    mylcd.lcd_clear()
     mylcd.lcd_display_string(" LIMIT %s" % (round(counter,1)),1)
     mylcd.lcd_display_string(" REACHED!    ",2)
+    os.system("omxplayer /home/pi/scripts/byebye.wav -o alsa:hw:1")
     time.sleep(2)
     main_menu()
 
