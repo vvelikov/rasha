@@ -105,11 +105,10 @@ def main():
     p = run_cmd(peppa_cmd)
     mylcd.lcd_display_string("                ",1)
     mylcd.lcd_display_string("Peppa" + " " + str(p) + " " + "Videos",1)
-    time.sleep(2)
+    time.sleep(1)
     mylcd.lcd_display_string("      Done      ",1)
     # load thd script fix
     os.system("/home/pi/scripts/thd.sh &")
-    #os.system("sudo /usr/local/bin/asciiquarium > /dev/tty1  &")
     time.sleep(0.5)
     main_menu()
 
