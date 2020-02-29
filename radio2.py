@@ -1,4 +1,4 @@
-#!/usr/bin/python3 -u
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 from subprocess import PIPE, Popen
@@ -49,11 +49,12 @@ mylcd.lcd_load_custom_chars(speaker_icon)
 # some command definitions
 title_cmd = "dbuscontrol.sh getsource | awk -F '/' '{print $4}' | cut -d '.' -f1 | tr -d '\n'"
 date_cmd = "date +%R | tr -d '\n'"
+date_now_cmd = "date +%Y%m%d | tr -d '\n'"
 time_cmd = "date '+%F [%H:%M]' | tr -d '\n'"
 wifi_cmd = "iwconfig wlan0| grep Signal | awk '{print $4}' | cut -d '-' -f2 | tr -d '\n'"
-temp_cmd = "cat /var/log/rasha/tempIN | xargs printf '%.0f'"
-hum_cmd = "cat /var/log/rasha/humidity | xargs printf '%.0f'"
-temp_out_cmd = "cat /var/log/rasha/tempOUT | xargs printf '$.0f'"
+temp_cmd = "cat /var/log/rasha/tempIN"
+temp_out_cmd = "cat /var/log/rasha/tempOUT"
+hum_cmd = "cat /var/log/rasha/humidity"
 weather_cmd = "cat /var/log/rasha/weather | tr -d '\n'"
 radio_cmd = "mpc current -f [%title%] | tr -d '\n'"
 
@@ -64,7 +65,8 @@ peppa_cmd = "cat /home/pi/scripts/pl/peppa.m3u | wc -l | xargs | tr -d '\n'"
 conni_cmd = "cat /home/pi/scripts/pl/conni.m3u | wc -l | xargs | tr -d '\n'"
 
 # other variables
-limit = 7.0                 # only 7 videos are allowed per day Barba = 0.8 Peppa = 1 Masha = 1.2 Conni = 2
+limit = 7                   # only 7 videos are allowed per day Barba = 0.8 Peppa = 1 Masha = 1.2 Conni = 2
+counter = 0                 # counter starts at 0
 time_diff = 30              # buffer before counting video
 
 def main():
@@ -75,6 +77,8 @@ def main():
     mylcd.lcd_display_string("                ",1)
     mylcd.lcd_display_string("                ",2)
     # make sure videos & music are available
+    check_counter()
+    check_playlist()
     check_music()
     write_msg()
     mylcd.lcd_display_string("    LOADING     ",1)
@@ -87,29 +91,27 @@ def main():
     mylcd.lcd_display_string("    #######     ",2)
     time.sleep(0.5)
     mylcd.lcd_display_string("    LOADING     ",1)
-    mylcd.lcd_display_string("################",2)
+    mylcd.lcd_display_string("   #########    ",2)
     time.sleep(0.5)
     mylcd.lcd_display_string("    LOADING     ",1)
+    mylcd.lcd_display_string("################",2)
+    time.sleep(0.5)
     c = run_cmd(conni_cmd)
-    mylcd.lcd_display_string("                ",1)
     mylcd.lcd_display_string("Conni" + " " + str(c) + " " + "Videos",1)
     time.sleep(2)
     m = run_cmd(masha_cmd)
-    mylcd.lcd_display_string("                ",1)
     mylcd.lcd_display_string("Masha" + " " + str(m) + " " + "Videos",1)
     time.sleep(2)
     b = run_cmd(barba_cmd)
-    mylcd.lcd_display_string("                ",1)
     mylcd.lcd_display_string("Barba" + " " + str(b) + " " + "Videos",1)
     time.sleep(2)
     p = run_cmd(peppa_cmd)
-    mylcd.lcd_display_string("                ",1)
     mylcd.lcd_display_string("Peppa" + " " + str(p) + " " + "Videos",1)
     time.sleep(2)
-    mylcd.lcd_display_string("      Done      ",1)
+    mylcd.lcd_display_string("      DONE      ",1)
     # load thd script fix
     os.system("/home/pi/scripts/thd.sh &")
-    #os.system("sudo /usr/local/bin/asciiquarium > /dev/tty1  &")
+    os.system("sudo /usr/local/bin/asciiquarium > /dev/tty1  &")
     time.sleep(0.5)
     main_menu()
 
@@ -239,6 +241,7 @@ def show_counter_menu():
        off_menu()
 
 def show_counter():
+    global counter
     timelastchecked = 0
     time.sleep(0.2)
     while(1):
@@ -250,10 +253,6 @@ def show_counter():
       mylcd.lcd_display_string(mystring,1)
       mylcd.lcd_display_string(mystring,2)
       time.sleep(0.01)
-      f = open("/var/log/rasha/counter","r")
-      x = f.read()
-      f.close()
-      counter = float(x)
       x = round(counter,1)
       mylcd.lcd_display_string(" Counter:      ",1)
       mylcd.lcd_display_string("   #:" + str(x),2)
@@ -329,10 +328,6 @@ def iradio_menu():
 def conni_menu():
     timelastchecked = 0
     time.sleep(0.2)
-    f = open("/var/log/rasha/counter","r")
-    x = f.read()
-    f.close()
-    counter = float(x)
     while(1):
      if time.time() >= timelastchecked:
       timelastchecked = time.time()+3
@@ -354,10 +349,6 @@ def conni_menu():
 def masha_menu():
     timelastchecked = 0
     time.sleep(0.2)
-    f = open("/var/log/rasha/counter","r")
-    x = f.read()
-    f.close()
-    counter = float(x)
     while(1):
      if time.time() >= timelastchecked:
       timelastchecked = time.time()+3
@@ -379,10 +370,6 @@ def masha_menu():
 def barba_menu():
     timelastchecked = 0
     time.sleep(0.2)
-    f = open("/var/log/rasha/counter","r")
-    x = f.read()
-    f.close()
-    counter = float(x)
     while(1):
      if time.time() >= timelastchecked:
       timelastchecked = time.time()+3
@@ -404,10 +391,6 @@ def barba_menu():
 def peppa_menu():
     timelastchecked = 0
     time.sleep(0.2)
-    f = open("/var/log/rasha/counter","r")
-    x = f.read()
-    f.close()
-    counter = float(x)
     while(1):
      if time.time() >= timelastchecked:
       timelastchecked = time.time()+3
@@ -530,11 +513,8 @@ def play_music():
        time.sleep(0.2)
 
 def play_video(str):
+    global counter
     time_play = time.time()
-    f = open("/var/log/rasha/counter","r")
-    x = f.read()
-    f.close()
-    counter = float(x)
     check_playlist()
     if check_limit(counter):
      do_limit(str)
@@ -862,14 +842,11 @@ def shutdown():
       mylcd.lcd_display_string("< No       Yes >",2)
 
 def reset_counter():
-    now = run_cmd(time_cmd)
+    global counter
     dateStr = datetime.datetime.now().strftime("%H:%M")
-    if (dateStr == '00:00'):
+    now = run_cmd(time_cmd)
+    if (dateStr == '00:00' and counter != 0 ):
      counter = 0
-     c = open("/var/log/rasha/counter", "w")
-     c.write("%s" % counter)
-     c.close()
-     dateStr = datetime.datetime.now().strftime("%H:%M")
      f = open( '/var/log/rasha/radio.log', 'a' )
      f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
      f.write( "%s" % now + ' ' + "DAILY RESET" + '\n' )
@@ -878,10 +855,8 @@ def reset_counter():
      time.sleep(3)
 
 def reset_counter_now():
+    global counter
     counter = 0
-    c = open("/var/log/rasha/counter", "w")
-    c.write("%s" % counter)
-    c.close()
     now = run_cmd(time_cmd)
     f = open( '/var/log/rasha/radio.log', 'a' )
     f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
@@ -947,10 +922,7 @@ def randomplay(str):
     return item
 
 def write_log(file):
-    p = open("/var/log/rasha/counter","r")
-    x = p.read()
-    counter = float(x)
-    p.close()
+    global counter
     f = open( '/var/log/rasha/radio.log', 'a' )
     now = run_cmd(date_cmd)
     x = file[5:]
@@ -960,10 +932,6 @@ def write_log(file):
         y = y[8:]
     f.write( "%s" % now + ' ' + "# %s" % round(counter,1) + ' ' + y + '\n' )
     f.close()
-    # counter
-    c = open( '/var/log/rasha/counter',  'w' )
-    c.write("%s" % counter)
-    c.close()
 
 def get_ip_address():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -996,10 +964,6 @@ def display_volume():
 
 def display_error():
     os.system("dbuscontrol.sh stop")
-    f = open("/var/log/rasha/counter","r")
-    x = f.read()
-    f.close()
-    counter = float(x)
     mylcd.lcd_display_string("                ", 1)
     mylcd.lcd_display_string("                ", 2)
     mylcd.lcd_display_string(" LIMIT %s" % (round(counter,1)),1)
@@ -1008,35 +972,17 @@ def display_error():
     main_menu()
 
 def do_limit(str):
-    f = open("/var/log/rasha/counter","r")
-    x = f.read()
-    counter = float(x)
+    global counter
     if ( str == "/mnt/Peppa/"):
         counter+=1
-        c = open("/var/log/rasha/counter", "w")
-        c.write("%s" % counter)
-        c.close()
     elif ( str == "/mnt/Barba/"):
         counter+=0.8
-        c = open("/var/log/rasha/counter", "w")
-        c.write("%s" % counter)
-        c.close()
     elif ( str == "/mnt/Masha/"):
         counter+=1.2
-        c = open("/var/log/rasha/counter", "w")
-        c.write("%s" % counter)
-        c.close()
     else:
         counter+=2
-        c = open("/var/log/rasha/counter", "w")
-        c.write("%s" % counter)
-        c.close()
 
 def check_limit(counter):
-    f = open("/var/log/rasha/counter","r")
-    x = f.read()
-    f.close()
-    counter = float(x)
     if counter < limit:
         return True
     else:
@@ -1049,12 +995,11 @@ def run_cmd(cmd):
     return output.decode('ascii')
 
 # rewrite in python
-def check_music():
-    os.system("/home/pi/scripts/add_music.sh")
-
-# rewrite in python
 def check_playlist():
     os.system("/home/pi/scripts/add_videos.sh")
+
+def check_music():
+    os.system("/home/pi/scripts/add_music.sh")
 
 # Main
 if __name__ == '__main__':
@@ -1069,3 +1014,4 @@ if __name__ == '__main__':
       GPIO.cleanup()
       mylcd.lcd_clear()
       print ("Adeus!")
+
