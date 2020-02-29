@@ -994,6 +994,7 @@ def display_volume():
 
 def display_error():
     os.system("dbuscontrol.sh stop")
+    os.system("omxplayer /home/pi/scripts/byebye.wav -o alsa:hw:1")
     f = open("/var/log/rasha/counter","r")
     x = f.read()
     f.close()
