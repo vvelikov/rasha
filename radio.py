@@ -862,7 +862,7 @@ def shutdown():
 def reset_counter():
     now = run_cmd(time_cmd)
     dateStr = datetime.datetime.now().strftime("%H:%M")
-    if (dateStr == '00:00'):
+    if (dateStr == '00:00' and counter != 0 ):
      counter = 0
      c = open("/var/log/rasha/counter", "w")
      c.write("%s" % counter)
@@ -873,7 +873,7 @@ def reset_counter():
      f.write( "%s" % now + ' ' + "DAILY RESET" + '\n' )
      f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
      f.close()
-     time.sleep(3)
+     time.sleep(5)
 
 def reset_counter_now():
     counter = 0
