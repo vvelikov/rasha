@@ -980,7 +980,8 @@ def readCounter():
     x = f.read()
     f.close()
     counter = float(x)
-    return counter
+    x = round(counter,1)
+    return x
 
 def writeCounter(counter):
     c = open("/var/log/rasha/counter", "w")
