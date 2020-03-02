@@ -87,7 +87,6 @@ def main():
     mylcd.lcd_display_string("    LOADING     ",1)
     mylcd.lcd_display_string("################",2)
     time.sleep(0.3)
-    mylcd.lcd_display_string("    LOADING     ",1)
     c = run_cmd(conni_cmd)
     mylcd.lcd_display_string("                ",1)
     mylcd.lcd_display_string("Conni" + " " + str(c) + " " + "Videos",1)
@@ -702,7 +701,7 @@ def counter_menu():
       main_menu()
      else:
       mylcd.lcd_display_string("     RESET?     ",1)
-      mylcd.lcd_display_string("< No        Yes>",2)
+      mylcd.lcd_display_string("< No       Yes >",2)
 
 def reboot():
     time.sleep(0.2)
@@ -913,7 +912,6 @@ def write_log(file):
         y = y[8:]
     f.write( "%s" % now + ' ' + "# %s" % round(counter,1) + ' ' + y + '\n' )
     f.close()
-    # counter
     writeCounter(counter)
 
 def get_ip_address():
@@ -959,24 +957,16 @@ def do_limit(str):
     counter = readCounter()
     if ( str == "/mnt/Peppa/"):
         counter+=1
-        c = open("/var/log/rasha/counter", "w")
-        c.write("%s" % counter)
-        c.close()
+        writeCounter(counter)
     elif ( str == "/mnt/Barba/"):
         counter+=0.8
-        c = open("/var/log/rasha/counter", "w")
-        c.write("%s" % counter)
-        c.close()
+        writeCounter(counter)
     elif ( str == "/mnt/Masha/"):
         counter+=1.2
-        c = open("/var/log/rasha/counter", "w")
-        c.write("%s" % counter)
-        c.close()
+        writeCounter(counter)
     else:
         counter+=2
-        c = open("/var/log/rasha/counter", "w")
-        c.write("%s" % counter)
-        c.close()
+        writeCounter(counter)
 
 def check_limit(counter):
     counter = readCounter()
