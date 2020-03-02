@@ -5,7 +5,7 @@ from subprocess import PIPE, Popen
 import I2C_LCD_driver
 import RPi.GPIO as GPIO
 import subprocess
-import datetime
+from datetime import datetime
 import socket
 import time
 import sys
@@ -48,12 +48,10 @@ mylcd.lcd_load_custom_chars(speaker_icon)
 
 # some command definitions
 title_cmd = "dbuscontrol.sh getsource | awk -F '/' '{print $4}' | cut -d '.' -f1 | tr -d '\n'"
-date_cmd = "date +%R | tr -d '\n'"
-time_cmd = "date '+%F [%H:%M]' | tr -d '\n'"
 wifi_cmd = "iwconfig wlan0| grep Signal | awk '{print $4}' | cut -d '-' -f2 | tr -d '\n'"
 temp_cmd = "cat /var/log/rasha/tempIN | xargs printf '%.0f'"
 hum_cmd = "cat /var/log/rasha/humidity | xargs printf '%.0f'"
-temp_out_cmd = "cat /var/log/rasha/tempOUT | xargs printf '$.0f'"
+temp_out_cmd = "cat /var/log/rasha/tempOUT | xargs printf '%.0f'"
 weather_cmd = "cat /var/log/rasha/weather | tr -d '\n'"
 radio_cmd = "mpc current -f [%title%] | tr -d '\n'"
 
@@ -79,29 +77,29 @@ def main():
     write_msg()
     mylcd.lcd_display_string("    LOADING     ",1)
     mylcd.lcd_display_string("       #        ",2)
-    time.sleep(0.5)
+    time.sleep(0.3)
     mylcd.lcd_display_string("    LOADING     ",1)
     mylcd.lcd_display_string("      ###       ",2)
-    time.sleep(0.5)
+    time.sleep(0.3)
     mylcd.lcd_display_string("    LOADING     ",1)
     mylcd.lcd_display_string("    #######     ",2)
-    time.sleep(0.5)
+    time.sleep(0.3)
     mylcd.lcd_display_string("    LOADING     ",1)
     mylcd.lcd_display_string("################",2)
-    time.sleep(0.5)
+    time.sleep(0.3)
     mylcd.lcd_display_string("    LOADING     ",1)
     c = run_cmd(conni_cmd)
     mylcd.lcd_display_string("                ",1)
     mylcd.lcd_display_string("Conni" + " " + str(c) + " " + "Videos",1)
-    time.sleep(2)
+    time.sleep(1)
     m = run_cmd(masha_cmd)
     mylcd.lcd_display_string("                ",1)
     mylcd.lcd_display_string("Masha" + " " + str(m) + " " + "Videos",1)
-    time.sleep(2)
+    time.sleep(1)
     b = run_cmd(barba_cmd)
     mylcd.lcd_display_string("                ",1)
     mylcd.lcd_display_string("Barba" + " " + str(b) + " " + "Videos",1)
-    time.sleep(2)
+    time.sleep(1)
     p = run_cmd(peppa_cmd)
     mylcd.lcd_display_string("                ",1)
     mylcd.lcd_display_string("Peppa" + " " + str(p) + " " + "Videos",1)
@@ -113,7 +111,7 @@ def main():
     main_menu()
 
 def show_status():
-    time = run_cmd(date_cmd)
+    time = str(datetime.now().strftime("%H:%M"))
     temp = run_cmd(temp_cmd)
     wifi = run_cmd(wifi_cmd)
     mystring = time + " " + chr(5) + ":" + temp + degree + " " + chr(6) + ":" + wifi
@@ -859,11 +857,11 @@ def shutdown():
       mylcd.lcd_display_string("< No       Yes >",2)
 
 def reset_counter_now():
+    now = str(datetime.now().strftime("%Y/%m/%d %H:%M"))
     counter = 0
     c = open("/var/log/rasha/counter", "w")
     c.write("%s" % counter)
     c.close()
-    now = run_cmd(time_cmd)
     f = open( '/var/log/rasha/radio.log', 'a' )
     f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
     f.write( "%s" % now + ' ' + "MANUAL RESET" + '\n' )
@@ -871,8 +869,8 @@ def reset_counter_now():
     f.close()
 
 def write_msg():
+    now = str(datetime.now().strftime("%Y/%m/%d %H:%M"))
     f = open( '/var/log/rasha/radio.log', 'a')
-    now = run_cmd(time_cmd)
     f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
     f.write( "%s" % now + ' ' + 'Rasha ready!' + '\n' )
     f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
@@ -928,12 +926,12 @@ def randomplay(str):
     return item
 
 def write_log(file):
+    now = str(datetime.now().strftime("%Y/%m/%d %H:%M"))
     p = open("/var/log/rasha/counter","r")
     x = p.read()
     counter = float(x)
     p.close()
     f = open( '/var/log/rasha/radio.log', 'a' )
-    now = run_cmd(date_cmd)
     x = file[5:]
     y = x[:-4]
     y = y.replace('/',' - ')
