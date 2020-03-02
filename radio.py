@@ -104,10 +104,8 @@ def main():
     mylcd.lcd_display_string("                ",1)
     mylcd.lcd_display_string("Peppa" + " " + str(p) + " " + "Videos",1)
     time.sleep(1)
-    mylcd.lcd_display_string("      Done      ",1)
     # load thd script fix
     os.system("/home/pi/scripts/thd.sh &")
-    time.sleep(0.5)
     main_menu()
 
 def show_status():
@@ -246,13 +244,9 @@ def show_counter():
       mylcd.lcd_display_string(mystring,1)
       mylcd.lcd_display_string(mystring,2)
       time.sleep(0.01)
-      f = open("/var/log/rasha/counter","r")
-      x = f.read()
-      f.close()
-      counter = float(x)
-      x = round(counter,1)
+      counter = readCounter()
       mylcd.lcd_display_string(" Counter:      ",1)
-      mylcd.lcd_display_string("   #:" + str(x),2)
+      mylcd.lcd_display_string("   #:" + str(counter),2)
       time.sleep(3)
       main_menu()
 
@@ -325,10 +319,7 @@ def iradio_menu():
 def conni_menu():
     timelastchecked = 0
     time.sleep(0.2)
-    f = open("/var/log/rasha/counter","r")
-    x = f.read()
-    f.close()
-    counter = float(x)
+    counter = readCounter()
     while(1):
      if time.time() >= timelastchecked:
       timelastchecked = time.time()+3
@@ -350,10 +341,7 @@ def conni_menu():
 def masha_menu():
     timelastchecked = 0
     time.sleep(0.2)
-    f = open("/var/log/rasha/counter","r")
-    x = f.read()
-    f.close()
-    counter = float(x)
+    counter = readCounter()
     while(1):
      if time.time() >= timelastchecked:
       timelastchecked = time.time()+3
@@ -375,10 +363,7 @@ def masha_menu():
 def barba_menu():
     timelastchecked = 0
     time.sleep(0.2)
-    f = open("/var/log/rasha/counter","r")
-    x = f.read()
-    f.close()
-    counter = float(x)
+    counter = readCounter()
     while(1):
      if time.time() >= timelastchecked:
       timelastchecked = time.time()+3
@@ -400,10 +385,7 @@ def barba_menu():
 def peppa_menu():
     timelastchecked = 0
     time.sleep(0.2)
-    f = open("/var/log/rasha/counter","r")
-    x = f.read()
-    f.close()
-    counter = float(x)
+    counter = readCounter()
     while(1):
      if time.time() >= timelastchecked:
       timelastchecked = time.time()+3
@@ -527,10 +509,7 @@ def play_music():
 
 def play_video(str):
     time_play = time.time()
-    f = open("/var/log/rasha/counter","r")
-    x = f.read()
-    f.close()
-    counter = float(x)
+    counter = readCounter()
     if check_limit(counter):
      do_limit(str)
      file = randomplay(str)
@@ -709,7 +688,7 @@ def counter_menu():
       mylcd.lcd_display_string("###              ",2)
       time.sleep(0.01)
       mylcd.lcd_display_string(" Resetting       ",1)
-      mylcd.lcd_display_string("#####           ",2)
+      mylcd.lcd_display_string("#####            ",2)
       time.sleep(0.01)
       mylcd.lcd_display_string(" Resetting       ",1)
       mylcd.lcd_display_string("#############    ",2)
@@ -722,8 +701,8 @@ def counter_menu():
       mylcd.lcd_display_string("                 ",2)
       main_menu()
      else:
-      mylcd.lcd_display_string("     RESET?      ",1)
-      mylcd.lcd_display_string("< No        Yes >",2)
+      mylcd.lcd_display_string("     RESET?     ",1)
+      mylcd.lcd_display_string("< No        Yes>",2)
 
 def reboot():
     time.sleep(0.2)
@@ -859,9 +838,7 @@ def shutdown():
 def reset_counter_now():
     now = str(datetime.now().strftime("%Y/%m/%d %H:%M"))
     counter = 0
-    c = open("/var/log/rasha/counter", "w")
-    c.write("%s" % counter)
-    c.close()
+    writeCounter(counter)
     f = open( '/var/log/rasha/radio.log', 'a' )
     f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
     f.write( "%s" % now + ' ' + "MANUAL RESET" + '\n' )
@@ -927,10 +904,7 @@ def randomplay(str):
 
 def write_log(file):
     now = str(datetime.now().strftime("%Y/%m/%d %H:%M"))
-    p = open("/var/log/rasha/counter","r")
-    x = p.read()
-    counter = float(x)
-    p.close()
+    counter = readCounter()
     f = open( '/var/log/rasha/radio.log', 'a' )
     x = file[5:]
     y = x[:-4]
@@ -940,9 +914,7 @@ def write_log(file):
     f.write( "%s" % now + ' ' + "# %s" % round(counter,1) + ' ' + y + '\n' )
     f.close()
     # counter
-    c = open( '/var/log/rasha/counter',  'w' )
-    c.write("%s" % counter)
-    c.close()
+    writeCounter(counter)
 
 def get_ip_address():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -975,10 +947,7 @@ def display_volume():
 
 def display_error():
     os.system("dbuscontrol.sh stop")
-    f = open("/var/log/rasha/counter","r")
-    x = f.read()
-    f.close()
-    counter = float(x)
+    counter = readCounter()
     mylcd.lcd_clear()
     mylcd.lcd_display_string(" LIMIT %s" % (round(counter,1)),1)
     mylcd.lcd_display_string(" REACHED!    ",2)
@@ -987,9 +956,7 @@ def display_error():
     main_menu()
 
 def do_limit(str):
-    f = open("/var/log/rasha/counter","r")
-    x = f.read()
-    counter = float(x)
+    counter = readCounter()
     if ( str == "/mnt/Peppa/"):
         counter+=1
         c = open("/var/log/rasha/counter", "w")
@@ -1012,14 +979,23 @@ def do_limit(str):
         c.close()
 
 def check_limit(counter):
-    f = open("/var/log/rasha/counter","r")
-    x = f.read()
-    f.close()
-    counter = float(x)
+    counter = readCounter()
     if counter < limit:
         return True
     else:
         return False
+
+def readCounter():
+    f = open("/var/log/rasha/counter","r")
+    x = f.read()
+    f.close()
+    counter = float(x)
+    return counter
+
+def writeCounter(counter):
+    c = open("/var/log/rasha/counter", "w")
+    c.write("%s" % counter)
+    c.close()
 
 # run unix shell command, return as ASCII
 def run_cmd(cmd):
