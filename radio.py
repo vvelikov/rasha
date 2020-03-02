@@ -126,7 +126,6 @@ def main_menu():
       if time.time() >= timelastchecked:
        timelastchecked = time.time()+3
        show_status()
-       reset_counter()
        mylcd.lcd_display_string("< Off     Menu >",2)
       else:
        if ( GPIO.input(NEXT) == False):
@@ -859,21 +858,6 @@ def shutdown():
       mylcd.lcd_display_string("   SHUT DOWN?   ",1)
       mylcd.lcd_display_string("< No       Yes >",2)
 
-def reset_counter():
-    now = run_cmd(time_cmd)
-    dateStr = datetime.datetime.now().strftime("%H:%M")
-    if (dateStr == '00:00' and counter != 0 ):
-     counter = 0
-     c = open("/var/log/rasha/counter", "w")
-     c.write("%s" % counter)
-     c.close()
-     f = open( '/var/log/rasha/radio.log', 'a' )
-     f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
-     f.write( "%s" % now + ' ' + "DAILY RESET" + '\n' )
-     f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
-     f.close()
-     time.sleep(5)
-
 def reset_counter_now():
     counter = 0
     c = open("/var/log/rasha/counter", "w")
@@ -892,7 +876,7 @@ def write_msg():
     f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
     f.write( "%s" % now + ' ' + 'Rasha ready!' + '\n' )
     f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
-    f.close
+    f.close()
 
 def randomplay(str):
     global item
