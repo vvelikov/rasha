@@ -867,7 +867,6 @@ def reset_counter():
      c = open("/var/log/rasha/counter", "w")
      c.write("%s" % counter)
      c.close()
-     dateStr = datetime.datetime.now().strftime("%H:%M")
      f = open( '/var/log/rasha/radio.log', 'a' )
      f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
      f.write( "%s" % now + ' ' + "DAILY RESET" + '\n' )
