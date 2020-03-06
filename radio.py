@@ -902,7 +902,7 @@ def randomplay(str):
     return item
 
 def write_log(file):
-    now = str(datetime.now().strftime("%Y/%m/%d %H:%M"))
+    now = str(datetime.now().strftime("%H:%M"))
     counter = readCounter()
     f = open( '/var/log/rasha/radio.log', 'a' )
     x = file[5:]
