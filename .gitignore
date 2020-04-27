@@ -5,3 +5,5 @@ pl/
 html/
 /*.sh
 Adafruit_Python_DHT
+test.sh
+daily.sh

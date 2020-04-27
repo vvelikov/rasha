@@ -981,13 +981,13 @@ def display_volume():
     mylcd.lcd_display_string(chr(2) + chr(3) + " " + (block * numBars), 2)
 
 def display_error():
-    os.system("dbuscontrol.sh stop")
+    player.stop()
     counter = readCounter()
     mylcd.lcd_clear()
     mylcd.lcd_display_string(" LIMIT %s" % (round(counter,1)),1)
     mylcd.lcd_display_string(" REACHED!    ",2)
-    os.system("omxplayer /home/pi/scripts/byebye.wav -o alsa:hw:0")
-    time.sleep(2)
+    player = OMXPlayer("/home/pi/scripts/byebye.wav", args='-o alsa:hw:0')
+    time.sleep(1)
     main_menu()
 
 def do_limit(str):
