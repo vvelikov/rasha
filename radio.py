@@ -47,6 +47,7 @@ degree = chr(223)
 mylcd.lcd_load_custom_chars(speaker_icon)
 
 # some command definitions
+title_cmd = "dbuscontrol.sh getsource | awk -F '/' '{print $4}' | cut -d '.' -f1 | tr -d '\n'"
 wifi_cmd = "iwconfig wlan0| grep Signal | awk '{print $4}' | cut -d '-' -f2 | tr -d '\n'"
 temp_cmd = "cat /var/log/rasha/tempIN | xargs printf '%.0f'"
 hum_cmd = "cat /var/log/rasha/humidity | xargs printf '%.0f'"
@@ -544,8 +545,7 @@ def play_video(str):
      player.play()
      lcd_status = player.playback_status()
      while player.playback_status() == "Playing":
-      x = file.split("/", 3)
-      title = x[3].split(".")
+      title = run_cmd(title_cmd)
       my_title = str_pad + title
       for i in range (0, len(my_title)):
        lcd_text = my_title[i:(i+16)]
@@ -591,8 +591,7 @@ def play_video(str):
           mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
           time.sleep(0.3)
           mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-          x = file.split("/", 3)
-          title = x[3].split(".")
+          title = run_cmd(title_cmd)
           my_title = str_pad + title
           time.sleep(0.3)
          else:
@@ -609,8 +608,7 @@ def play_video(str):
           mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
           time.sleep(0.3)
           mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-          x = file.split("/", 3)
-          title = x[3].split(".")
+          title = run_cmd(title_cmd)
           my_title = str_pad + title
           time.sleep(0.3)
         else:
