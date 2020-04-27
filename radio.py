@@ -309,7 +309,9 @@ def iradio_menu():
       timelastchecked = time.time()+3
       show_status()
       mylcd.lcd_display_string("[GO]  < iRadio >",2)
-      os.system("/home/pi/scripts/add_stations.sh")
+      os.system(mpc clear -q)
+      os.system(mpc add http://streaming.radionula.com:8800/channel2)
+      os.system(mpc add http://stream.raggakings.net:8000)
       time.sleep(0.2)
      else:
       if ( GPIO.input(PLAY) == False):
@@ -969,6 +971,8 @@ def display_volume():
     mylcd.lcd_display_string(chr(2) + chr(3) + " " + (block * numBars), 2)
 
 def display_error():
+    if player.playback_status() == "Playing":
+     player.close()
     counter = readCounter()
     mylcd.lcd_clear()
     mylcd.lcd_display_string(" LIMIT %s" % (round(counter,1)),1)
