@@ -309,9 +309,9 @@ def iradio_menu():
       timelastchecked = time.time()+3
       show_status()
       mylcd.lcd_display_string("[GO]  < iRadio >",2)
-      os.system(mpc clear -q)
-      os.system(mpc add http://streaming.radionula.com:8800/channel2)
-      os.system(mpc add http://stream.raggakings.net:8000)
+      os.system("mpc clear -q")
+      os.system("mpc add http://streaming.radionula.com:8800/channel2")
+      os.system("mpc add http://stream.raggakings.net:8000")
       time.sleep(0.2)
      else:
       if ( GPIO.input(PLAY) == False):
@@ -552,9 +552,7 @@ def play_video(str):
        mylcd.lcd_display_string(lcd_text,2)
        time.sleep(0.3)
        mylcd.lcd_display_string(str_pad,2)
-       mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
-       time.sleep(0.3)
-       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+       display_status()
        if ( GPIO.input(UP) == False):
         os.system("dbuscontrol.sh volumeup +10")
        if ( GPIO.input(DOWN) == False):
@@ -563,17 +561,11 @@ def play_video(str):
         if lcd_status == "Playing":
          player.play_pause()
          lcd_status = "Paused"
-         mylcd.lcd_display_string("                  ",1)
-         mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
-         time.sleep(0.3)
-         mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+         display_status()
         else:
          player.play_pause()
          lcd_status = player.playback_status()
-         mylcd.lcd_display_string("                  ",1)
-         mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
-         time.sleep(0.3)
-         mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+         display_status()
        if ( GPIO.input(NEXT) == False):
         player.stop()
         if check_limit(counter):
@@ -584,10 +576,7 @@ def play_video(str):
           file = randomplay(str)
           write_log(file)
           player = OMXPlayer(file, args='-b -r -o alsa:hw:0')
-          mylcd.lcd_display_string("                  ",1)
-          mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
-          time.sleep(0.3)
-          mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+          display_status()
           title = run_cmd(title_cmd)
           my_title = str_pad + title
           time.sleep(0.3)
@@ -597,10 +586,7 @@ def play_video(str):
           write_log(file)
           time_play = time.time()
           player = OMXPlayer(file, args='-b -r -o alsa:hw:0')
-          mylcd.lcd_display_string("                  ",1)
-          mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
-          time.sleep(0.3)
-          mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+          display_status()
           title = run_cmd(title_cmd)
           my_title = str_pad + title
           time.sleep(0.3)
@@ -1024,6 +1010,12 @@ def run_cmd(cmd):
     p = Popen(cmd, shell=True, stdout=PIPE)
     output = p.communicate()[0]
     return output.decode('ascii')
+
+def display_status():
+    mylcd.lcd_display_string("                  ",1)
+    mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
+    time.sleep(0.3)
+    mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
 
 # rewrite in python
 def check_music():
