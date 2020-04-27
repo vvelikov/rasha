@@ -63,7 +63,7 @@ conni_cmd = "cat /home/pi/scripts/pl/conni.m3u | wc -l | xargs | tr -d '\n'"
 caillou_cmd = "cat /home/pi/scripts/pl/caillou.m3u | wc -l | xargs | tr -d '\n'"
 
 # other variables
-limit = 7.0                 # only 7 videos are allowed per day Barba = 0.8 Peppa = 1 Masha = 1.2 Conni = 2
+limit = 7.0                 # only 7 videos are allowed per day Barba = 0.8 Peppa = 1 Masha = 1.2 Conni = 2 Caillou 2.5
 time_diff = 30              # buffer before counting video
 
 def main():
@@ -462,7 +462,7 @@ def slideshow_menu():
        music_menu()
 
 def play_slideshow():
-    lcd_status = "SLIDESHOW"
+    lcd_status = "Slideshow"
     time.sleep(0.2)
     mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
     os.system("/home/pi/scripts/sson.sh")
@@ -485,7 +485,7 @@ def play_slideshow():
        main_menu()
 
 def play_music():
-    lcd_status = "PLAYING"
+    lcd_status = "Playing"
     mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
     os.system("mpc clear -q")
     os.system("mpc load all")
@@ -540,6 +540,7 @@ def play_video(str):
      file = randomplay(str)
      write_log(file)
      player = OMXPlayer(file, args='-b -r -o alsa:hw:0')
+     time.sleep(0.3)
      lcd_status = player.playback_status()
      while player.playback_status() == "Playing":
       title = run_cmd(title_cmd)
@@ -572,8 +573,8 @@ def play_video(str):
          time.sleep(0.3)
          mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
        if ( GPIO.input(NEXT) == False):
+        player.stop()
         if check_limit(counter):
-         player.stop()
          file = randomplay(str)
          diff = time.time() - time_play
          if diff < time_diff:
@@ -581,7 +582,6 @@ def play_video(str):
           file = randomplay(str)
           write_log(file)
           player = OMXPlayer(file, args='-b -r -o alsa:hw:0')
-          lcd_status = player.playback_status()
           mylcd.lcd_display_string("                  ",1)
           mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
           time.sleep(0.3)
@@ -595,7 +595,6 @@ def play_video(str):
           write_log(file)
           time_play = time.time()
           player = OMXPlayer(file, args='-b -r -o alsa:hw:0')
-          lcd_status = player.playback_status()
           mylcd.lcd_display_string("                  ",1)
           mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
           time.sleep(0.3)
@@ -606,7 +605,8 @@ def play_video(str):
         else:
          display_error()
        if ( GPIO.input(PREV) == False):
-        player.stop()
+        if player.playback_status() == "Playing":
+          player.stop()
         time.sleep(0.3)
         main_menu()
     else:
@@ -973,7 +973,6 @@ def display_volume():
     mylcd.lcd_display_string(chr(2) + chr(3) + " " + (block * numBars), 2)
 
 def display_error():
-    player.stop()
     counter = readCounter()
     mylcd.lcd_clear()
     mylcd.lcd_display_string(" LIMIT %s" % (round(counter,1)),1)
