@@ -510,22 +510,19 @@ def play_music():
        os.system("mpc volume +10")
        display_volume()
        time.sleep(0.5)
-       mylcd.lcd_display_string("                ",1)
-       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+       display_status()
       if ( GPIO.input(DOWN) == False):
        display_volume()
        os.system("mpc volume -10")
        display_volume()
        time.sleep(0.5)
-       mylcd.lcd_display_string("                ",1)
-       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+       display_status()
       if ( GPIO.input(PLAY) == False):
        os.system("mpc stop")
        time.sleep(0.2)
        main_menu()
       if ( GPIO.input(NEXT) == False):
-       mylcd.lcd_display_string("                ",1)
-       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+       display_status()
        os.system("mpc next")
        time.sleep(0.2)
       if ( GPIO.input(PREV) == False):
