@@ -18,6 +18,7 @@ player.pause()
 sleep(1)
 player.play()
 player.set_aspect_mode('fill')
+print(player.get_source())
 
 sleep(5)
 player.quit()
