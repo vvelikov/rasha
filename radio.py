@@ -503,9 +503,7 @@ def play_music():
       mylcd.lcd_display_string(lcd_text,2)
       time.sleep(0.4)
       mylcd.lcd_display_string(str_pad,2)
-      mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
-      time.sleep(0.1)
-      mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+      display_status()
       time.sleep(0.1)
       if ( GPIO.input(UP) == False):
        display_volume()
@@ -1014,7 +1012,7 @@ def run_cmd(cmd):
 def display_status():
     mylcd.lcd_display_string("                  ",1)
     mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
-    time.sleep(0.3)
+    time.sleep(0.1)
     mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
 
 # rewrite in python
