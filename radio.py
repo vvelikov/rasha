@@ -540,9 +540,6 @@ def play_video(str):
      file = randomplay(str)
      write_log(file)
      player = OMXPlayer(file, args='-b -r -o alsa:hw:0')
-     player.pause()
-     time.sleep(0.5)
-     player.play()
      lcd_status = player.playback_status()
      while player.playback_status() == "Playing":
       title = run_cmd(title_cmd)
@@ -562,6 +559,7 @@ def play_video(str):
        if ( GPIO.input(PLAY) == False):
         if lcd_status == "Playing":
          player.play_pause()
+         lcd_status = "Paused"
          mylcd.lcd_display_string("                  ",1)
          mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
          time.sleep(0.3)
@@ -583,9 +581,6 @@ def play_video(str):
           file = randomplay(str)
           write_log(file)
           player = OMXPlayer(file, args='-b -r -o alsa:hw:0')
-          player.pause()
-          time.sleep(0.5)
-          player.play()
           lcd_status = player.playback_status()
           mylcd.lcd_display_string("                  ",1)
           mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
@@ -600,9 +595,6 @@ def play_video(str):
           write_log(file)
           time_play = time.time()
           player = OMXPlayer(file, args='-b -r -o alsa:hw:0')
-          player.pause()
-          time.sleep(0.5)
-          player.play()
           lcd_status = player.playback_status()
           mylcd.lcd_display_string("                  ",1)
           mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
