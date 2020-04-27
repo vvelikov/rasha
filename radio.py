@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 #!/usr/bin/env python3
+=======
+#!/usr/bin/python3 -u
+# -*- coding: utf-8 -*-
+>>>>>>> ca1e1ce0dc3a3cf266a7138ef16a03cb0409c182
 
 from omxplayer.player import OMXPlayer
 from subprocess import PIPE, Popen
@@ -6,6 +11,10 @@ from datetime import datetime
 import I2C_LCD_driver
 import RPi.GPIO as GPIO
 import subprocess
+<<<<<<< HEAD
+=======
+from datetime import datetime
+>>>>>>> ca1e1ce0dc3a3cf266a7138ef16a03cb0409c182
 import socket
 import time
 import sys
@@ -87,10 +96,13 @@ def main():
     mylcd.lcd_display_string("    LOADING     ",1)
     mylcd.lcd_display_string("################",2)
     time.sleep(0.3)
+<<<<<<< HEAD
     a = run_cmd(caillou_cmd)
     mylcd.lcd_display_string("                ",1)
     mylcd.lcd_display_string("Caillou" + " " + str(a) + " " + "Videos",1)
     time.sleep(1)
+=======
+>>>>>>> ca1e1ce0dc3a3cf266a7138ef16a03cb0409c182
     c = run_cmd(conni_cmd)
     mylcd.lcd_display_string("                ",1)
     mylcd.lcd_display_string("Conni" + " " + str(c) + " " + "Videos",1)
@@ -539,12 +551,18 @@ def play_video(str):
      do_limit(str)
      file = randomplay(str)
      write_log(file)
+<<<<<<< HEAD
      player = OMXPlayer(file, args='-b -r -o alsa:hw:0')
      player.pause()
      time.sleep(0.5)
      player.play()
      lcd_status = player.playback_status()
      while player.playback_status() == "Playing":
+=======
+     omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:1' ], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
+     lcd_status = "PLAYING"
+     while omxproc.poll() is None:
+>>>>>>> ca1e1ce0dc3a3cf266a7138ef16a03cb0409c182
       title = run_cmd(title_cmd)
       my_title = str_pad + title
       for i in range (0, len(my_title)):
@@ -582,11 +600,16 @@ def play_video(str):
           time_play = time.time()
           file = randomplay(str)
           write_log(file)
+<<<<<<< HEAD
           player = OMXPlayer(file, args='-b -r -o alsa:hw:0')
           player.pause()
           time.sleep(0.5)
           player.play()
           lcd_status = player.playback_status()
+=======
+          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:1' ], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
+          lcd_status = "PLAYING"
+>>>>>>> ca1e1ce0dc3a3cf266a7138ef16a03cb0409c182
           mylcd.lcd_display_string("                  ",1)
           mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
           time.sleep(0.3)
@@ -599,11 +622,16 @@ def play_video(str):
           file = randomplay(str)
           write_log(file)
           time_play = time.time()
+<<<<<<< HEAD
           player = OMXPlayer(file, args='-b -r -o alsa:hw:0')
           player.pause()
           time.sleep(0.5)
           player.play()
           lcd_status = player.playback_status()
+=======
+          omxproc = Popen(['omxplayer', file, '-b', '-r', '-o', 'alsa:hw:1'], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE, close_fds=True)
+          lcd_status = "PLAYING"
+>>>>>>> ca1e1ce0dc3a3cf266a7138ef16a03cb0409c182
           mylcd.lcd_display_string("                  ",1)
           mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
           time.sleep(0.3)
@@ -873,11 +901,27 @@ def reset_counter_now():
     counter = 0
     writeCounter(counter)
     f = open( '/var/log/rasha/radio.log', 'a' )
+<<<<<<< HEAD
     f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
     f.write( "%s" % now + ' ' + "MANUAL RESET" + '\n' )
     f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
     f.close()
 
+=======
+    f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
+    f.write( "%s" % now + ' ' + "MANUAL RESET" + '\n' )
+    f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
+    f.close()
+
+def write_msg():
+    now = str(datetime.now().strftime("%Y/%m/%d %H:%M"))
+    f = open( '/var/log/rasha/radio.log', 'a')
+    f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
+    f.write( "%s" % now + ' ' + 'Rasha ready!' + '\n' )
+    f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
+    f.close()
+
+>>>>>>> ca1e1ce0dc3a3cf266a7138ef16a03cb0409c182
 def randomplay(str):
     global item
     if ( str == "/mnt/Masha/"):
@@ -986,7 +1030,11 @@ def display_error():
     mylcd.lcd_clear()
     mylcd.lcd_display_string(" LIMIT %s" % (round(counter,1)),1)
     mylcd.lcd_display_string(" REACHED!    ",2)
+<<<<<<< HEAD
     os.system("omxplayer /home/pi/scripts/byebye.wav -o alsa:hw:0")
+=======
+    os.system("omxplayer /home/pi/scripts/byebye.wav -o alsa:hw:1")
+>>>>>>> ca1e1ce0dc3a3cf266a7138ef16a03cb0409c182
     time.sleep(2)
     main_menu()
 
@@ -1001,12 +1049,18 @@ def do_limit(str):
     elif ( str == "/mnt/Masha/"):
         counter+=1.2
         writeCounter(counter)
+<<<<<<< HEAD
     elif ( str == "/mnt/Conni/"):
         counter+=2
         writeCounter(counter)
     else:
         counter+=2.5
         writeCounter(counter)
+=======
+    else:
+        counter+=2
+        writeCounter(counter)
+>>>>>>> ca1e1ce0dc3a3cf266a7138ef16a03cb0409c182
 
 def check_limit(counter):
     counter = readCounter()
