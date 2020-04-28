@@ -640,13 +640,12 @@ def counter_menu():
       time.sleep(0.01)
       mylcd.lcd_display_string("   Resetting     ",1)
       mylcd.lcd_display_string("################ ",2)
-      time.sleep(0.01)
       reset_counter_now()
-      mylcd.lcd_display_string("      Done       ",1)
+      mylcd.lcd_display_string("                 ",1)
       mylcd.lcd_display_string("                 ",2)
       main_menu()
      else:
-      mylcd.lcd_display_string("     RESET?     ",1)
+      mylcd.lcd_display_string(" Reset counter? ",1)
       mylcd.lcd_display_string("< No       Yes >",2)
 
 def reboot():
@@ -686,7 +685,7 @@ def reboot():
       os.system("sudo reboot")
       time.sleep(1)
      else:
-      mylcd.lcd_display_string("     REBOOT?    ",1)
+      mylcd.lcd_display_string(" Reboot system? ",1)
       mylcd.lcd_display_string("< No       Yes >",2)
 
 def shutdown():
@@ -738,7 +737,7 @@ def shutdown():
       os.system("sudo shutdown -h now")
       sys.exit()
      else:
-      mylcd.lcd_display_string("   SHUT DOWN?   ",1)
+      mylcd.lcd_display_string("   Power Off?   ",1)
       mylcd.lcd_display_string("< No       Yes >",2)
 
 def reset_counter_now():
