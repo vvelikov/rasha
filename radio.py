@@ -473,6 +473,8 @@ def play_video(str):
      time.sleep(0.2)
      player.set_aspect_mode('fill')
      lcd_status = "Playing"
+     mylcd.lcd_display_string("                ",1)
+     mylcd.lcd_display_string("                ",2)
      while(1):
       title = run_cmd(title_cmd)
       my_title = str_pad + title
