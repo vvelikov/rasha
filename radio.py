@@ -79,16 +79,16 @@ def main():
     write_msg()
     mylcd.lcd_display_string("    LOADING     ",1)
     mylcd.lcd_display_string("       #        ",2)
-    time.sleep(0.3)
+    time.sleep(0.2)
     mylcd.lcd_display_string("    LOADING     ",1)
     mylcd.lcd_display_string("      ###       ",2)
-    time.sleep(0.3)
+    time.sleep(0.2)
     mylcd.lcd_display_string("    LOADING     ",1)
     mylcd.lcd_display_string("    #######     ",2)
-    time.sleep(0.3)
+    time.sleep(0.2)
     mylcd.lcd_display_string("    LOADING     ",1)
     mylcd.lcd_display_string("################",2)
-    time.sleep(0.3)
+    time.sleep(0.2)
     a = run_cmd(caillou_cmd)
     mylcd.lcd_display_string("                ",1)
     mylcd.lcd_display_string("Caillou" + " " + str(a) + " " + "VIDs",1)
@@ -108,9 +108,9 @@ def main():
     p = run_cmd(peppa_cmd)
     mylcd.lcd_display_string("                ",1)
     mylcd.lcd_display_string("Peppa" + " " + str(p) + " " + "VIDs",1)
-    time.sleep(1)
     # load thd script fix for vol up/down
     os.system("/home/pi/scripts/thd.sh &")
+    time.sleep(0.5)
     main_menu()
 
 def show_status():
@@ -471,31 +471,17 @@ def play_video(str):
      write_log(file)
      player = OMXPlayer(file, args='-b -r -o alsa:hw:0')
      time.sleep(0.2)
+     player.set_aspect_mode('fill')
      lcd_status = "Playing"
-     display_status(lcd_status)
-     while player.is_playing():
+     while(1):
       title = run_cmd(title_cmd)
       my_title = str_pad + title
       for i in range (0, len(my_title)):
        lcd_text = my_title[i:(i+16)]
+       display_status(lcd_status)
        mylcd.lcd_display_string(lcd_text,2)
        time.sleep(0.3)
        mylcd.lcd_display_string(str_pad,2)
-       display_status(lcd_status)
-       if ( GPIO.input(UP) == False):
-        os.system("dbuscontrol.sh volumeup +10")
-       if ( GPIO.input(DOWN) == False):
-        os.system("dbuscontrol.sh volumedown -10")
-       if ( GPIO.input(PLAY) == False):
-        if lcd_status == "Playing":
-         player.play_pause()
-         lcd_status = "Paused"
-         display_status(lcd_status)
-        else:
-         lcd_status = "Playing"
-         player.play_pause()
-         lcd_status = player.playback_status()
-         display_status(lcd_status)
        if ( GPIO.input(NEXT) == False):
         player.quit()
         if check_limit(counter):
@@ -525,10 +511,26 @@ def play_video(str):
         else:
          display_error()
        if ( GPIO.input(PREV) == False):
-        player.stop()
+        player.quit()
+        time.sleep(0.3)
         main_menu()
+       if ( GPIO.input(PLAY) == False):
+        if lcd_status == "Playing":
+         player.play_pause()
+         lcd_status = "Paused"
+         display_status(lcd_status)
+        else:
+         lcd_status = "Playing"
+         player.play_pause()
+         lcd_status = player.playback_status()
+         display_status(lcd_status)
+       if ( GPIO.input(UP) == False):
+        os.system("dbuscontrol.sh volumeup +10")
+       if ( GPIO.input(DOWN) == False):
+        os.system("dbuscontrol.sh volumeup -10")
     else:
      display_error()
+
 
 def choose1():
     time.sleep(0.2)
@@ -860,12 +862,11 @@ def display_volume():
     mylcd.lcd_display_string(chr(2) + chr(3) + " " + (block * numBars), 2)
 
 def display_error():
-    os.system("dbuscontrol.sh stop")
     counter = readCounter()
     mylcd.lcd_clear()
     mylcd.lcd_display_string(" LIMIT %s" % (round(counter,1)),1)
     mylcd.lcd_display_string(" REACHED!    ",2)
-    player = OMXPlayer('/home/pi/scripts/byebye.wav', args='-b -r -o alsa:hw:0')
+    player = OMXPlayer('/home/pi/scripts/byebye.wav', args='-o alsa:hw:0')
     time.sleep(2)
     main_menu()
 
