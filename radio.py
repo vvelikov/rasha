@@ -1,5 +1,4 @@
-#!/usr/bin/python3 -u
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 
 from subprocess import PIPE, Popen
 from omxplayer.player import OMXPlayer
@@ -533,7 +532,6 @@ def play_video(str):
         os.system("dbuscontrol.sh volumeup -10")
     else:
      display_error()
-
 
 def choose1():
     time.sleep(0.2)
