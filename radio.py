@@ -485,7 +485,6 @@ def play_video(str):
        if ( GPIO.input(NEXT) == False):
         player.quit()
         if check_limit(counter):
-         file = randomplay(str)
          diff = time.time() - time_play
          if diff < time_diff:
           time_play = time.time()
@@ -502,7 +501,6 @@ def play_video(str):
           do_limit(str)
           file = randomplay(str)
           write_log(file)
-          time_play = time.time()
           player = OMXPlayer(file, args='-b -r -o alsa:hw:0')
           time.sleep(0.2)
           player.set_aspect_mode('fill')
@@ -885,6 +883,7 @@ def do_limit(str):
     else:
         counter+=2
         writeCounter(counter)
+
 
 def check_limit(counter):
     counter = readCounter()
