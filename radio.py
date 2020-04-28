@@ -109,7 +109,7 @@ def main():
     mylcd.lcd_display_string("                ",1)
     mylcd.lcd_display_string("Peppa" + " " + str(p) + " " + "VIDs",1)
     # load thd script fix for vol up/down
-    os.system("/home/pi/scripts/thd.sh &")
+    os.system("/home/pi/scripts/sh/thd.sh &")
     time.sleep(0.5)
     main_menu()
 
@@ -447,18 +447,18 @@ def play_slideshow():
     lcd_status = "Slideshow"
     display_status(lcd_status)
     time.sleep(0.2)
-    os.system("/home/pi/scripts/sson.sh")
+    os.system("/home/pi/scripts/sh/sson.sh")
     while(1):
       if ( GPIO.input(PLAY) == False):
-       os.system("/home/pi/scripts/ssoff.sh")
+       os.system("/home/pi/scripts/sh/ssoff.sh")
        time.sleep(0.2)
        main_menu()
       if ( GPIO.input(NEXT) == False):
-       os.system("/home/pi/scripts/ssoff.sh")
+       os.system("/home/pi/scripts/sh/ssoff.sh")
        time.sleep(0.2)
        main_menu()
       if ( GPIO.input(PREV) == False):
-       os.system("/home/pi/scripts/ssoff.sh")
+       os.system("/home/pi/scripts/sh/ssoff.sh")
        time.sleep(0.2)
        main_menu()
 
