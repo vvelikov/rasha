@@ -303,25 +303,6 @@ def shutdown_menu():
       if ( GPIO.input(NEXT) == False):
        off_menu()
 
-def iradio_menu():
-    timelastchecked = 0
-    time.sleep(0.2)
-    while(1):
-     if time.time() >= timelastchecked:
-      timelastchecked = time.time()+3
-      show_status()
-      mylcd.lcd_display_string("[GO]  < iRadio >",2)
-      os.system("mpc clear -q")
-      os.system("mpc add http://streaming.radionula.com:8800/channel2")
-      os.system("mpc add http://stream.raggakings.net:8000")
-     else:
-      if ( GPIO.input(PLAY) == False):
-       choose1()
-      if ( GPIO.input(PREV) == False):
-       peppa_menu()
-      if ( GPIO.input(NEXT) == False):
-       slideshow_menu()
-
 def caillou_menu():
     timelastchecked = 0
     time.sleep(0.2)
@@ -423,9 +404,28 @@ def peppa_menu():
        else:
         display_error()
       if ( GPIO.input(NEXT) == False):
-       slideshow_menu()
+       iradio_menu()
       if ( GPIO.input(PREV) == False):
        barba_menu()
+
+def iradio_menu():
+    timelastchecked = 0
+    time.sleep(0.2)
+    while(1):
+     if time.time() >= timelastchecked:
+      timelastchecked = time.time()+3
+      show_status()
+      mylcd.lcd_display_string("[GO]  < iRadio >",2)
+      os.system("mpc clear -q")
+      os.system("mpc add http://streaming.radionula.com:8800/channel2")
+      os.system("mpc add http://stream.raggakings.net:8000")
+     else:
+      if ( GPIO.input(PLAY) == False):
+       choose1()
+      if ( GPIO.input(PREV) == False):
+       peppa_menu()
+      if ( GPIO.input(NEXT) == False):
+       slideshow_menu()
 
 def slideshow_menu():
     timelastchecked = 0
@@ -471,7 +471,6 @@ def play_video(str):
      write_log(file)
      player = OMXPlayer(file, args='-b -r -o alsa:hw:0')
      time.sleep(0.2)
-     player.set_aspect_mode="fill"
      lcd_status = "Playing"
      display_status(lcd_status)
      while player.is_playing():
@@ -498,8 +497,7 @@ def play_video(str):
          lcd_status = player.playback_status()
          display_status(lcd_status)
        if ( GPIO.input(NEXT) == False):
-        if player.is_playing():
-         player.quit()
+        player.quit()
         if check_limit(counter):
          file = randomplay(str)
          diff = time.time() - time_play
@@ -527,8 +525,7 @@ def play_video(str):
         else:
          display_error()
        if ( GPIO.input(PREV) == False):
-        if player.is_playing():
-         player.quit()
+        player.stop()
         main_menu()
     else:
      display_error()
@@ -874,11 +871,16 @@ def display_error():
 
 def display_status(lcd_status):
     mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
+    time.sleep(0.3)
     mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
     time.sleep(0.3)
     mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
+    time.sleep(0.3)
     mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
     time.sleep(0.3)
+    mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
+    time.sleep(0.3)
+    mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
 
 def do_limit(str):
     counter = readCounter()
