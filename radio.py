@@ -1,17 +1,19 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3 -u
+# -*- coding: utf-8 -*-
 
-from omxplayer.player import OMXPlayer
 from subprocess import PIPE, Popen
-from datetime import datetime
 import I2C_LCD_driver
+from omxplayer.player import OMXPlayer
 import RPi.GPIO as GPIO
 import subprocess
+from datetime import datetime
 import socket
 import time
 import sys
 import os, random
+import logging
+logging.basicConfig(filename='/var/log/rasha/all.log', level=logging.INFO)
 
-# Define GPIO for button control
 UP = 23
 PREV = 17
 PLAY = 27
@@ -41,7 +43,7 @@ speaker_icon = [
 mylcd = I2C_LCD_driver.lcd()
 str_pad = " " * 16
 # degree symbol
-degree = chr(223)                       
+degree = chr(223)
 
 # load custom icons
 mylcd.lcd_load_custom_chars(speaker_icon)
@@ -63,7 +65,7 @@ conni_cmd = "cat /home/pi/scripts/pl/conni.m3u | wc -l | xargs | tr -d '\n'"
 caillou_cmd = "cat /home/pi/scripts/pl/caillou.m3u | wc -l | xargs | tr -d '\n'"
 
 # other variables
-limit = 7.0                 # only 7 videos are allowed per day Barba = 0.8 Peppa = 1 Masha = 1.2 Conni = 2 Caillou 2.5
+limit = 7.0                 # only 7 videos are allowed per day Barba = 0.8 Peppa = 1 Masha = 1.2 Conni = 2 Caillou = 2.5
 time_diff = 30              # buffer before counting video
 
 def main():
@@ -73,7 +75,8 @@ def main():
     time.sleep(1)
     mylcd.lcd_display_string("                ",1)
     mylcd.lcd_display_string("                ",2)
-    # make sure enough videos are available
+    # make sure videos & music are available
+    write_msg()
     mylcd.lcd_display_string("    LOADING     ",1)
     mylcd.lcd_display_string("       #        ",2)
     time.sleep(0.3)
@@ -88,25 +91,25 @@ def main():
     time.sleep(0.3)
     a = run_cmd(caillou_cmd)
     mylcd.lcd_display_string("                ",1)
-    mylcd.lcd_display_string("Caillou" + " " + str(a) + " " + "Videos",1)
+    mylcd.lcd_display_string("Caillou" + " " + str(a) + " " + "VIDs",1)
     time.sleep(1)
     c = run_cmd(conni_cmd)
     mylcd.lcd_display_string("                ",1)
-    mylcd.lcd_display_string("Conni" + " " + str(c) + " " + "Videos",1)
+    mylcd.lcd_display_string("Conni" + " " + str(c) + " " + "VIDs",1)
     time.sleep(1)
     m = run_cmd(masha_cmd)
     mylcd.lcd_display_string("                ",1)
-    mylcd.lcd_display_string("Masha" + " " + str(m) + " " + "Videos",1)
+    mylcd.lcd_display_string("Masha" + " " + str(m) + " " + "VIDs",1)
     time.sleep(1)
     b = run_cmd(barba_cmd)
     mylcd.lcd_display_string("                ",1)
-    mylcd.lcd_display_string("Barba" + " " + str(b) + " " + "Videos",1)
+    mylcd.lcd_display_string("Barba" + " " + str(b) + " " + "VIDs",1)
     time.sleep(1)
     p = run_cmd(peppa_cmd)
     mylcd.lcd_display_string("                ",1)
-    mylcd.lcd_display_string("Peppa" + " " + str(p) + " " + "Videos",1)
+    mylcd.lcd_display_string("Peppa" + " " + str(p) + " " + "VIDs",1)
     time.sleep(1)
-    # load thd script fix
+    # load thd script fix for vol up/down
     os.system("/home/pi/scripts/thd.sh &")
     main_menu()
 
@@ -332,7 +335,6 @@ def caillou_menu():
       if ( GPIO.input(PLAY) == False):
        if check_limit(counter):
         play_video("/mnt/Caillou/")
-        time.sleep(1)
         main_menu()
        else:
         display_error()
@@ -354,7 +356,6 @@ def conni_menu():
       if ( GPIO.input(PLAY) == False):
        if check_limit(counter):
         play_video("/mnt/Conni/")
-        time.sleep(1)
         main_menu()
        else:
         display_error()
@@ -376,7 +377,6 @@ def masha_menu():
       if ( GPIO.input(PLAY) == False):
        if check_limit(counter):
         play_video("/mnt/Masha/")
-        time.sleep(1)
         main_menu()
        else:
         display_error()
@@ -398,7 +398,6 @@ def barba_menu():
       if ( GPIO.input(PLAY) == False):
        if check_limit(counter):
         play_video("/mnt/Barba/")
-        time.sleep(1)
         main_menu()
        else:
         display_error()
@@ -420,12 +419,11 @@ def peppa_menu():
       if ( GPIO.input(PLAY) == False):
        if check_limit(counter):
         play_video("/mnt/Peppa/")
-        time.sleep(1)
         main_menu()
        else:
         display_error()
       if ( GPIO.input(NEXT) == False):
-       iradio_menu()
+       slideshow_menu()
       if ( GPIO.input(PREV) == False):
        barba_menu()
 
@@ -447,14 +445,10 @@ def slideshow_menu():
 
 def play_slideshow():
     lcd_status = "Slideshow"
+    display_status(lcd_status)
     time.sleep(0.2)
-    mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
     os.system("/home/pi/scripts/sson.sh")
     while(1):
-      mylcd.lcd_display_string("                ",2)
-      mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
-      time.sleep(0.1)
-      mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
       if ( GPIO.input(PLAY) == False):
        os.system("/home/pi/scripts/ssoff.sh")
        time.sleep(0.2)
@@ -476,9 +470,11 @@ def play_video(str):
      file = randomplay(str)
      write_log(file)
      player = OMXPlayer(file, args='-b -r -o alsa:hw:0')
-     time.sleep(0.3)
-     lcd_status = player.playback_status()
-     while player.playback_status() == "Playing":
+     time.sleep(0.2)
+     player.set_aspect_mode="fill"
+     lcd_status = "Playing"
+     display_status(lcd_status)
+     while player.is_playing():
       title = run_cmd(title_cmd)
       my_title = str_pad + title
       for i in range (0, len(my_title)):
@@ -486,9 +482,7 @@ def play_video(str):
        mylcd.lcd_display_string(lcd_text,2)
        time.sleep(0.3)
        mylcd.lcd_display_string(str_pad,2)
-       mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
-       time.sleep(0.3)
-       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+       display_status(lcd_status)
        if ( GPIO.input(UP) == False):
         os.system("dbuscontrol.sh volumeup +10")
        if ( GPIO.input(DOWN) == False):
@@ -497,19 +491,15 @@ def play_video(str):
         if lcd_status == "Playing":
          player.play_pause()
          lcd_status = "Paused"
-         mylcd.lcd_display_string("                  ",1)
-         mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
-         time.sleep(0.3)
-         mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+         display_status(lcd_status)
         else:
+         lcd_status = "Playing"
          player.play_pause()
          lcd_status = player.playback_status()
-         mylcd.lcd_display_string("                  ",1)
-         mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
-         time.sleep(0.3)
-         mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+         display_status(lcd_status)
        if ( GPIO.input(NEXT) == False):
-        player.stop()
+        if player.is_playing():
+         player.quit()
         if check_limit(counter):
          file = randomplay(str)
          diff = time.time() - time_play
@@ -518,10 +508,8 @@ def play_video(str):
           file = randomplay(str)
           write_log(file)
           player = OMXPlayer(file, args='-b -r -o alsa:hw:0')
-          mylcd.lcd_display_string("                  ",1)
-          mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
-          time.sleep(0.3)
-          mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+          lcd_status = "Playing"
+          display_status(lcd_status)
           title = run_cmd(title_cmd)
           my_title = str_pad + title
           time.sleep(0.3)
@@ -531,19 +519,16 @@ def play_video(str):
           write_log(file)
           time_play = time.time()
           player = OMXPlayer(file, args='-b -r -o alsa:hw:0')
-          mylcd.lcd_display_string("                  ",1)
-          mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
-          time.sleep(0.3)
-          mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+          lcd_status = "Playing"
+          display_status(lcd_status)
           title = run_cmd(title_cmd)
           my_title = str_pad + title
           time.sleep(0.3)
         else:
          display_error()
        if ( GPIO.input(PREV) == False):
-        if player.playback_status() == "Playing":
-          player.stop()
-        time.sleep(0.3)
+        if player.is_playing():
+         player.quit()
         main_menu()
     else:
      display_error()
@@ -606,7 +591,7 @@ def station1():
        mylcd.lcd_display_string("   Radio Nula     ",1)
 
 def station2():
-    mylcd.lcd_display_string("   RaggaKings  ",1)
+    mylcd.lcd_display_string("  RaggaKings   ",1)
     os.system("mpc play 2")
     while(1):
      title = run_cmd(radio_cmd)
@@ -628,13 +613,13 @@ def station2():
        os.system("mpc volume +10")
        display_volume()
        time.sleep(0.5)
-       mylcd.lcd_display_string("   RaggaKings  ",1)
+       mylcd.lcd_display_string("  RaggaKings   ",1)
       if ( GPIO.input(DOWN) == False):
        display_volume()
        os.system("mpc volume -10")
        display_volume()
        time.sleep(0.5)
-       mylcd.lcd_display_string("   RaggaKings  ",1)
+       mylcd.lcd_display_string("  RaggaKings   ",1)
 
 def counter_menu():
     time.sleep(0.2)
@@ -642,19 +627,19 @@ def counter_menu():
      if ( GPIO.input(PREV) == False):
       main_menu()
      if ( GPIO.input(NEXT) == False):
-      mylcd.lcd_display_string(" Resetting       ",1)
+      mylcd.lcd_display_string("   Resetting     ",1)
       mylcd.lcd_display_string("#                ",2)
       time.sleep(0.01)
-      mylcd.lcd_display_string(" Resetting       ",1)
+      mylcd.lcd_display_string("   Resetting     ",1)
       mylcd.lcd_display_string("###              ",2)
       time.sleep(0.01)
-      mylcd.lcd_display_string(" Resetting       ",1)
-      mylcd.lcd_display_string("#####            ",2)
+      mylcd.lcd_display_string("   Resetting     ",1)
+      mylcd.lcd_display_string("######           ",2)
       time.sleep(0.01)
-      mylcd.lcd_display_string(" Resetting       ",1)
-      mylcd.lcd_display_string("#############    ",2)
+      mylcd.lcd_display_string("   Resetting     ",1)
+      mylcd.lcd_display_string("###########      ",2)
       time.sleep(0.01)
-      mylcd.lcd_display_string(" Resetting       ",1)
+      mylcd.lcd_display_string("   Resetting     ",1)
       mylcd.lcd_display_string("################ ",2)
       time.sleep(0.01)
       reset_counter_now()
@@ -675,19 +660,10 @@ def reboot():
       mylcd.lcd_display_string("#                ",2)
       time.sleep(0.1)
       mylcd.lcd_display_string("    Rebooting    ",1)
-      mylcd.lcd_display_string("##               ",2)
-      time.sleep(0.1)
-      mylcd.lcd_display_string("    Rebooting    ",1)
       mylcd.lcd_display_string("###              ",2)
       time.sleep(0.1)
       mylcd.lcd_display_string("    Rebooting    ",1)
       mylcd.lcd_display_string("####             ",2)
-      time.sleep(0.1)
-      mylcd.lcd_display_string("    Rebooting    ",1)
-      mylcd.lcd_display_string("#####            ",2)
-      time.sleep(0.1)
-      mylcd.lcd_display_string("    Rebooting    ",1)
-      mylcd.lcd_display_string("######           ",2)
       time.sleep(0.1)
       mylcd.lcd_display_string("    Rebooting    ",1)
       mylcd.lcd_display_string("#######          ",2)
@@ -696,28 +672,13 @@ def reboot():
       mylcd.lcd_display_string("########         ",2)
       time.sleep(0.1)
       mylcd.lcd_display_string("    Rebooting    ",1)
-      mylcd.lcd_display_string("#########        ",2)
-      time.sleep(0.1)
-      mylcd.lcd_display_string("    Rebooting    ",1)
       mylcd.lcd_display_string("##########       ",2)
-      time.sleep(0.1)
-      mylcd.lcd_display_string("    Rebooting    ",1)
-      mylcd.lcd_display_string("###########      ",2)
-      time.sleep(0.1)
-      mylcd.lcd_display_string("    Rebooting    ",1)
-      mylcd.lcd_display_string("############     ",2)
-      time.sleep(0.1)
-      mylcd.lcd_display_string("    Rebooting    ",1)
-      mylcd.lcd_display_string("#############    ",2)
       time.sleep(0.1)
       mylcd.lcd_display_string("    Rebooting    ",1)
       mylcd.lcd_display_string("##############   ",2)
       time.sleep(0.1)
       mylcd.lcd_display_string("    Rebooting    ",1)
       mylcd.lcd_display_string("###############  ",2)
-      time.sleep(0.1)
-      mylcd.lcd_display_string("    Rebooting    ",1)
-      mylcd.lcd_display_string("################ ",2)
       time.sleep(0.1)
       mylcd.lcd_display_string("    Rebooting    ",1)
       mylcd.lcd_display_string("#################",2)
@@ -754,19 +715,10 @@ def shutdown():
       mylcd.lcd_display_string("######           ",2)
       time.sleep(0.05)
       mylcd.lcd_display_string("  Shutting Down  ",1)
-      mylcd.lcd_display_string("#######          ",2)
-      time.sleep(0.05)
-      mylcd.lcd_display_string("  Shutting Down  ",1)
       mylcd.lcd_display_string("########         ",2)
       time.sleep(0.05)
       mylcd.lcd_display_string("  Shutting Down  ",1)
       mylcd.lcd_display_string("#########        ",2)
-      time.sleep(0.05)
-      mylcd.lcd_display_string("  Shutting Down  ",1)
-      mylcd.lcd_display_string("##########       ",2)
-      time.sleep(0.05)
-      mylcd.lcd_display_string("  Shutting Down  ",1)
-      mylcd.lcd_display_string("###########      ",2)
       time.sleep(0.05)
       mylcd.lcd_display_string("  Shutting Down  ",1)
       mylcd.lcd_display_string("############     ",2)
@@ -778,17 +730,11 @@ def shutdown():
       mylcd.lcd_display_string("##############   ",2)
       time.sleep(0.05)
       mylcd.lcd_display_string("  Shutting Down  ",1)
-      mylcd.lcd_display_string("###############  ",2)
-      time.sleep(0.05)
-      mylcd.lcd_display_string("  Shutting Down  ",1)
       mylcd.lcd_display_string("################ ",2)
       time.sleep(0.05)
       mylcd.lcd_display_string("  Shutting Down  ",1)
       mylcd.lcd_display_string("#################",2)
-      time.sleep(0.05)
-      mylcd.lcd_display_string("   POWER OFF     ",1)
-      mylcd.lcd_display_string("@@@@@@@@@@@@@@@@@",2)
-      time.sleep(2)
+      time.sleep(1)
       mylcd.lcd_clear()
       os.system("sudo shutdown -h now")
       sys.exit()
@@ -801,9 +747,17 @@ def reset_counter_now():
     counter = 0
     writeCounter(counter)
     f = open( '/var/log/rasha/radio.log', 'a' )
-    f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
+    f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
     f.write( "%s" % now + ' ' + "MANUAL RESET" + '\n' )
-    f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
+    f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
+    f.close()
+
+def write_msg():
+    now = str(datetime.now().strftime("%Y/%m/%d %H:%M"))
+    f = open( '/var/log/rasha/radio.log', 'a')
+    f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
+    f.write( "%s" % now + ' ' + 'RASHA READY!' + '\n' )
+    f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
     f.close()
 
 def randomplay(str):
@@ -909,13 +863,22 @@ def display_volume():
     mylcd.lcd_display_string(chr(2) + chr(3) + " " + (block * numBars), 2)
 
 def display_error():
+    os.system("dbuscontrol.sh stop")
     counter = readCounter()
     mylcd.lcd_clear()
     mylcd.lcd_display_string(" LIMIT %s" % (round(counter,1)),1)
     mylcd.lcd_display_string(" REACHED!    ",2)
-    player = OMXPlayer("/home/pi/scripts/byebye.wav", args='-o alsa:hw:0')
-    time.sleep(1)
+    player = OMXPlayer('/home/pi/scripts/byebye.wav', args='-b -r -o alsa:hw:0')
+    time.sleep(2)
     main_menu()
+
+def display_status(lcd_status):
+    mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
+    mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+    time.sleep(0.3)
+    mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
+    mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+    time.sleep(0.3)
 
 def do_limit(str):
     counter = readCounter()
@@ -928,11 +891,8 @@ def do_limit(str):
     elif ( str == "/mnt/Masha/"):
         counter+=1.2
         writeCounter(counter)
-    elif ( str == "/mnt/Conni/"):
-        counter+=2
-        writeCounter(counter)
     else:
-        counter+=2.5
+        counter+=2
         writeCounter(counter)
 
 def check_limit(counter):
