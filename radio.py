@@ -463,7 +463,6 @@ def play_slideshow():
        main_menu()
 
 def play_video(str):
-    mylcd.lcd_clear()
     time_play = time.time()
     counter = readCounter()
     if check_limit(counter):
@@ -494,6 +493,8 @@ def play_video(str):
           file = randomplay(str)
           write_log(file)
           player = OMXPlayer(file, args='-b -r -o alsa:hw:0')
+          time.sleep(0.2)
+          player.set_aspect_mode('fill')
           lcd_status = "Playing"
           title = run_cmd(title_cmd)
           my_title = str_pad + title
@@ -504,6 +505,8 @@ def play_video(str):
           write_log(file)
           time_play = time.time()
           player = OMXPlayer(file, args='-b -r -o alsa:hw:0')
+          time.sleep(0.2)
+          player.set_aspect_mode('fill')
           lcd_status = "Playing"
           title = run_cmd(title_cmd)
           my_title = str_pad + title
@@ -849,8 +852,8 @@ def display_volume():
     mylcd.lcd_display_string(chr(2) + chr(3) + " " + (block * numBars), 2)
 
 def display_error():
-    counter = readCounter()
     mylcd.lcd_clear()
+    counter = readCounter()
     mylcd.lcd_display_string(" LIMIT %s" % (round(counter,1)),1)
     mylcd.lcd_display_string(" REACHED!    ",2)
     player = OMXPlayer('/home/pi/scripts/byebye.wav', args='-o alsa:hw:0')
