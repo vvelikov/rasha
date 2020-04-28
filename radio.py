@@ -2,11 +2,12 @@
 # -*- coding: utf-8 -*-
 
 from subprocess import PIPE, Popen
-import I2C_LCD_driver
 from omxplayer.player import OMXPlayer
+from datetime import datetime
+from playsound import playsound
+import I2C_LCD_driver
 import RPi.GPIO as GPIO
 import subprocess
-from datetime import datetime
 import socket
 import time
 import sys
@@ -475,15 +476,16 @@ def play_video(str):
      lcd_status = "Playing"
      mylcd.lcd_display_string("                ",1)
      mylcd.lcd_display_string("                ",2)
+     title = run_cmd(title_cmd)
+     my_title = str_pad + title
      while(1):
-      title = run_cmd(title_cmd)
-      my_title = str_pad + title
       for i in range (0, len(my_title)):
        lcd_text = my_title[i:(i+16)]
-       display_status(lcd_status)
+       mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
        mylcd.lcd_display_string(lcd_text,2)
        time.sleep(0.3)
        mylcd.lcd_display_string(str_pad,2)
+       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
        if ( GPIO.input(NEXT) == False):
         player.quit()
         if check_limit(counter):
@@ -495,10 +497,9 @@ def play_video(str):
           write_log(file)
           player = OMXPlayer(file, args='-b -r -o alsa:hw:0')
           lcd_status = "Playing"
-          display_status(lcd_status)
           title = run_cmd(title_cmd)
           my_title = str_pad + title
-          time.sleep(0.3)
+          display_status(lcd_status)
          else:
           do_limit(str)
           file = randomplay(str)
@@ -506,10 +507,9 @@ def play_video(str):
           time_play = time.time()
           player = OMXPlayer(file, args='-b -r -o alsa:hw:0')
           lcd_status = "Playing"
-          display_status(lcd_status)
           title = run_cmd(title_cmd)
           my_title = str_pad + title
-          time.sleep(0.3)
+          display_status(lcd_status)
         else:
          display_error()
        if ( GPIO.input(PREV) == False):
@@ -675,9 +675,6 @@ def reboot():
       mylcd.lcd_display_string("##########       ",2)
       time.sleep(0.1)
       mylcd.lcd_display_string("    Rebooting    ",1)
-      mylcd.lcd_display_string("##############   ",2)
-      time.sleep(0.1)
-      mylcd.lcd_display_string("    Rebooting    ",1)
       mylcd.lcd_display_string("###############  ",2)
       time.sleep(0.1)
       mylcd.lcd_display_string("    Rebooting    ",1)
@@ -706,16 +703,10 @@ def shutdown():
       mylcd.lcd_display_string("###              ",2)
       time.sleep(0.05)
       mylcd.lcd_display_string("  Shutting Down  ",1)
-      mylcd.lcd_display_string("####             ",2)
-      time.sleep(0.05)
-      mylcd.lcd_display_string("  Shutting Down  ",1)
       mylcd.lcd_display_string("#####            ",2)
       time.sleep(0.05)
       mylcd.lcd_display_string("  Shutting Down  ",1)
       mylcd.lcd_display_string("######           ",2)
-      time.sleep(0.05)
-      mylcd.lcd_display_string("  Shutting Down  ",1)
-      mylcd.lcd_display_string("########         ",2)
       time.sleep(0.05)
       mylcd.lcd_display_string("  Shutting Down  ",1)
       mylcd.lcd_display_string("#########        ",2)
@@ -725,9 +716,6 @@ def shutdown():
       time.sleep(0.05)
       mylcd.lcd_display_string("  Shutting Down  ",1)
       mylcd.lcd_display_string("#############    ",2)
-      time.sleep(0.05)
-      mylcd.lcd_display_string("  Shutting Down  ",1)
-      mylcd.lcd_display_string("##############   ",2)
       time.sleep(0.05)
       mylcd.lcd_display_string("  Shutting Down  ",1)
       mylcd.lcd_display_string("################ ",2)
@@ -867,7 +855,7 @@ def display_error():
     mylcd.lcd_clear()
     mylcd.lcd_display_string(" LIMIT %s" % (round(counter,1)),1)
     mylcd.lcd_display_string(" REACHED!    ",2)
-    player = OMXPlayer('/home/pi/scripts/byebye.wav', args='-o alsa:hw:0')
+    playsound('/home/pi/script/byebye.wav')
     time.sleep(2)
     main_menu()
 
