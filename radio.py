@@ -4,7 +4,6 @@
 from subprocess import PIPE, Popen
 from omxplayer.player import OMXPlayer
 from datetime import datetime
-from playsound import playsound
 import I2C_LCD_driver
 import RPi.GPIO as GPIO
 import subprocess
@@ -854,7 +853,7 @@ def display_error():
     mylcd.lcd_clear()
     mylcd.lcd_display_string(" LIMIT %s" % (round(counter,1)),1)
     mylcd.lcd_display_string(" REACHED!    ",2)
-    playsound('/home/pi/script/byebye.wav')
+    player = OMXPlayer('/home/pi/scripts/byebye.wav', args='-o alsa:hw:0')
     time.sleep(2)
     main_menu()
 
