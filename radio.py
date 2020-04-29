@@ -879,6 +879,9 @@ def do_limit(str):
     elif ( str == "/mnt/Masha/"):
         counter+=1.2
         writeCounter(counter)
+    elif ( str == "/mnt/Caillou/"):
+        counter+=2.5
+        writeCounter(counter)
     else:
         counter+=2
         writeCounter(counter)
