@@ -68,7 +68,6 @@ limit = 7.0                 # only 7 videos are allowed per day Barba = 0.8 Pepp
 time_diff = 30              # buffer before counting video
 
 def main():
-    mylcd.lcd_clear() # clear LCD screen
     mylcd.lcd_display_string(" >>> RASHA <<<  ",1)
     mylcd.lcd_display_string(" Music/Video PL ",2)
     time.sleep(1)
@@ -841,7 +840,6 @@ def display_volume():
     mylcd.lcd_display_string(chr(2) + chr(3) + " " + (block * numBars), 2)
 
 def display_error():
-    mylcd.lcd_clear()
     counter = readCounter()
     mylcd.lcd_display_string(" LIMIT %s" % (round(counter,1)),1)
     mylcd.lcd_display_string(" REACHED!    ",2)
