@@ -187,9 +187,6 @@ def weather_menu():
        off_menu()
 
 def show_weather():
-    mylcd.lcd_display_string("                ",2)
-    mylcd.lcd_display_string("                ",1)
-    time.sleep(0.2)
     lcd_status = "Munich, Germany "
     mylcd.lcd_display_string(lcd_status,1)
     temp = run_cmd(temp_cmd)
@@ -885,7 +882,6 @@ def do_limit(str):
     else:
         counter+=2
         writeCounter(counter)
-
 
 def check_limit(counter):
     counter = readCounter()
