@@ -72,9 +72,6 @@ def main():
     mylcd.lcd_display_string(" >>> RASHA <<<  ",1)
     mylcd.lcd_display_string(" Music/Video PL ",2)
     time.sleep(1)
-    mylcd.lcd_display_string("                ",1)
-    mylcd.lcd_display_string("                ",2)
-    # make sure videos & music are available
     write_msg()
     mylcd.lcd_display_string("    LOADING     ",1)
     mylcd.lcd_display_string("       #        ",2)
