@@ -57,11 +57,11 @@ weather_cmd = "cat /var/log/rasha/weather | tr -d '\n'"
 radio_cmd = "mpc current -f [%title%] | tr -d '\n'"
 
 # playlists
+caillou_cmd = "cat /home/pi/scripts/pl/caillou.m3u | wc -l | xargs | tr -d '\n'"
+conni_cmd = "cat /home/pi/scripts/pl/conni.m3u | wc -l | xargs | tr -d '\n'"
 masha_cmd = "cat /home/pi/scripts/pl/masha.m3u | wc -l | xargs | tr -d '\n'"
 barba_cmd = "cat /home/pi/scripts/pl/barba.m3u | wc -l | xargs | tr -d '\n'"
 peppa_cmd = "cat /home/pi/scripts/pl/peppa.m3u | wc -l | xargs | tr -d '\n'"
-conni_cmd = "cat /home/pi/scripts/pl/conni.m3u | wc -l | xargs | tr -d '\n'"
-caillou_cmd = "cat /home/pi/scripts/pl/caillou.m3u | wc -l | xargs | tr -d '\n'"
 
 # other variables
 limit = 7.0                 # only 7 videos are allowed per day Barba = 0.8 Peppa = 1 Masha = 1.2 Conni = 2 Caillou = 2.5
@@ -71,7 +71,7 @@ def main():
     mylcd.lcd_display_string(" >>> RASHA <<<  ",1)
     mylcd.lcd_display_string(" Music/Video PL ",2)
     time.sleep(1)
-    write_msg()
+    #write_msg()
     mylcd.lcd_display_string("    LOADING     ",1)
     mylcd.lcd_display_string("       #        ",2)
     time.sleep(0.2)
@@ -467,7 +467,7 @@ def play_video(str):
      lcd_status = "Playing"
      title = run_cmd(title_cmd)
      my_title = str_pad + title
-     while(1):
+     while player.is_playing():
       for i in range (0, len(my_title)):
        lcd_text = my_title[i:(i+16)]
        mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
@@ -724,17 +724,17 @@ def reset_counter_now():
     counter = 0
     writeCounter(counter)
     f = open( '/var/log/rasha/radio.log', 'a' )
-    f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
+    f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
     f.write( "%s" % now + ' ' + "MANUAL RESET" + '\n' )
-    f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
+    f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
     f.close()
 
 def write_msg():
     now = str(datetime.now().strftime("%Y/%m/%d %H:%M"))
     f = open( '/var/log/rasha/radio.log', 'a')
-    f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
+    f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
     f.write( "%s" % now + ' ' + 'RASHA READY!' + '\n' )
-    f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
+    f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
     f.close()
 
 def randomplay(str):
