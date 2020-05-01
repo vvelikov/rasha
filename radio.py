@@ -467,7 +467,7 @@ def play_video(str):
      lcd_status = "Playing"
      title = run_cmd(title_cmd)
      my_title = str_pad + title
-     while player.is_playing():
+     while player.playback_status() == "Playing" or player.playback_status() == "Paused":
       for i in range (0, len(my_title)):
        lcd_text = my_title[i:(i+16)]
        mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
@@ -840,22 +840,16 @@ def display_volume():
     mylcd.lcd_display_string(chr(2) + chr(3) + " " + (block * numBars), 2)
 
 def display_error():
+    mylcd.lcd_display_string("                ",1)
+    mylcd.lcd_display_string("                ",2)
     counter = readCounter()
     mylcd.lcd_display_string(" LIMIT %s" % (round(counter,1)),1)
     mylcd.lcd_display_string(" REACHED!    ",2)
-    player = OMXPlayer('/home/pi/scripts/byebye.wav', args='-o alsa:hw:0')
+    os.system('aplay /home/pi/scripts/byebye.wav')
     time.sleep(2)
     main_menu()
 
 def display_status(lcd_status):
-    mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
-    time.sleep(0.3)
-    mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-    time.sleep(0.3)
-    mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
-    time.sleep(0.3)
-    mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
-    time.sleep(0.3)
     mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
     time.sleep(0.3)
     mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
