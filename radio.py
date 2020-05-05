@@ -62,6 +62,7 @@ conni_cmd = "cat /home/pi/scripts/pl/conni.m3u | wc -l | xargs | tr -d '\n'"
 masha_cmd = "cat /home/pi/scripts/pl/masha.m3u | wc -l | xargs | tr -d '\n'"
 barba_cmd = "cat /home/pi/scripts/pl/barba.m3u | wc -l | xargs | tr -d '\n'"
 peppa_cmd = "cat /home/pi/scripts/pl/peppa.m3u | wc -l | xargs | tr -d '\n'"
+tom_cmd = "cat /home/pi/scripts/pl/tom.m3u | wc -l | xargs | tr -d '\n'"
 
 # other variables
 limit = 7.0                 # only 7 videos are allowed per day Barba = 0.8 Peppa = 1 Masha = 1.2 Conni = 2 Caillou = 2.5
@@ -103,6 +104,10 @@ def main():
     p = run_cmd(peppa_cmd)
     mylcd.lcd_display_string("                ",1)
     mylcd.lcd_display_string("Peppa" + " " + str(p) + " " + "VIDs",1)
+    time.sleep(1)
+    t = run_cmd(tom_cmd)
+    mylcd.lcd_display_string("                ",1)
+    mylcd.lcd_display_string("Tom&Jerry" + " " + str(t) + " " + "VIDs",1)
     # load thd script fix for vol up/down
     os.system("/home/pi/scripts/sh/thd.sh &")
     time.sleep(0.5)
@@ -307,7 +312,7 @@ def caillou_menu():
      else:
       if ( GPIO.input(PLAY) == False):
        if check_limit(counter):
-        play_video("/mnt/Caillou/")
+        play_video("/mnt1/Caillou/")
         main_menu()
        else:
         display_error()
@@ -396,9 +401,30 @@ def peppa_menu():
        else:
         display_error()
       if ( GPIO.input(NEXT) == False):
-       iradio_menu()
+       tom_menu()
       if ( GPIO.input(PREV) == False):
        barba_menu()
+
+def tom_menu():
+    timelastchecked = 0
+    time.sleep(0.2)
+    counter = readCounter()
+    while(1):
+     if time.time() >= timelastchecked:
+      timelastchecked = time.time()+3
+      show_status()
+      mylcd.lcd_display_string("[GO] < TomJery >",2)
+     else:
+      if ( GPIO.input(PLAY) == False):
+       if check_limit(counter):
+        play_video("/mnt1/Tom/")
+        main_menu()
+       else:
+        display_error()
+      if ( GPIO.input(NEXT) == False):
+       iradio_menu()
+      if ( GPIO.input(PREV) == False):
+       peppa_menu()
 
 def iradio_menu():
     timelastchecked = 0
@@ -415,7 +441,7 @@ def iradio_menu():
       if ( GPIO.input(PLAY) == False):
        choose1()
       if ( GPIO.input(PREV) == False):
-       peppa_menu()
+       tom_menu()
       if ( GPIO.input(NEXT) == False):
        slideshow_menu()
 
@@ -548,7 +574,7 @@ def choose2():
       choose1()
      else:
       mylcd.lcd_display_string(" Choose Station ",1)
-      mylcd.lcd_display_string("[GO] < ChilOut >",2)
+      mylcd.lcd_display_string("[GO] < RaKings >",2)
 
 def station1():
     mylcd.lcd_display_string("   Radio Nula     ",1)
@@ -604,13 +630,13 @@ def station2():
        os.system("mpc volume +10")
        display_volume()
        time.sleep(0.5)
-       mylcd.lcd_display_string("  RaggaKings   ",1)
+       mylcd.lcd_display_string("   RaggaKings   ",1)
       if ( GPIO.input(DOWN) == False):
        display_volume()
        os.system("mpc volume -10")
        display_volume()
        time.sleep(0.5)
-       mylcd.lcd_display_string("  RaggaKings   ",1)
+       mylcd.lcd_display_string("   RaggaKings   ",1)
 
 def counter_menu():
     time.sleep(0.2)
@@ -620,20 +646,19 @@ def counter_menu():
      if ( GPIO.input(NEXT) == False):
       mylcd.lcd_display_string("   Resetting     ",1)
       mylcd.lcd_display_string("#                ",2)
-      time.sleep(0.2)
+      time.sleep(0.1)
       mylcd.lcd_display_string("   Resetting     ",1)
       mylcd.lcd_display_string("###              ",2)
-      time.sleep(0.2)
+      time.sleep(0.1)
       mylcd.lcd_display_string("   Resetting     ",1)
       mylcd.lcd_display_string("######           ",2)
-      time.sleep(0.2)
+      time.sleep(0.1)
       mylcd.lcd_display_string("   Resetting     ",1)
       mylcd.lcd_display_string("###########      ",2)
-      time.sleep(0.2)
+      time.sleep(0.1)
       mylcd.lcd_display_string("   Resetting     ",1)
       mylcd.lcd_display_string("################ ",2)
       reset_counter_now()
-      time.sleep(0.2)
       main_menu()
      else:
       mylcd.lcd_display_string(" Reset counter? ",1)
@@ -783,6 +808,17 @@ def randomplay(str):
             if item not in line:
                c.write(line)
         c.truncate()
+    elif ( str == "/mnt/Tom/"):
+     lines = run_cmd(tom_cmd)
+     index = random.randrange(0, int(lines))
+     with open ("/home/pi/scripts/pl/tom.m3u", "r+") as t:
+       new_t = t.readlines()
+       t.seek(0)
+       item = new_t[index]
+       for line in new_t:
+           if item not in line:
+               t.write(line)
+       t.truncate()
     else:
       lines = run_cmd(caillou_cmd)
       index = random.randrange(0, int(lines))
@@ -865,7 +901,10 @@ def do_limit(str):
     elif ( str == "/mnt/Masha/"):
         counter+=1.2
         writeCounter(counter)
-    elif ( str == "/mnt/Caillou/"):
+    elif ( str == "/mnt1/Caillou/"):
+        counter+=2.5
+        writeCounter(counter)
+    elif ( str == "/mnt1/Tom/"):
         counter+=2.5
         writeCounter(counter)
     else:
