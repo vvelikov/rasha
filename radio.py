@@ -842,6 +842,8 @@ def write_log(file):
     y = y.replace('/',' - ')
     if y.startswith('Conni'):
         y = y[8:]
+    elif y.startswith(' -')
+        y = y[9:]
     f.write( "%s" % now + ' ' + "# %s" % round(counter,1) + ' ' + y + '\n' )
     f.close()
     writeCounter(counter)
