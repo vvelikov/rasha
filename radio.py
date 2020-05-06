@@ -808,7 +808,7 @@ def randomplay(str):
             if item not in line:
                c.write(line)
         c.truncate()
-    elif ( str == "/mnt/Tom/"):
+    elif ( str == "/mnt1/Tom/"):
      lines = run_cmd(tom_cmd)
      index = random.randrange(0, int(lines))
      with open ("/home/pi/scripts/pl/tom.m3u", "r+") as t:
