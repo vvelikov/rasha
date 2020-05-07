@@ -65,7 +65,7 @@ peppa_cmd = "cat /home/pi/scripts/pl/peppa.m3u | wc -l | xargs | tr -d '\n'"
 tom_cmd = "cat /home/pi/scripts/pl/tom.m3u | wc -l | xargs | tr -d '\n'"
 
 # other variables
-limit = 7.0                 # only 7 videos are allowed per day Barba = 0.8 Peppa = 1 Masha = 1.2 Conni = 2 Caillou = 2.5
+limit = 7.0                 # only 7 videos are allowed per day Barba = 0.8 Peppa = 1 Masha = 1.2 Conni = 2 Caillou = 2.5 Tom&Jerry = 3.5
 time_diff = 30              # buffer before counting video
 
 def main():
@@ -842,7 +842,7 @@ def write_log(file):
     y = y.replace('/',' - ')
     if y.startswith('Conni'):
         y = y[8:]
-    elif y.startswith(' -')
+    elif y.startswith(' -'):
         y = y[9:]
     f.write( "%s" % now + ' ' + "# %s" % round(counter,1) + ' ' + y + '\n' )
     f.close()
@@ -907,7 +907,7 @@ def do_limit(str):
         counter+=2.5
         writeCounter(counter)
     elif ( str == "/mnt1/Tom/"):
-        counter+=2.5
+        counter+=3.5
         writeCounter(counter)
     else:
         counter+=2
