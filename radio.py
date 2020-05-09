@@ -502,10 +502,10 @@ def play_video(str):
        mylcd.lcd_display_string(str_pad,2)
        mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
        if ( GPIO.input(NEXT) == False):
-        player.quit()
         if check_limit(counter):
          diff = time.time() - time_play
          if diff < time_diff:
+          player.quit()
           time_play = time.time()
           file = randomplay(str)
           write_log(file)
@@ -517,6 +517,7 @@ def play_video(str):
           my_title = str_pad + title
           display_status(lcd_status)
          else:
+          player.quit()
           do_limit(str)
           file = randomplay(str)
           write_log(file)
