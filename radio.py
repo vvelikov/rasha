@@ -529,7 +529,7 @@ def play_video(str):
           my_title = str_pad + title
           display_status(lcd_status)
         else:
-         display_error()
+         display_error_only()
        if ( GPIO.input(PREV) == False):
         player.quit()
         time.sleep(0.3)
@@ -877,6 +877,14 @@ def display_volume():
     numBars = int(round(VolInt/10))
     mylcd.lcd_display_string(chr(0) + chr(1) + " Volume: " + Vol + sign, 1)
     mylcd.lcd_display_string(chr(2) + chr(3) + " " + (block * numBars), 2)
+
+def display_error_only():
+    mylcd.lcd_display_string("                ",1)
+    mylcd.lcd_display_string("                ",2)
+    counter = readCounter()
+    mylcd.lcd_display_string(" LIMIT %s" % (round(counter,1)),1)
+    mylcd.lcd_display_string(" REACHED!    ",2)
+    time.sleep(2)
 
 def display_error():
     mylcd.lcd_display_string("                ",1)
