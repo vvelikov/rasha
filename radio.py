@@ -849,7 +849,7 @@ def write_log(file):
     y = y.replace('/',' - ')
     if y.startswith('Conni'):
         y = y[8:]
-    elif y.startswith('- Tom'):
+    elif y.startswith(' - Tom'):
         y = y[9:]
     elif y.startswith(' - Caillou'):
         y = y[3:]
