@@ -422,9 +422,25 @@ def tom_menu():
        else:
         display_error()
       if ( GPIO.input(NEXT) == False):
-       iradio_menu()
+       music_menu()
       if ( GPIO.input(PREV) == False):
        peppa_menu()
+
+def music_menu():
+    timelastchecked = 0
+    time.sleep(0.2)
+    while(1):
+     if time.time() >= timelastchecked:
+      timelastchecked = time.time()+3
+      show_status()
+      mylcd.lcd_display_string("[GO]   < Music >",2)
+     else:
+      if ( GPIO.input(PLAY) == False):
+       play_music()
+      if ( GPIO.input(NEXT) == False):
+       iradio_menu()
+      if ( GPIO.input(PREV) == False):
+       tom_menu()
 
 def iradio_menu():
     timelastchecked = 0
@@ -550,6 +566,54 @@ def play_video(str):
         os.system("dbuscontrol.sh volumeup -10")
     else:
      display_error()
+
+def play_music():
+    lcd_status = "Playing"
+    mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+    os.system("mpc clear -q")
+    os.system("mpc load all")
+    os.system("mpc random on")
+    os.system("mpc repeat off")
+    os.system("mpc play")
+    time.sleep(0.2)
+    while(1):
+     title = run_cmd(radio_cmd)
+     my_title = str_pad + title
+     for i in range (0, len(my_title)):
+      lcd_text = my_title[i:(i+16)]
+      mylcd.lcd_display_string(lcd_text,2)
+      time.sleep(0.4)
+      mylcd.lcd_display_string(str_pad,2)
+      mylcd.lcd_display_string(" " + chr(4) + " " + " " + lcd_status + " " + " " + chr(4) + " " + " ",1)
+      time.sleep(0.1)
+      mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+      time.sleep(0.1)
+      if ( GPIO.input(UP) == False):
+       display_volume()
+       os.system("mpc volume +10")
+       display_volume()
+       time.sleep(0.5)
+       mylcd.lcd_display_string("                ",1)
+       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+      if ( GPIO.input(DOWN) == False):
+       display_volume()
+       os.system("mpc volume -10")
+       display_volume()
+       time.sleep(0.5)
+       mylcd.lcd_display_string("                ",1)
+       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+      if ( GPIO.input(PLAY) == False):
+       os.system("mpc stop")
+       time.sleep(0.2)
+       main_menu()
+      if ( GPIO.input(NEXT) == False):
+       mylcd.lcd_display_string("                ",1)
+       mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
+       os.system("mpc next")
+       time.sleep(0.2)
+      if ( GPIO.input(PREV) == False):
+       os.system("mpc prev")
+       time.sleep(0.2)
 
 def choose1():
     time.sleep(0.2)
