@@ -304,6 +304,7 @@ def caillou_menu():
     timelastchecked = 0
     time.sleep(0.2)
     counter = readCounter()
+    ctr = 2.5
     while(1):
      if time.time() >= timelastchecked:
       timelastchecked = time.time()+3
@@ -311,7 +312,7 @@ def caillou_menu():
       mylcd.lcd_display_string("[GO] < Caillou >",2)
      else:
       if ( GPIO.input(PLAY) == False):
-       if check_limit(counter):
+       if check_limit(counter, ctr):
         play_video("/mnt1/Caillou/")
         main_menu()
        else:
@@ -325,6 +326,7 @@ def conni_menu():
     timelastchecked = 0
     time.sleep(0.2)
     counter = readCounter()
+    ctr = 2
     while(1):
      if time.time() >= timelastchecked:
       timelastchecked = time.time()+3
@@ -332,7 +334,7 @@ def conni_menu():
       mylcd.lcd_display_string("[GO]   < Conni >",2)
      else:
       if ( GPIO.input(PLAY) == False):
-       if check_limit(counter):
+       if check_limit(counter, ctr):
         play_video("/mnt/Conni/")
         main_menu()
        else:
@@ -346,6 +348,7 @@ def masha_menu():
     timelastchecked = 0
     time.sleep(0.2)
     counter = readCounter()
+    ctr = 1.2
     while(1):
      if time.time() >= timelastchecked:
       timelastchecked = time.time()+3
@@ -353,7 +356,7 @@ def masha_menu():
       mylcd.lcd_display_string("[GO]   < Masha >",2)
      else:
       if ( GPIO.input(PLAY) == False):
-       if check_limit(counter):
+       if check_limit(counter, ctr):
         play_video("/mnt/Masha/")
         main_menu()
        else:
@@ -367,6 +370,7 @@ def barba_menu():
     timelastchecked = 0
     time.sleep(0.2)
     counter = readCounter()
+    ctr = 0.8
     while(1):
      if time.time() >= timelastchecked:
       timelastchecked = time.time()+3
@@ -374,7 +378,7 @@ def barba_menu():
       mylcd.lcd_display_string("[GO]   < Barba >",2)
      else:
       if ( GPIO.input(PLAY) == False):
-       if check_limit(counter):
+       if check_limit(counter, ctr):
         play_video("/mnt/Barba/")
         main_menu()
        else:
@@ -388,6 +392,7 @@ def peppa_menu():
     timelastchecked = 0
     time.sleep(0.2)
     counter = readCounter()
+    ctr = 1
     while(1):
      if time.time() >= timelastchecked:
       timelastchecked = time.time()+3
@@ -395,7 +400,7 @@ def peppa_menu():
       mylcd.lcd_display_string("[GO]   < Peppa >",2)
      else:
       if ( GPIO.input(PLAY) == False):
-       if check_limit(counter):
+       if check_limit(counter, ctr):
         play_video("/mnt/Peppa/")
         main_menu()
        else:
@@ -409,6 +414,7 @@ def tom_menu():
     timelastchecked = 0
     time.sleep(0.2)
     counter = readCounter()
+    ctr = 2.5
     while(1):
      if time.time() >= timelastchecked:
       timelastchecked = time.time()+3
@@ -416,7 +422,7 @@ def tom_menu():
       mylcd.lcd_display_string("[GO] < TomJery >",2)
      else:
       if ( GPIO.input(PLAY) == False):
-       if check_limit(counter):
+       if check_limit(counter, ctr):
         play_video("/mnt1/Tom/")
         main_menu()
        else:
@@ -499,7 +505,8 @@ def play_slideshow():
 def play_video(str):
     time_play = time.time()
     counter = readCounter()
-    if check_limit(counter):
+    ctr = 0
+    if check_limit(counter, ctr):
      do_limit(str)
      file = randomplay(str)
      write_log(file)
@@ -518,7 +525,7 @@ def play_video(str):
        mylcd.lcd_display_string(str_pad,2)
        mylcd.lcd_display_string(chr(4) + " " + chr(4) + " " + lcd_status + " " + chr(4) + " " + chr(4) + " ",1)
        if ( GPIO.input(NEXT) == False):
-        if check_limit(counter):
+        if check_limit(counter, ctr):
          diff = time.time() - time_play
          if diff < time_diff:
           player.quit()
@@ -994,9 +1001,9 @@ def do_limit(str):
         counter+=2
         writeCounter(counter)
 
-def check_limit(counter):
+def check_limit(counter, ctr):
     counter = readCounter()
-    if counter < limit:
+    if counter + ctr < limit:
         return True
     else:
         return False
