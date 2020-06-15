@@ -65,6 +65,7 @@ peppa_cmd = "cat /home/pi/scripts/pl/peppa.m3u | wc -l | xargs | tr -d '\n'"
 tom_cmd = "cat /home/pi/scripts/pl/tom.m3u | wc -l | xargs | tr -d '\n'"
 
 # other variables
+ctr = 0
 limit = 7.0                 # only 7 videos are allowed per day Barba = 0.8 Peppa = 1 Masha = 1.2 Conni = 2 Caillou = 2.5 Tom&Jerry = 3.5
 time_diff = 30              # buffer before counting video
 
@@ -505,7 +506,6 @@ def play_slideshow():
 def play_video(str):
     time_play = time.time()
     counter = readCounter()
-    ctr = 0
     if check_limit(counter, ctr):
      do_limit(str)
      file = randomplay(str)
