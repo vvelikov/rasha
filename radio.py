@@ -67,6 +67,7 @@ tom_cmd = "cat /home/pi/scripts/pl/tom.m3u | wc -l | xargs | tr -d '\n'"
 # other variables
 limit = 7.0                 # only 7 videos are allowed per day Barba = 0.8 Peppa = 1 Masha = 1.2 Conni = 2 Caillou = 2.5 Tom&Jerry = 3.5
 time_diff = 30              # buffer before counting video
+dcr = 0
 
 def main():
     mylcd.lcd_display_string(" >>> RASHA <<<  ",1)
@@ -823,13 +824,20 @@ def shutdown():
 
 def reset_counter_now():
     now = str(datetime.now().strftime("%Y/%m/%d %H:%M"))
-    counter = 0
-    writeCounter(counter)
-    f = open( '/var/log/rasha/radio.log', 'a' )
-    f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
-    f.write( "%s" % now + ' ' + "MANUAL RESET" + '\n' )
-    f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
-    f.close()
+    if dcr != 0:
+     counter = 0
+     dcr = 1
+     writeCounter(counter)
+     f = open( '/var/log/rasha/radio.log', 'a' )
+     f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
+     f.write( "%s" % now + ' ' + "MANUAL RESET" + '\n' )
+     f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
+     f.close()
+    else:
+     os.system('aplay /home/pi/scripts/byebye.wav')
+     time.sleep(2)
+     main_menu()
+
 
 def write_msg():
     now = str(datetime.now().strftime("%Y/%m/%d %H:%M"))
