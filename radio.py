@@ -67,7 +67,6 @@ tom_cmd = "cat /home/pi/scripts/pl/tom.m3u | wc -l | xargs | tr -d '\n'"
 # other variables
 limit = 7.0                 # only 7 videos are allowed per day Barba = 0.8 Peppa = 1 Masha = 1.2 Conni = 2 Caillou = 2.5 Tom&Jerry = 3.5
 time_diff = 30              # buffer before counting video
-dcr = 0
 
 def main():
     mylcd.lcd_display_string(" >>> RASHA <<<  ",1)
@@ -231,7 +230,7 @@ def show_counter_menu():
       if ( GPIO.input(PLAY) == False):
        show_counter()
       if ( GPIO.input(NEXT) == False):
-       reset_counter_menu()
+       reboot_menu()
       if ( GPIO.input(PREV) == False):
        off_menu()
 
@@ -253,22 +252,6 @@ def show_counter():
       time.sleep(3)
       main_menu()
 
-def reset_counter_menu():
-    timelastchecked = 0
-    time.sleep(0.2)
-    while(1):
-     if time.time() >= timelastchecked:
-      timelastchecked = time.time()+3
-      show_status()
-      mylcd.lcd_display_string("[GO] < Reset # >",2)
-     else:
-      if ( GPIO.input(PLAY) == False):
-       counter_menu()
-      if ( GPIO.input(PREV) == False):
-       show_counter_menu()
-      if ( GPIO.input(NEXT) == False):
-       reboot_menu()
-
 def reboot_menu():
     timelastchecked = 0
     time.sleep(0.2)
@@ -281,7 +264,7 @@ def reboot_menu():
       if ( GPIO.input(PLAY) == False):
        reboot()
       if ( GPIO.input(PREV) == False):
-       reset_counter_menu()
+       show_counter_menu()
       if ( GPIO.input(NEXT) == False):
        shutdown_menu()
 
@@ -824,19 +807,15 @@ def shutdown():
 
 def reset_counter_now():
     now = str(datetime.now().strftime("%Y/%m/%d %H:%M"))
-    if dcr != 0:
-     counter = 0
-     dcr = 1
-     writeCounter(counter)
-     f = open( '/var/log/rasha/radio.log', 'a' )
-     f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
-     f.write( "%s" % now + ' ' + "MANUAL RESET" + '\n' )
-     f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
-     f.close()
-    else:
-     os.system('aplay /home/pi/scripts/byebye.wav')
-     time.sleep(2)
-     main_menu()
+    counter = 0
+    writeCounter(counter)
+    f = open( '/var/log/rasha/radio.log', 'a' )
+    f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
+    f.write( "%s" % now + ' ' + "MANUAL RESET" + '\n' )
+    f.write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + '\n' )
+    f.close()
+    time.sleep(1)
+    main_menu()
 
 
 def write_msg():
